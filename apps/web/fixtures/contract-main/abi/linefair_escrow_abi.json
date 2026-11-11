@@ -1,0 +1,1146 @@
+{
+  "schema_version": "0.4.0",
+  "metadata": {
+    "name": "linefair-escrow",
+    "version": "0.1.0",
+    "build": {
+      "compiler": "rustc 1.95.0",
+      "builder": "cargo-near cargo-near-build 0.11.5"
+    },
+    "wasm_hash": "5nN5ua65yntBYmNZC6JEtdWYBbbuBkVxuHC7GZxpBgcQ"
+  },
+  "body": {
+    "functions": [
+      {
+        "name": "accept_appointment",
+        "doc": " Primary or backup arbitrator accepts the appointment under the exact\n terms identified by `terms_hash`.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "terms_hash",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "accept_line",
+        "doc": " LF-006: the buyer accepts a SUBMITTED line inside its review window:\n locked → supplier claimable (no token transfer; payouts are LF-009).",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "accept_split",
+        "doc": " LF-007: the counterparty of the proposer accepts the exact active\n proposal (`proposal_id` and both amounts must match). Single writer:\n the line becomes ALLOCATED (`MUTUAL`, immutable); locked → claimable.\n No outgoing token transfer (payouts are LF-009). E is unchanged.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "proposal_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "buyer_amount",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "supplier_amount",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "accept_terms",
+        "doc": " Buyer or supplier accepts the exact terms identified by `terms_hash`\n (64 lowercase hex characters).",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "terms_hash",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "advance_case",
+        "doc": " LF-006b: permissionless, deterministic advance into the agreed dispute\n procedure (`docs/06`, FD-07, OQ-07). **Any caller.** SUBMITTED after\n review end → DISPUTED NO_RESPONSE (T0 = submitted_at + review); FUNDED\n after delivery + grace → DISPUTED NON_DELIVERY (T0 = delivery + grace).\n The result depends only on stored state and chain time; funds,\n allocation, withdrawals and E are unchanged. No settlement here.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "compute_terms_hash",
+        "doc": " The canonical hash this contract would compute for `terms` (no\n validation, no state change). Lets clients and tests check encoders.",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "terms",
+              "type_schema": {
+                "$ref": "#/definitions/AgreementTermsJsonV1"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "contract_source_metadata",
+        "kind": "view"
+      },
+      {
+        "name": "contract_version",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "create_agreement",
+        "doc": " Propose an agreement. Signer must be the terms' buyer. The contract\n validates the terms, computes the canonical hash itself, and refuses\n a preimage that was already registered. Returns the new agreement id.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "terms",
+              "type_schema": {
+                "$ref": "#/definitions/AgreementTermsJsonV1"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "custody_summary",
+        "doc": " LF-009 view: liabilities and open withdrawals (observation only).",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/CustodySummaryView"
+          }
+        }
+      },
+      {
+        "name": "ft_on_transfer",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "sender_id",
+              "type_schema": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            {
+              "name": "amount",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "msg",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/PromiseOrValueString"
+          }
+        }
+      },
+      {
+        "name": "get_agreement",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/AgreementView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_config",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/ConfigView"
+          }
+        }
+      },
+      {
+        "name": "get_withdrawal",
+        "doc": " LF-009 view: the latest withdrawal of one beneficiary on one line.",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "beneficiary",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/WithdrawalView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "new",
+        "doc": " One-time init, callable only by the contract account itself.",
+        "kind": "call",
+        "modifiers": [
+          "init",
+          "private"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "network_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "allowlisted_ft_id",
+              "type_schema": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            {
+              "name": "operator_treasury_id",
+              "type_schema": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            {
+              "name": "max_agreements",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "creator_allowlist",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "on_withdrawal_transfer",
+        "doc": " LF-009 private callback (`docs/27` R-1). Only the escrow itself may call\n it. Total: never panics for the genuine callback; anything that does\n not match the exact PENDING withdrawal (id, epoch, line, beneficiary)\n changes nothing. Successful transfer → PAID and E −= amount (checked;\n an underflow keeps it PENDING and logs an incident). Failed transfer →\n FAILED, amount restored to claimable once, E unchanged.",
+        "kind": "call",
+        "modifiers": [
+          "private"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "beneficiary",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "withdrawal_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "epoch",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/WithdrawalResultView"
+          }
+        }
+      },
+      {
+        "name": "open_dispute",
+        "doc": " LF-006: the buyer disputes a SUBMITTED line inside its review window\n (T0 = now). Funds stay locked; no allocation is made here.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "outstanding_liabilities",
+        "doc": " Rule B: outstanding customer token liabilities E (locked + claimable +\n pending over all lines; paid excluded). Read-only observation: compare\n with the token's `ft_balance_of(escrow)` offchain. A surplus (balance >\n E) comes from inflows not credited as funding, which are never credited\n or swept. The aggregate balance is never used to infer or change any\n withdrawal outcome (`docs/27` R-2).",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "propose_split",
+        "doc": " LF-007: the buyer or supplier proposes a split of a DISPUTED line,\n `buyer_amount + supplier_amount == principal` (canonical decimal\n strings, checked). Becomes the line's single active proposal and\n supersedes any earlier one. Allowed in every dispute phase until a\n final allocation exists (`docs/08`). No ledger move, no token call.\n Returns the new proposal id (per-line nonce).",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "buyer_amount",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "supplier_amount",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "submit_delivery",
+        "doc": " LF-006: the supplier commits delivery evidence for a FUNDED line before\n `delivery_deadline + grace`. `evidence_commitment` is 64 lowercase hex\n characters (a salted commitment, never raw content; `docs/09`).",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "evidence_commitment",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "submit_ruling",
+        "doc": " LF-008: an appointed arbitrator rules on a DISPUTED line inside its own\n window only — primary in `[T0+N, T0+N+A)`, backup in\n `[T0+N+A, T0+N+A+B)` — with `buyer_amount + supplier_amount ==\n principal` (strict decimals, checked). Single writer: ALLOCATED and\n immutable. Allocation only between the original buyer and supplier;\n no token call (payouts are LF-009); E unchanged.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "buyer_amount",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "supplier_amount",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "trigger_fallback",
+        "doc": " LF-008: **any caller**, from `T0 + N + A + B`, applies the pre-agreed\n fallback split of the hashed terms (supplier = floor(P·bps/10 000),\n buyer = remainder). No amount parameters; result depends only on\n stored terms and chain time. Single writer; E unchanged.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "withdraw",
+        "doc": " LF-009: the beneficiary withdraws their **whole** claimable amount on\n one ALLOCATED line. Caller must be the immutable `buyer_id` (for\n `BUYER`) or `supplier_id` (for `SUPPLIER`); the recipient is always that\n account. Requires exactly 1 yoctoNEAR (forwarded to `ft_transfer`) and\n enough prepaid gas for the transfer and the callback; both are checked\n before any state change. claimable → pending (E unchanged), then\n `ft_transfer` on the allowlisted token and the private callback, which\n alone decides PAID / FAILED. At most one open withdrawal per slot.",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "agreement_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "line_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "beneficiary",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      }
+    ],
+    "root_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "String",
+      "type": "string",
+      "definitions": {
+        "AcceptancesView": {
+          "type": "object",
+          "required": [
+            "backup_arbitrator",
+            "buyer",
+            "primary_arbitrator",
+            "supplier"
+          ],
+          "properties": {
+            "backup_arbitrator": {
+              "type": "boolean"
+            },
+            "buyer": {
+              "type": "boolean"
+            },
+            "primary_arbitrator": {
+              "type": "boolean"
+            },
+            "supplier": {
+              "type": "boolean"
+            }
+          }
+        },
+        "AgreementTermsJsonV1": {
+          "description": "JSON wire form. Field order equals Borsh order.",
+          "type": "object",
+          "required": [
+            "acceptance_deadline_ns",
+            "agreement_nonce",
+            "backup_arbitrator_id",
+            "backup_window_ns",
+            "buyer_id",
+            "deadline_rules_version",
+            "delivery_grace_period_ns",
+            "ft_contract_id",
+            "funding_deadline_ns",
+            "lines",
+            "negotiation_window_ns",
+            "primary_arbitrator_id",
+            "primary_window_ns",
+            "review_window_ns",
+            "schema_version",
+            "supplier_id"
+          ],
+          "properties": {
+            "acceptance_deadline_ns": {
+              "type": "string"
+            },
+            "agreement_nonce": {
+              "type": "string"
+            },
+            "backup_arbitrator_id": {
+              "type": "string"
+            },
+            "backup_window_ns": {
+              "type": "string"
+            },
+            "buyer_id": {
+              "type": "string"
+            },
+            "deadline_rules_version": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "delivery_grace_period_ns": {
+              "type": "string"
+            },
+            "ft_contract_id": {
+              "type": "string"
+            },
+            "funding_deadline_ns": {
+              "type": "string"
+            },
+            "lines": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LineTermsJsonV1"
+              }
+            },
+            "negotiation_window_ns": {
+              "type": "string"
+            },
+            "primary_arbitrator_id": {
+              "type": "string"
+            },
+            "primary_window_ns": {
+              "type": "string"
+            },
+            "review_window_ns": {
+              "type": "string"
+            },
+            "schema_version": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "supplier_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "AgreementView": {
+          "type": "object",
+          "required": [
+            "accelerated_test_timing",
+            "acceptances",
+            "agreement_id",
+            "created_at_ns",
+            "lines",
+            "status",
+            "terms",
+            "terms_hash"
+          ],
+          "properties": {
+            "accelerated_test_timing": {
+              "type": "boolean"
+            },
+            "acceptances": {
+              "$ref": "#/definitions/AcceptancesView"
+            },
+            "agreement_id": {
+              "type": "string"
+            },
+            "created_at_ns": {
+              "type": "string"
+            },
+            "lines": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LineView"
+              }
+            },
+            "status": {
+              "description": "`PROPOSED`, `EXPIRED` (derived from chain time), `AGREED` or `ACTIVE` (first line funded).",
+              "type": "string"
+            },
+            "terms": {
+              "$ref": "#/definitions/AgreementTermsJsonV1"
+            },
+            "terms_hash": {
+              "type": "string"
+            }
+          }
+        },
+        "ConfigView": {
+          "type": "object",
+          "required": [
+            "agreements_created",
+            "allowlisted_ft_id",
+            "creator_allowlist",
+            "max_agreements",
+            "network_id",
+            "operator_treasury_id"
+          ],
+          "properties": {
+            "agreements_created": {
+              "type": "string"
+            },
+            "allowlisted_ft_id": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            },
+            "creator_allowlist": {
+              "description": "LF-010A: immutable creator allowlist.",
+              "type": "array",
+              "items": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            "max_agreements": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "network_id": {
+              "type": "string"
+            },
+            "operator_treasury_id": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            }
+          }
+        },
+        "CustodySummaryView": {
+          "description": "LF-009: custody observation (`docs/27` R-2 is observation only: compare with `ft_balance_of(escrow)` offchain; never used to change state).",
+          "type": "object",
+          "required": [
+            "ft_contract_id",
+            "last_withdrawal_id",
+            "open_withdrawals",
+            "outstanding_liabilities"
+          ],
+          "properties": {
+            "ft_contract_id": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            },
+            "last_withdrawal_id": {
+              "type": "string"
+            },
+            "open_withdrawals": {
+              "type": "string"
+            },
+            "outstanding_liabilities": {
+              "description": "E = Σ locked + claimable + pending over all lines.",
+              "type": "string"
+            }
+          }
+        },
+        "LineTermsJsonV1": {
+          "type": "object",
+          "required": [
+            "acceptance_criteria_commitment",
+            "delivery_deadline_ns",
+            "fallback_buyer_bps",
+            "fallback_supplier_bps",
+            "line_id",
+            "principal"
+          ],
+          "properties": {
+            "acceptance_criteria_commitment": {
+              "type": "string"
+            },
+            "delivery_deadline_ns": {
+              "type": "string"
+            },
+            "fallback_buyer_bps": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "fallback_supplier_bps": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "line_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "principal": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "LineView": {
+          "type": "object",
+          "required": [
+            "allocation_buyer_amount",
+            "allocation_finalized_at_ns",
+            "allocation_mode",
+            "allocation_source_id",
+            "allocation_supplier_amount",
+            "buyer_claimable",
+            "buyer_paid",
+            "buyer_pending",
+            "buyer_withdrawal",
+            "dispute_phase",
+            "dispute_reason",
+            "dispute_t0_ns",
+            "evidence_commitment",
+            "line_id",
+            "locked",
+            "proposal_buyer_amount",
+            "proposal_created_at_ns",
+            "proposal_id",
+            "proposal_proposer",
+            "proposal_status",
+            "proposal_supplier_amount",
+            "status",
+            "submitted_at_ns",
+            "supplier_claimable",
+            "supplier_paid",
+            "supplier_pending",
+            "supplier_withdrawal"
+          ],
+          "properties": {
+            "allocation_buyer_amount": {
+              "type": "string"
+            },
+            "allocation_finalized_at_ns": {
+              "type": "string"
+            },
+            "allocation_mode": {
+              "description": "`NONE` until ALLOCATED; then `BUYER_ACCEPTED`, `MUTUAL`, `PRIMARY_RULING`, `BACKUP_RULING` or `FALLBACK`.",
+              "type": "string"
+            },
+            "allocation_source_id": {
+              "description": "Accepted proposal id for `MUTUAL`; 0 otherwise.",
+              "type": "string"
+            },
+            "allocation_supplier_amount": {
+              "type": "string"
+            },
+            "backup_start_ns": {
+              "description": "`T0 + N + A` (backup window start).",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "buyer_claimable": {
+              "type": "string"
+            },
+            "buyer_paid": {
+              "type": "string"
+            },
+            "buyer_pending": {
+              "type": "string"
+            },
+            "buyer_withdrawal": {
+              "type": "string"
+            },
+            "dispute_phase": {
+              "description": "LF-008, read-only at view time: `NONE` unless DISPUTED, else `NEGOTIATION`, `PRIMARY`, `BACKUP` or `FALLBACK` (derived from the fixed T0 and the hashed windows).",
+              "type": "string"
+            },
+            "dispute_reason": {
+              "description": "`NONE`, `BUYER_DISPUTE`, `NO_RESPONSE` or `NON_DELIVERY`.",
+              "type": "string"
+            },
+            "dispute_t0_ns": {
+              "description": "0 unless disputed.",
+              "type": "string"
+            },
+            "evidence_commitment": {
+              "description": "Salted 32-byte delivery-evidence commitment (hex); all zeros until submitted.",
+              "type": "string"
+            },
+            "fallback_start_ns": {
+              "description": "`T0 + N + A + B` (fallback eligibility).",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "line_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "locked": {
+              "type": "string"
+            },
+            "no_response_t0_ns": {
+              "description": "Read-only, computed at view time: NO_RESPONSE eligibility and its fixed T0 (SUBMITTED line whose review window has closed). The transition itself is the permissionless `advance_case` (LF-006b).",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "non_delivery_t0_ns": {
+              "description": "Read-only: NON_DELIVERY eligibility and its fixed T0 (FUNDED line past delivery deadline + grace).",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "primary_start_ns": {
+              "description": "`T0 + N` (primary window start), DISPUTED lines only.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "proposal_buyer_amount": {
+              "type": "string"
+            },
+            "proposal_created_at_ns": {
+              "type": "string"
+            },
+            "proposal_id": {
+              "description": "Per-line nonce of the latest proposal (0 = none yet).",
+              "type": "string"
+            },
+            "proposal_proposer": {
+              "description": "`NONE`, `BUYER` or `SUPPLIER`.",
+              "type": "string"
+            },
+            "proposal_status": {
+              "description": "LF-007 single active proposal: `NONE`, `OPEN` or `ACCEPTED`. An OPEN proposal on an ALLOCATED line can no longer be accepted.",
+              "type": "string"
+            },
+            "proposal_supplier_amount": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "submitted_at_ns": {
+              "description": "0 until submitted.",
+              "type": "string"
+            },
+            "supplier_claimable": {
+              "type": "string"
+            },
+            "supplier_paid": {
+              "type": "string"
+            },
+            "supplier_pending": {
+              "type": "string"
+            },
+            "supplier_withdrawal": {
+              "type": "string"
+            }
+          }
+        },
+        "Promise": true,
+        "PromiseOrValueString": {
+          "type": "string"
+        },
+        "WithdrawalResultView": {
+          "description": "LF-009: result of the withdrawal callback (also the result of the `withdraw` transaction, which returns the callback promise).",
+          "type": "object",
+          "required": [
+            "outcome",
+            "withdrawal_id"
+          ],
+          "properties": {
+            "outcome": {
+              "description": "`PAID`, `FAILED` (claim restored), `PENDING` (incident: liabilities would underflow; nothing changed) or `IGNORED` (no matching pending withdrawal; nothing changed).",
+              "type": "string"
+            },
+            "withdrawal_id": {
+              "type": "string"
+            }
+          }
+        },
+        "WithdrawalView": {
+          "description": "LF-009: one withdrawal slot (`get_withdrawal`).",
+          "type": "object",
+          "required": [
+            "agreement_id",
+            "amount",
+            "beneficiary",
+            "epoch",
+            "ft_contract_id",
+            "line_id",
+            "recipient",
+            "resolved_at_ns",
+            "started_at_ns",
+            "state",
+            "withdrawal_id"
+          ],
+          "properties": {
+            "agreement_id": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "string"
+            },
+            "beneficiary": {
+              "description": "`BUYER` or `SUPPLIER`.",
+              "type": "string"
+            },
+            "epoch": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "ft_contract_id": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            },
+            "line_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "recipient": {
+              "description": "Immutable recipient from the terms (never a parameter).",
+              "type": "string"
+            },
+            "resolved_at_ns": {
+              "type": "string"
+            },
+            "started_at_ns": {
+              "type": "string"
+            },
+            "state": {
+              "description": "`EMPTY`, `PENDING` (incl. inconclusive: outcome unconfirmed), `PAID` (authenticated callback confirmed the transfer) or `FAILED` (definite failure; the amount was restored to claimable once).",
+              "type": "string"
+            },
+            "withdrawal_id": {
+              "description": "Contract-wide withdrawal id of the latest withdrawal (0 = none).",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc aedb7ce1a5d57e0f79be3aa1540b34c492b77dc9ba52c8296ddb9e9f916a3340 # shrinks to t = AgreementTermsV1 { schema_version: 0, deadline_rules_version: 0, buyer_id: AccountId("a0"), supplier_id: AccountId("aa"), primary_arbitrator_id: AccountId("a0"), backup_arbitrator_id: AccountId("aa"), ft_contract_id: AccountId("0a"), agreement_nonce: 0, acceptance_deadline_ns: 0, funding_deadline_ns: 0, delivery_grace_period_ns: 0, review_window_ns: 0, negotiation_window_ns: 0, primary_window_ns: 0, backup_window_ns: 0, lines: [] }, sandbox = false, esc = AccountId("a0")

@@ -1,0 +1,6 @@
+# Pinned per docs/21_TOOLCHAIN_LOCK.md (locked 2026-10-27).
+[toolchain]
+channel = "1.95.0"
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"
+components = ["rustfmt", "clippy"]

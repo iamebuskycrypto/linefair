@@ -1,0 +1,46 @@
+# Secrets and local configs
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*seed*
+wallets/
+keys/
+credentials/
+# Build/node artifacts
+node_modules/
+.next/
+dist/
+build/
+target/
+*.wasm
+coverage/
+playwright-report/
+# Private business evidence
+uploads/
+private-evidence/
+.DS_Store
+# NEAR CLI key stores and legacy dev-deploy dirs (keys normally live in ~/.near-credentials, outside repo)
+.near-credentials/
+neardev/
+*.near-credentials.json
+# Logs may capture RPC payloads or env values
+*.log
+npm-debug.log*
+# Editor/OS
+.idea/
+.vscode/
+# NOTE: proptest-regressions/ is intentionally NOT ignored (commit failure seeds).
+# NOTE: `*seed*` above also ignores any file merely named with "seed"; rename such files rather than weakening the rule.
+
+# Local deployment config (account ids only; never keys)
+deploy/testnet.config.json
+
+# Python bytecode (preflight tests import the script)
+__pycache__/
+
+# escrow2 recovery preflight config (public account ids only; local)
+deploy/testnet-escrow2.config.json

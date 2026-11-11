@@ -1,0 +1,19 @@
+{
+  "name": "@linefair/shared-schemas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "LineFair canonical terms encoder v1 (TypeScript mirror of contracts/escrow). Testnet-only project.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "test": "node --test ts/test/vectors.test.ts ts/test/local.test.ts ts/test/static.test.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "typescript": "6.0.3"
+  }
+}

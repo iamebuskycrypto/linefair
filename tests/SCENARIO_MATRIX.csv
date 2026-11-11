@@ -1,0 +1,113 @@
+id,group,scenario,expected_result,test_level,priority,execution_status
+T001,happy-path,create 3-line valid agreement,created with deterministic hash,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T002,happy-path,buyer accepts exact hash,one approval recorded,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T003,happy-path,supplier accepts same hash,commercial approvals complete,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T004,happy-path,primary arbiter acknowledges,only primary flag set,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T005,happy-path,backup arbiter acknowledges,agreement AGREED,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T006,happy-path,fund line 1 exact token,line 1 locked equals funded principal,unit+sandbox,P0,PASSED (unit afa6175; sandbox genuine token 63fa991; evidence/lf005/escrow-test-full.txt)
+T007,happy-path,fund line 2 exact token,line 2 independent ledger,unit+sandbox,P0,PASSED (unit afa6175; sandbox genuine token 63fa991; evidence/lf005/escrow-test-full.txt)
+T008,happy-path,fund line 3 exact token,aggregate equals deposit sum,unit+sandbox,P0,PASSED (unit afa6175; sandbox genuine token 63fa991: escrow balance = Σ locked = 1 000 units; evidence/lf005/escrow-test-full.txt)
+T009,happy-path,buyer accepts line 1,locked -> supplier claimable only,unit+sandbox,P0,PASSED (unit afa6175; sandbox entry point on a genuinely funded line c04454c: locked -> supplier claimable only; evidence/lf006/sandbox-lf006.log.txt)
+T010,happy-path,mutual split line 2,buyer+supplier claimable sums line principal,unit+sandbox,P0,PASSED (unit afa6175 + via accepted proposal 8957408; genuine-token sandbox 8957408 per evidence/lf007/FINAL-VERIFICATION.md)
+T011,auth-input,zero principal,rejected,unit+sandbox,P0,PASSED (unit 322d770; sandbox 3fab104; evidence/m1/s3-test-full.txt)
+T012,auth-input,4 lines,rejected,unit+sandbox,P0,PASSED (unit 322d770; sandbox 3fab104; evidence/m1/s3-test-full.txt)
+T013,auth-input,same buyer and supplier,rejected,unit+sandbox,P0,PASSED (unit 322d770; sandbox 3fab104; evidence/m1/s3-test-full.txt)
+T014,auth-input,same arbitrator and buyer,rejected,unit+sandbox,P0,PASSED (unit 322d770; sandbox 3fab104; evidence/m1/s3-test-full.txt)
+T015,auth-input,invalid bps sum,rejected,unit+sandbox,P0,PASSED (unit 322d770; sandbox 3fab104; evidence/m1/s3-test-full.txt)
+T016,auth-input,mutate signed amount,new hash rejected,unit+sandbox,P0,PASSED (digest 8eb087f; accept rejects mismatched hash 3fab104; funding rejects mismatched hash/amount in sandbox 63fa991)
+T017,auth-input,wrong buyer signature,rejected,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T018,auth-input,supplier accepts as primary arbiter,rejected,unit+sandbox,P0,PASSED (3fab104; unit + sandbox; evidence/m1/s3-test-full.txt)
+T019,auth-input,supplier deposits instead of buyer,unused FT returned; no credit,unit+sandbox,P0,PASSED (unit + sandbox 63fa991: supplier deposit refunded by resolver; no credit)
+T020,auth-input,fake FT predecessor,rejected; no credit,unit+sandbox,P0,PASSED (unit + sandbox 63fa991: direct ft_on_transfer by stranger reports full amount unused; no credit)
+T021,disputes-time,open dispute inside review,disputed line locked,unit+property,P0,PASSED (unit afa6175 + ec36f1b; property 49bd0f6 P1-P5; evidence/m1/s6-test-full.txt)
+T022,disputes-time,dispute an accepted line,rejected,unit+property,P0,PASSED (unit afa6175; property 49bd0f6; evidence/m1/s6-test-full.txt)
+T023,disputes-time,settlement sum lower than P,rejected,unit+property,P0,PASSED (unit afa6175; property 49bd0f6; evidence/m1/s6-test-full.txt)
+T024,disputes-time,settlement sum above P,rejected,unit+property,P0,PASSED (unit afa6175; property 49bd0f6; evidence/m1/s6-test-full.txt)
+T025,disputes-time,repeat same split nonce,no new allocation,unit+property,P0,PASSED (single writer afa6175 + 49bd0f6; proposal nonce flow 8957408: replay/stale/re-accept rejected in unit + S6 + sandbox)
+T026,disputes-time,primary ruling before primary window,rejected,unit+property,P0,PASSED (193ac66; unit −1/0 + S6 phase_primary_open_minus1 ok=0 + sandbox negotiation reject)
+T027,disputes-time,primary ruling at exact primary end,rejected,unit+property,P0,PASSED (193ac66; unit + S6 phase_primary_close_exact ok=0 with rejections seen)
+T028,disputes-time,backup ruling at exact backup start,accepted,unit+property,P0,PASSED (193ac66; unit + S6 phase_backup_open_exact floor)
+T029,disputes-time,fallback one ns early,rejected,unit+property,P0,PASSED (193ac66; unit + S6 phase_fallback_open_minus1 ok=0)
+T030,disputes-time,arbitrator vs mutual settlement race,only first finalized survives,unit+property,P0,PASSED (193ac66; unit both orders; sandbox sequential both orders; 16/16 same-block rounds with exactly one finalization)
+T031,ft-async,underpay line by 1 unit,unused FT refunded; no credit,sandbox+integration,P0,PASSED (sandbox genuine token 63fa991: P-1 refunded; no credit)
+T032,ft-async,overpay line by 1 unit,unused FT refunded; no credit,sandbox+integration,P0,PASSED (sandbox genuine token 63fa991: P+1 refunded; no credit)
+T033,ft-async,double-deposit same line,second unused and not credited,sandbox+integration,P0,PASSED (sandbox genuine token 63fa991: second deposit refunded; WrongState)
+T034,ft-async,valid token but wrong agreement ID,no credit,sandbox+integration,P0,PASSED (sandbox genuine token 63fa991: unknown agreement id and cross-agreement hash refunded)
+T035,ft-async,unsupported FT implementation,never marked secured,sandbox+integration,P0,PASSED (sandbox 63fa991: second genuine token instance not allowlisted -> refunded; line stays UNFUNDED; an allowlisted malicious token is out of model: allowlist pinned)
+T036,ft-async,recipient not FT registered,verified failure restores claim,sandbox+integration,P0,PASSED (ad7bb99; genuine token: unregistered recipient -> FAILED; claim restored once; retry PAID)
+T037,ft-async,FT payout success,pending -> paid only after callback,sandbox+integration,P0,PASSED (ad7bb99; pending -> paid only in the authenticated callback; balances and E reconciled)
+T038,ft-async,FT payout definite failure,pending -> claimable,sandbox+integration,P0,PASSED (ad7bb99; definite failure -> claimable once; E unchanged)
+T039,ft-async,forged callback by outsider,rejected,sandbox+integration,P0,PASSED (ad7bb99; outsider callback rejected in sandbox (private) and unit (CallbackNotPrivate))
+T040,ft-async,indeterminate callback (test-starve-callback feature),stays PENDING; no retry; no state-changing path; UI shows outcome unconfirmed,sandbox+integration,P0,PASSED (ad7bb99; starve build: transfer done; callback failed; slot PENDING; no retry)
+T041,ux-operations,two beneficiaries withdraw independently,totals correct,e2e+manual,P0,PASSED (ad7bb99; sandbox: buyer and supplier and 5 concurrent withdrawals independent; UI part pending LF-013)
+T042,ux-operations,same user withdraws twice while pending,second rejected,e2e+manual,P0,PASSED (ad7bb99; second withdraw while pending rejected; same-block duplicate paid once)
+T043,ux-operations,arbitrator redirects payout to own address,rejected,e2e+manual,P0,PASSED (ad7bb99; arbitrators cannot withdraw; recipient never a parameter)
+T044,ux-operations,operator invokes escrow sweep,method absent,e2e+manual,P0,NOT EXECUTED
+T045,ux-operations,stale indexer state,UI indicates pending/refresh,e2e+manual,P0,NOT EXECUTED
+T046,ux-operations,unfunded line,UI never says secured,e2e+manual,P0,NOT EXECUTED
+T047,ux-operations,claimable not transferred,"UI says ready, not paid",e2e+manual,P0,NOT EXECUTED
+T048,ux-operations,confirmed FT receipt,UI says paid,e2e+manual,P0,NOT EXECUTED
+T049,ux-operations,private evidence download by stranger,denied,e2e+manual,P0,NOT EXECUTED
+T050,ux-operations,3-line demo replay from clean state,same expected reconciled totals,e2e+manual,P0,PASSED-SANDBOX (78c1c04: 3-line lifecycle reconciled to exact totals in sandbox; UI/testnet replay pending LF-014)
+T051,disputes-time,window below 60 s or above 30 days at creation,rejected,unit,P0,PASSED (322d770; evidence/m1/s1-test.txt)
+T052,disputes-time,any window below business default,agreement reports accelerated-test label,unit,P0,PASSED (322d770; evidence/m1/s1-test.txt)
+T053,disputes-time,submit at deadline+grace minus 1 ns,accepted,unit+property,P0,PASSED (unit ec36f1b; property 49bd0f6 incl. exact-cutoff tags; evidence/m1/s6-test-full.txt)
+T054,disputes-time,submit at exactly deadline+grace,rejected; NON_DELIVERY eligible with T0=deadline+grace,unit+property,P0,PASSED (unit ec36f1b; property 49bd0f6 incl. eligibility check every step; evidence/m1/s6-test-full.txt; advance_case entry point at T0 sandbox 323fd57 per evidence/lf006b/FINAL-VERIFICATION.md)
+T055,disputes-time,grace 0 vs grace >0 change terms hash,digests differ,unit,P0,PASSED (8eb087f; evidence/m1/s2-test-full.txt)
+T056,ops-budget,create agreement with storage pool too low or cap reached,rejected atomically; no state,sandbox,P0,PARTIAL — cap reached rejected atomically in sandbox (3fab104; storage unchanged); storage-pool-too-low case pending LF-014 measurement
+T057,ops-budget,ft_on_transfer receipt fails,buyer refunded by FT resolver; no ledger credit,sandbox,P0,PASSED (sandbox genuine token 63fa991: at 8.5 and 9.0 Tgas the escrow receipt failed and the resolver refunded the full amount; no credit)
+T058,ops-budget,withdraw with low gas / callback storage delta,low gas rejected before pending; callback storage delta 0,sandbox,P0,PASSED (ad7bb99; 54 Tgas rejected before pending; 55 Tgas floor sufficient; withdraw + callback storage delta 0)
+T059,hash-vectors,golden terms digest from Rust reference,TS digest byte-identical,unit+ts,P0,PASSED-RUST (8eb087f; golden 9257a5bf…a33c; Rust env+sha2 and independent Python encoder agree; evidence/m1/s2-independent-encoder-check.txt) — TS part pending TS encoder
+T060,hash-vectors,each of 22 fields changed,distinct digest in Rust and TS,unit+ts,P0,PASSED-RUST (8eb087f; 22 fields; all digests distinct; Python re-check) — TS part pending TS encoder
+T061,hash-vectors,reordered lines,validation rejects; digest differs from ordered,unit+ts,P0,PASSED-RUST (8eb087f) — TS part pending TS encoder
+T062,hash-vectors,malformed inputs (account id/hex/line count/id gap/non-canonical decimal/overflow/bps),rejected identically in Rust and TS,unit+ts,P0,PASSED-RUST (8eb087f; 38 malformed cases with exact stage/code) — TS part pending TS encoder
+T063,hash-vectors,network sandbox vs testnet,distinct digest,unit+ts,P0,PASSED-RUST (8eb087f; Python re-check) — TS part pending TS encoder
+T064,hash-vectors,escrow contract id changed,distinct digest,unit+ts,P0,PASSED-RUST (8eb087f; Python re-check) — TS part pending TS encoder
+T065,auth-input,accept terms/appointment with mismatched hash,rejected,unit+sandbox,P0,PASSED (3fab104; unit + sandbox for accept_terms and accept_appointment; evidence/m1/s3-test-full.txt)
+T066,ft-async,FT msg with mismatched terms_hash,full amount returned; no credit,sandbox,P0,PASSED (unit + sandbox genuine token 63fa991: mismatched terms_hash refunded)
+T067,recovery,inconclusive withdrawal views,get_withdrawal/custody_summary expose full pending record; amount still in line invariant,unit+sandbox,P0,PASSED (ad7bb99; get_withdrawal / custody_summary expose the pending record and E)
+T068,recovery,any attempt to change inconclusive PENDING from balances,no such method exists (interface inspection) ,unit+review,P0,PASSED (ad7bb99; interface: no method changes PENDING except the authenticated callback)
+T069,recovery,reconciliation lock / deposit refusal,DESCOPED by OQ-01 decision 2026-10-27 (no onchain R-2),n/a,n/a,DESCOPED
+T070,recovery,R-2 while another withdrawal open,DESCOPED by OQ-01 decision 2026-10-27 (no onchain R-2),n/a,n/a,DESCOPED
+T071,recovery,R-3 attestation rules,DEFERRED by OQ-01 decision 2026-10-27,n/a,post-hackathon,DEFERRED
+T072,recovery,R-3 restore once,DEFERRED by OQ-01 decision 2026-10-27,n/a,post-hackathon,DEFERRED
+T073,ops-budget,recover_excess_near by non-treasury,rejected,unit+sandbox,P0,NOT EXECUTED
+T074,ops-budget,recover_excess_near above bound,rejected,unit+sandbox,P0,NOT EXECUTED
+T075,ops-budget,after recover_excess_near,FT balance and all ledgers unchanged,sandbox,P0,NOT EXECUTED
+T076,ops-budget,recover_excess_near while any withdrawal pending,rejected,unit+sandbox,P0,NOT EXECUTED
+T077,ops-budget,create agreements up to cap after maximum recovery,succeeds,sandbox,P0,NOT EXECUTED
+T078,auth-input,create agreement with already-registered identical preimage,rejected,unit,P0,PASSED (3fab104; unit + sandbox; storage unchanged on rejection; evidence/m1/s3-test-full.txt)
+T079,auth-input,init with network_id mainnet or unknown,rejected,unit,P0,PASSED (29b3257; unit t079 + sandbox mainnet case 3fab104; evidence/m1/s4-test-full.txt)
+T080,disputes-time,advance_case on SUBMITTED line at review deadline -1/0/+1 ns and late,rejected at -1 (NotEligible); DISPUTED NO_RESPONSE with T0 = submitted_at + review at 0/+1/late; any caller,unit+property+sandbox,P0,PASSED (323fd57; unit + S6 boundary tags + genuine-token sandbox; evidence/lf006b/FINAL-VERIFICATION.md)
+T081,disputes-time,advance_case on FUNDED line at delivery + grace -1/0/+1 ns and late,rejected at -1 (NotEligible); DISPUTED NON_DELIVERY with T0 = delivery + grace at 0/+1/late; any caller,unit+property+sandbox,P0,PASSED (323fd57; unit + S6 boundary tags + genuine-token sandbox; evidence/lf006b/FINAL-VERIFICATION.md)
+T082,disputes-time,advance_case replay / other states / attached deposit,"rejected (NotAdvanceable / non-payable); state, E and other lines byte-identical",unit+property+sandbox,P0,PASSED (323fd57; unit + S6 P5 + sandbox; evidence/lf006b/FINAL-VERIFICATION.md)
+T083,disputes-time,propose_split by arbitrator/stranger/escrow,rejected NotAuthorized; state and E unchanged,unit+property+sandbox,P0,PASSED (8957408 per evidence/lf007/FINAL-VERIFICATION.md)
+T084,disputes-time,accept own proposal,rejected OwnProposal,unit+property+sandbox,P0,PASSED (8957408)
+T085,disputes-time,accept superseded or wrong id / wrong amounts,rejected StaleProposal / ProposalMismatch; state unchanged,unit+property+sandbox,P0,PASSED (8957408)
+T086,disputes-time,propose with B+S != P or u128 overflow or non-canonical decimal,rejected AllocationSumMismatch / ERR_AMOUNT_FORMAT,unit+property+sandbox,P0,PASSED (8957408)
+T087,disputes-time,proposal id at u64::MAX,next proposal rejected ProposalNonceOverflow; MAX id still acceptable,unit,P0,PASSED (8957408)
+T088,disputes-time,mutual split at principal u128::MAX,exact split; E = u128::MAX unchanged,unit+property+sandbox,P0,PASSED (8957408)
+T089,disputes-time,accept or propose after final allocation,rejected AlreadyFinalized; allocation immutable,unit+property+sandbox,P0,PASSED (8957408)
+T090,disputes-time,settle one line of three,other lines byte-identical; E unchanged,unit+sandbox,P0,PASSED (8957408)
+T091,disputes-time,ruling by buyer/supplier/stranger/escrow,rejected NotAuthorized; state and E unchanged,unit+property+sandbox,P0,PASSED (193ac66)
+T092,disputes-time,ruling by the other arbitrator in a window,rejected NotRulingWindow,unit+property+sandbox,P0,PASSED (193ac66)
+T093,disputes-time,fallback split rounding (1001 x 3333 bps; 0; 10000; u128::MAX),supplier floor and buyer remainder,unit+sandbox,P0,PASSED (193ac66)
+T094,disputes-time,late advance into negotiation/primary/backup/fallback,fixed T0; only that phase's authority (and mutual) finalizes,unit+sandbox,P0,PASSED (193ac66)
+T095,disputes-time,silent arbitrators,no allocation until longstop; then permissionless fallback,unit+sandbox,P0,PASSED (193ac66)
+T096,disputes-time,ruling or fallback after final allocation,rejected AlreadyFinalized; allocation immutable,unit+property+sandbox,P0,PASSED (193ac66)
+T097,disputes-time,same-block mutual vs ruling / fallback,exactly one succeeds; loser AlreadyFinalized,sandbox,P0,PASSED (193ac66; 16/16 rounds same block)
+T098,auth-input,create_agreement by non-allowlisted account (stranger / arbitrator / treasury / escrow),rejected ERR_CREATOR_NOT_ALLOWLISTED; storage and state unchanged; no slot,unit+sandbox,P0,PASSED (2f71e38)
+T099,auth-input,25 junk creations by non-listed accounts on a cap-2 contract,all rejected; agreements_created 0; listed buyer can still fill the cap,sandbox,P0,PASSED (2f71e38)
+T100,auth-input,init with empty / >10 / duplicate / reserved / malformed allowlist,rejected with exact code; contract stays uninitialised,unit+sandbox,P0,PASSED (2f71e38)
+T101,auth-input,non-listed supplier and arbitrators full flow,deliver / rule / withdraw unchanged; no creator authority over funds,unit+sandbox,P0,PASSED (2f71e38)
+T102,lifecycle,three-line agreement through accept / mutual / non-delivery-ruling with failed payout and retry,exact payouts; E 0; reconciled every step,sandbox,P0,PASSED (78c1c04)
+T103,lifecycle,silence -> backup ruling and fallback,deterministic allocations; all paid,sandbox,P0,PASSED (78c1c04)
+T104,lifecycle,two agreements interleaved,other agreement byte-identical after each op,sandbox,P0,PASSED (78c1c04)
+T105,auth-input,role x method x state matrix (910 cells) and isolated authorization (84 cells),exact codes; rejections byte-identical; only authorized callers succeed,unit+sandbox,P0,PASSED (78c1c04; 95 cells on chain)
+T106,auth-input,replay of every successful transaction and stale callback,all rejected or refunded; state and balances unchanged,sandbox,P0,PASSED (78c1c04)
+T107,ops-budget,worst-case storage: 64-char ids; 3 lines; 25 agreements,max 1860 B <= 4096 B; total 46500 B,sandbox,P0,PASSED (78c1c04)
+T108,ops-budget,attached NEAR and gas abuse on every method,rejected atomically,sandbox,P0,PASSED (78c1c04)
+T109,funding-time,F3: deposit with now+review_window at cutoff-1 / = cutoff / +1 (zero and positive grace; late funding inside grace),accepted / accepted / rejected DeliveryTimeTooShort,unit+property,P0,PASSED (e01c59e)
+T110,funding-time,F3: checked arithmetic extremes (now+review overflows u64),rejected; no panic,unit,P0,PASSED (e01c59e)
+T111,ft-refund,F3: late deposit via genuine NEP-141,used 0; full refund LF_FT_REFUND:DeliveryTimeTooShort; line UNFUNDED; E and balances unchanged; capacity unchanged,sandbox,P0,PASSED (e01c59e)
+T112,regression,F3: funding-deadline edge and later lifecycle unchanged,unchanged results,unit+sandbox,P0,PASSED (e01c59e)

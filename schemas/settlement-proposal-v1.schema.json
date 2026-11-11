@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mutual settlement proposal, proposed",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "agreement_id",
+    "line_id",
+    "buyer_amount",
+    "supplier_amount",
+    "proposal_nonce"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "agreement_id": {
+      "type": "string"
+    },
+    "line_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "buyer_amount": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "supplier_amount": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "proposal_nonce": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "evidence_commitment": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "description": "Amounts are FT base-unit decimal strings; sum must equal funded P and recipients are immutable named parties; validated onchain."
+}

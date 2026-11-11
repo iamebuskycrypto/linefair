@@ -1,0 +1,29 @@
+{
+  "purpose": "Read-only copies of the escrow contract on main, used by apps/web tests to detect drift (error codes, ABI). Never edit by hand; regenerate.",
+  "source_branch": "main",
+  "source_commit": "8ec081679b4b5d4e1dbaaca54acd93cad0583b3b",
+  "contract_version": "linefair-escrow 0.1.0 (lf-012 f3)",
+  "src_generated_with": "git -C <worktree> show 8ec081679b4b5d4e1dbaaca54acd93cad0583b3b:contracts/escrow/src/<file>.rs > src/<file>.rs",
+  "abi_generated_with": "git -C <worktree> archive 8ec081679b4b5d4e1dbaaca54acd93cad0583b3b contracts/escrow contracts/test-ft | tar -x -C <scratch>; cd <scratch>/contracts/escrow; cargo near build non-reproducible-wasm --locked (cargo-near 0.22.0, rustc 1.95.0); copy target/near/linefair_escrow_abi.json",
+  "wasm_sha256": "470db97b62cd04701e68f6a87d7589dd8af9b8d122b96e4f5e12788d4405f2e1",
+  "wasm_code_hash_base58": "5nN5ua65yntBYmNZC6JEtdWYBbbuBkVxuHC7GZxpBgcQ",
+  "wasm_bytes": 248501,
+  "build_evidence": "evidence/frontend/main-wasm-abi-build-20261105T185734Z.log.txt",
+  "files_sha256": {
+    "src/agreement.rs": "3020a766b0b5561cb086e4e4e75ff61ab514f29a4dcc4fc1157bc3176f53ebb3",
+    "src/deadlines.rs": "5cd5014e2038fa8cb110d982a84426e8e31d5d0cf864130fd151b8285eb099b5",
+    "src/funding.rs": "e97428d9fa954ea4a8798a5f474913ac2337e543a55b1aa21d598e07df9b2840",
+    "src/ledger.rs": "1793de80682eec414650949a781dca8cfb29aa898586c19813263059b10f47ab",
+    "src/lib.rs": "cbff256e530e7381c3b95ace16c2ecc758c6fff510799460b2ccf834f6184f02",
+    "src/line.rs": "d28b8a00c1ad346d6815a95947f713659202e81293e28bf4511890150be01b90",
+    "src/terms.rs": "12583c637b3db13e37bc5dab4ca508916bebb65e86161b3d51f69263d0b7d144",
+    "src/terms_json.rs": "576c8dcccc73d1a96f0f577374b2939e783ec75d84db94b0c4b3c11afb08bc0e",
+    "abi/linefair_escrow_abi.json": "d03833b5c15761c820ab8d8be7707b6ab27423236c6f1c806f8d5bb810131aa6"
+  },
+  "superseded": {
+    "wasm_sha256": "1b024ec18034cd1fac560d8f399809bab2b042d9f6f63a4a8f79025dee4ef53a",
+    "wasm_code_hash_base58": "2pS3pvSsJDoZAiDPMQ3jNK5PnDZDk2qcBDhCzXLNQuU5",
+    "contract_version": "linefair-escrow 0.1.0 (lf-010a)",
+    "source_commit": "2ccd058e48a99ac753e0ccd90ba7f115d26184a7"
+  }
+}

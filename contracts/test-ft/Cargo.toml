@@ -1,0 +1,34 @@
+# TEST-ONLY NEP-141 token for LineFair sandbox tests (OQ-10). Never deploy to
+# mainnet. Testnet deployment needs separate founder approval (LF-014).
+#
+# src/lib.rs is a byte-for-byte copy of the official near-sdk-rs example
+#   https://github.com/near/near-sdk-rs/blob/421ffb4265c2845c4cc1fb2dfdd638dcf67c712c/examples/fungible-token/ft/src/lib.rs
+#   sha256 24d6797f4177cfc122241f4f0342475d3a17c2ef07c2e604b2cfc64a3c3b698b (MIT OR Apache-2.0; LICENSE-MIT copied alongside).
+# Upstream builds it against path dependencies at that commit; here the same code
+# is pulled from crates.io near-sdk / near-contract-standards =5.29.1, whose
+# .cargo_vcs_info.json both record git sha1 421ffb4265c2845c4cc1fb2dfdd638dcf67c712c.
+[package]
+name = "linefair-test-ft"
+version = "1.1.0"
+edition = "2024"
+publish = false
+license = "MIT OR Apache-2.0"
+description = "Official near-sdk-rs fungible-token example (pinned) used only as LineFair's sandbox test token"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+near-sdk = "=5.29.1"
+near-contract-standards = "=5.29.1"
+
+[dev-dependencies]
+near-sdk = { version = "=5.29.1", features = ["unit-testing"] }
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true

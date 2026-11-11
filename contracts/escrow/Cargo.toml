@@ -1,0 +1,36 @@
+[package]
+name = "linefair-escrow"
+version = "0.1.0"
+edition = "2024"
+description = "LineFair line-level escrow contract (NEAR testnet only)"
+license = "MIT"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# Exact pins per docs/21_TOOLCHAIN_LOCK.md. Never loosen without updating docs/21.
+[features]
+# LF-009 test only (`docs/27` item 7): starves the withdrawal callback of gas
+# so the inconclusive case can be forced. NEVER enabled for the release
+# artifact; built only into target/near-starve/. contract_version() reports it.
+test-starve-callback = []
+
+[dependencies]
+near-sdk = "=5.29.1"
+near-contract-standards = "=5.29.1"
+
+[dev-dependencies]
+near-sdk = { version = "=5.29.1", features = ["unit-testing"] }
+near-workspaces = "=0.23.0"
+tokio = { version = "=1.54.1", features = ["macros", "rt-multi-thread"] }
+proptest = "=1.11.0"
+sha2 = "=0.11.1"
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true

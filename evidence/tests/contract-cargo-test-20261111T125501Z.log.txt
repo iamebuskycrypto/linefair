@@ -1,0 +1,20 @@
+# FINAL contract regression: cargo test --locked (all unit, property, vector, sandbox tests; local only). ts=20261111T125501Z
+59542f41e9dd589b9251fd16a468d4a3470926d8
+cargo 1.95.0 (f2d3ce0bd 2026-03-21)
+running 253 tests
+test result: ok. 252 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 94.69s
+running 3 tests
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+running 5 tests
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 48.86s
+running 7 tests
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.84s
+running 47 tests
+test result: ok. 47 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 178.79s
+running 1 test
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.16s
+running 2 tests
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+running 0 tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test_exit=0

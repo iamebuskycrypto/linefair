@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://linefair.local/schemas/agreement-terms-v1.schema.json",
+  "title": "LineFair AgreementTermsV1 JSON boundary — canonical encoding v1 FROZEN 2026-10-27",
+  "description": "JSON edge only; never hashed directly. Parsed into the Rust struct and Borsh-encoded per docs/20 §Canonical terms encoding v1 (Rust is the reference). Property order below equals Borsh field order. Cross-field rules (distinct roles, bps sum = 10000, line_id == array index, deadline ordering, checked u64 sums, allowlisted FT) are enforced in the contract and cannot be expressed here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "deadline_rules_version",
+    "buyer_id",
+    "supplier_id",
+    "primary_arbitrator_id",
+    "backup_arbitrator_id",
+    "ft_contract_id",
+    "agreement_nonce",
+    "acceptance_deadline_ns",
+    "funding_deadline_ns",
+    "delivery_grace_period_ns",
+    "review_window_ns",
+    "negotiation_window_ns",
+    "primary_window_ns",
+    "backup_window_ns",
+    "lines"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "deadline_rules_version": {
+      "const": 1,
+      "description": "docs/08 §Deadline rules v1"
+    },
+    "buyer_id": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(([a-z0-9]+[-_])*[a-z0-9]+\\.)*([a-z0-9]+[-_])*[a-z0-9]+$",
+      "description": "NEAR AccountId; contract re-validates."
+    },
+    "supplier_id": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(([a-z0-9]+[-_])*[a-z0-9]+\\.)*([a-z0-9]+[-_])*[a-z0-9]+$",
+      "description": "NEAR AccountId; contract re-validates."
+    },
+    "primary_arbitrator_id": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(([a-z0-9]+[-_])*[a-z0-9]+\\.)*([a-z0-9]+[-_])*[a-z0-9]+$",
+      "description": "NEAR AccountId; contract re-validates."
+    },
+    "backup_arbitrator_id": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(([a-z0-9]+[-_])*[a-z0-9]+\\.)*([a-z0-9]+[-_])*[a-z0-9]+$",
+      "description": "NEAR AccountId; contract re-validates."
+    },
+    "ft_contract_id": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(([a-z0-9]+[-_])*[a-z0-9]+\\.)*([a-z0-9]+[-_])*[a-z0-9]+$",
+      "description": "NEAR AccountId; contract re-validates."
+    },
+    "agreement_nonce": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Agreement nonce. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "acceptance_deadline_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Chain time ns. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "funding_deadline_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Chain time ns; ≥ acceptance_deadline_ns. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "delivery_grace_period_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Default \"0\". Bounds 0..=2592000000000000 ns. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "review_window_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Default \"259200000000000\" (72h). Bounds 60000000000..=2592000000000000 ns (60 s..30 days), enforced onchain. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "negotiation_window_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Default \"172800000000000\" (48h). Bounds 60000000000..=2592000000000000 ns (60 s..30 days), enforced onchain. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "primary_window_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Default \"259200000000000\" (72h). Bounds 60000000000..=2592000000000000 ns (60 s..30 days), enforced onchain. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "backup_window_ns": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Default \"259200000000000\" (72h). Bounds 60000000000..=2592000000000000 ns (60 s..30 days), enforced onchain. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+    },
+    "lines": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "description": "Ordered; line_id must equal array index.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "line_id",
+          "principal",
+          "delivery_deadline_ns",
+          "acceptance_criteria_commitment",
+          "fallback_buyer_bps",
+          "fallback_supplier_bps"
+        ],
+        "properties": {
+          "line_id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "principal": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,38}$",
+            "description": "FT base units, canonical decimal u128 > 0; range-checked on parse."
+          },
+          "delivery_deadline_ns": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,19})$",
+            "description": "Chain time ns; ≥ funding_deadline_ns. Canonical decimal u64 string; range-checked ≤ 18446744073709551615 on parse."
+          },
+          "acceptance_criteria_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "Exactly 32 bytes, lowercase hex; salted commitment per docs/20 (linefair/criteria/v1). Never raw text."
+          },
+          "fallback_buyer_bps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "fallback_supplier_bps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          }
+        }
+      }
+    }
+  }
+}

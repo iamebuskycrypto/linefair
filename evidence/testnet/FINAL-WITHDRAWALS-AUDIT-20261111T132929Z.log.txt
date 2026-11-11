@@ -1,0 +1,12 @@
+# FINAL READ-ONLY WITHDRAWALS AUDIT (all five), block 277221743
+PASS  #1 line 0 SUPPLIER 400 tLFT tx Cus2jjk5Lw…: result PAID, no failed receipt, one ft_transfer to linefair2-suppliertestnet, escrow callback logged LF_WITHDRAWAL_PAID:1, record PAID id 1  []
+PASS  #2 line 1 SUPPLIER 700 tLFT tx Hq6AMQVQWK…: result PAID, no failed receipt, one ft_transfer to linefair2-suppliertestnet, escrow callback logged LF_WITHDRAWAL_PAID:2, record PAID id 2  []
+PASS  #3 line 1 BUYER 300 tLFT tx 9UQAyb2zoh…: result PAID, no failed receipt, one ft_transfer to linefair2-buyertestnet, escrow callback logged LF_WITHDRAWAL_PAID:3, record PAID id 3  []
+PASS  #4 line 2 SUPPLIER 800 tLFT tx A3oNRmqDZs…: result PAID, no failed receipt, one ft_transfer to linefair2-suppliertestnet, escrow callback logged LF_WITHDRAWAL_PAID:4, record PAID id 4  []
+PASS  #5 line 2 BUYER 200 tLFT tx EVayz4s4vk…: result PAID, no failed receipt, one ft_transfer to linefair2-buyertestnet, escrow callback logged LF_WITHDRAWAL_PAID:5, record PAID id 5  []
+PASS  no claimable, pending or locked anywhere  []
+PASS  line 0 BUYER slot EMPTY (no allocation, no withdrawal)  []
+PASS  liabilities 0, open withdrawals 0, last id 5 (exactly five withdrawals)  []
+PASS  balances: buyer 8,100 / supplier 1,900 / escrow2 0  [8100000000 / 1900000000 / 0]
+PASS  conservation: 8,100 + 1,900 + 0 == 10,000; supply unchanged  []
+RESULT: ALL FIVE WITHDRAWALS AND FINAL STATE VERIFIED

@@ -1,0 +1,1960 @@
+{
+  "_generated_by": "contracts/escrow/tests/terms_vectors.rs (Rust reference). Do not edit by hand.",
+  "_regenerate": "cd contracts/escrow && LINEFAIR_WRITE_VECTORS=1 cargo test --locked --test terms_vectors",
+  "_ts_contract": "A TypeScript encoder must reproduce preimage_hex and digest_hex for every vector, including vectors whose `validation` is not \"ok\" (encoding is independent of validation), and must reject every `malformed` case. `stage`/`code` are the Rust reference outcome.",
+  "encoding": {
+    "domain_ascii": "linefair/agreement/v1",
+    "separator_hex": "00",
+    "preimage": "domain || 0x00 || bstr(network_id) || bstr(escrow_contract_id) || Borsh(AgreementTermsV1)",
+    "bstr": "u32 little-endian byte length || UTF-8 bytes",
+    "hash": "SHA-256",
+    "spec": "docs/20_DATA_MODELS_AND_EVENTS.md §Canonical terms encoding v1"
+  },
+  "context": {
+    "network": "testnet",
+    "escrow_id": "escrow.lf-demo.testnet",
+    "allowlisted_ft_id": "ft-test.lf-demo.testnet",
+    "operator_treasury_id": "treasury.lf-demo.testnet",
+    "now_ns": "1800000000000000000",
+    "note": "Fixture accounts only; nothing is deployed. Commitments are sha256(\"linefair/fixture/criteria/<line_id>\"), not real salted commitments."
+  },
+  "golden": {
+    "id": "T059",
+    "label": "golden",
+    "network": "testnet",
+    "escrow_id": "escrow.lf-demo.testnet",
+    "terms": {
+      "schema_version": 1,
+      "deadline_rules_version": 1,
+      "buyer_id": "buyer.lf-demo.testnet",
+      "supplier_id": "supplier.lf-demo.testnet",
+      "primary_arbitrator_id": "primary.lf-demo.testnet",
+      "backup_arbitrator_id": "backup.lf-demo.testnet",
+      "ft_contract_id": "ft-test.lf-demo.testnet",
+      "agreement_nonce": "1",
+      "acceptance_deadline_ns": "1800086400000000000",
+      "funding_deadline_ns": "1800172800000000000",
+      "delivery_grace_period_ns": "0",
+      "review_window_ns": "259200000000000",
+      "negotiation_window_ns": "172800000000000",
+      "primary_window_ns": "259200000000000",
+      "backup_window_ns": "259200000000000",
+      "lines": [
+        {
+          "line_id": 0,
+          "principal": "500000000",
+          "delivery_deadline_ns": "1800345600000000000",
+          "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+          "fallback_buyer_bps": 5000,
+          "fallback_supplier_bps": 5000
+        },
+        {
+          "line_id": 1,
+          "principal": "300000000",
+          "delivery_deadline_ns": "1800432000000000000",
+          "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+          "fallback_buyer_bps": 6000,
+          "fallback_supplier_bps": 4000
+        },
+        {
+          "line_id": 2,
+          "principal": "200000000",
+          "delivery_deadline_ns": "1800518400000000000",
+          "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+          "fallback_buyer_bps": 3000,
+          "fallback_supplier_bps": 7000
+        }
+      ]
+    },
+    "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+    "digest_hex": "9257a5bfea49918f0a1b1a3308ad553a384079e73da987df495f55002869a33c",
+    "validation": "ok",
+    "accelerated_test_timing": false
+  },
+  "field_mutations": [
+    {
+      "id": "T060",
+      "label": "schema_version",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 2,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574020001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "3abcafc13cb63ff0384ac39c0cc9c9732c6526929204d8be2cc035ba30553cef",
+      "validation": "UnsupportedSchemaVersion",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "deadline_rules_version",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 2,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010002001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "8b18e944ad5fac6bc314ec6c2b18ce331b02ba51f49ceec2841a8a0e3776ea23",
+      "validation": "UnsupportedDeadlineRulesVersion",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "buyer_id",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer2.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e657401000100160000006275796572322e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "4515d13000a00b6f870bb226aa44902870323a32f24526c91d759b47dc7b5c27",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "supplier_id",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier2.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657419000000737570706c696572322e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "d72320e126c42791fa960b551c997f2375d9856e1c0d181e1fd531e4df9d38a0",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "primary_arbitrator_id",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary2.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574180000007072696d617279322e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "5ba721fcab71cae2f4717c0e503449b871f8b02591c8dbc9d10c791db1190760",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "backup_arbitrator_id",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup2.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574170000006261636b7570322e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "0506f7eac93d35ca0f54fb41c175d0bfe855510f74deb7c44be22cba8262aa73",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "ft_contract_id",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-other.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741800000066742d6f746865722e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "4032fcd9290b629a6280e64425c87d78e797afa09cdd64cc0a68932728d1dbd0",
+      "validation": "FtNotAllowlisted",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "agreement_nonce",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "2",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740200000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "58f20b03bbac44d65569273406485f1aca44dae692618810e843bb45249d7622",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "acceptance_deadline_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000001",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000010003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "360b2b71db35f8e3e2f7051feb722b35c270bd43bd18abd4b3ea786a5f3163aa",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "funding_deadline_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000001",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18010052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "c38390743c52738bc740bc4761db64d12a9d88c7c5010fffd187031af10374ff",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "delivery_grace_period_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "1",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1801000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "86f861a8a8b6790ac93d76f156dd867839462d881032b50cb2656e67ef08b2ee",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "review_window_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000001",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000100edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "30279b340e1079e6a416adc948811215dfa8fffac4371dcae8db60b81ddda3e8",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "negotiation_window_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000001",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000001009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "328a53523e44a0efd92eb15453368a7faad613a0cd719ba09d893043e3bfc321",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "primary_window_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000001",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000100edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "0dc15cdff39533b9d351926d29dfb6f4e15f3ef52e39957988f730003c0e9867",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "backup_window_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000001",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000100edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "a9482f7dc6d944f6fb234f2380fa8e24d427b5d9999c3f8b900215d8b2aae1c7",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000002000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f",
+      "digest_hex": "a317d83e415e8ed391d4134fa1774bcbc97b199d7d8d52db76c615271cc971d2",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines[1].line_id",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 2,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130200000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "c908f993c3f17a2b813bbec696d3164827a0430c8ca8a4fe52a644852aa0f874",
+      "validation": "LineIdMismatch",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines[1].principal",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000001",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000001a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "0b74f70c72c02b76e3e11be3701629f685549dc8c8e5cd01c99c1a6d5bd153a9",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines[1].delivery_deadline_ns",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000001",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000001003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "9d7e70ecb366297a33a980deee68682f3c6af4668c8be0580fa8b5aadb4371b3",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines[1].acceptance_criteria_commitment",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd66",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd667017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "ba90ac331788b31121886b735d2d5f5ce1249ddc342e95fa86beeb84adc098b5",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines[1].fallback_buyer_bps",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6001,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677117a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "751833cae65d0e7ba67317da5071d116bb73db58f7ffd038ac23b1772be4d830",
+      "validation": "BpsSumInvalid",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T060",
+      "label": "lines[1].fallback_supplier_bps",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 3999
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd6770179f0f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "fa9f6f71eb02a0b6c4d500b8b4c09f26aa83a6a9061c62cc544366a2feb4c0c6",
+      "validation": "BpsSumInvalid",
+      "accelerated_test_timing": false
+    }
+  ],
+  "reordered_lines": [
+    {
+      "id": "T061",
+      "label": "lines[0] and lines[1] swapped, ids kept",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb0000030000000100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "7c1abdc41da9e9a392922511308200c1939c15770afaedb7ba33dad8b78bb909",
+      "validation": "LineIdMismatch",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T061",
+      "label": "lines swapped, ids renumbered to positions",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 1,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb0000030000000000000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f010000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "0d8e662c25f4026ecc7fec3e5baaf2a80fa77209d57dee5b3764f9a9dd7c5052",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    }
+  ],
+  "binding": [
+    {
+      "id": "T063",
+      "label": "network sandbox",
+      "network": "sandbox",
+      "escrow_id": "escrow.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f7631000700000073616e64626f7816000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "21d52e964d7f936216a4d31ae248871d2f4708e00819979c21884633f088eef4",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T064",
+      "label": "escrow contract id changed",
+      "network": "testnet",
+      "escrow_id": "escrow2.lf-demo.testnet",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657417000000657363726f77322e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "7cb104b3de1c147a0d89ee014d629e9ad61a798967a84e5099ffdad88e8f0280",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    },
+    {
+      "id": "T064",
+      "label": "escrow contract id changed",
+      "network": "testnet",
+      "escrow_id": "escrow.lf-demo.testnet.x",
+      "terms": {
+        "schema_version": 1,
+        "deadline_rules_version": 1,
+        "buyer_id": "buyer.lf-demo.testnet",
+        "supplier_id": "supplier.lf-demo.testnet",
+        "primary_arbitrator_id": "primary.lf-demo.testnet",
+        "backup_arbitrator_id": "backup.lf-demo.testnet",
+        "ft_contract_id": "ft-test.lf-demo.testnet",
+        "agreement_nonce": "1",
+        "acceptance_deadline_ns": "1800086400000000000",
+        "funding_deadline_ns": "1800172800000000000",
+        "delivery_grace_period_ns": "0",
+        "review_window_ns": "259200000000000",
+        "negotiation_window_ns": "172800000000000",
+        "primary_window_ns": "259200000000000",
+        "backup_window_ns": "259200000000000",
+        "lines": [
+          {
+            "line_id": 0,
+            "principal": "500000000",
+            "delivery_deadline_ns": "1800345600000000000",
+            "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+            "fallback_buyer_bps": 5000,
+            "fallback_supplier_bps": 5000
+          },
+          {
+            "line_id": 1,
+            "principal": "300000000",
+            "delivery_deadline_ns": "1800432000000000000",
+            "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+            "fallback_buyer_bps": 6000,
+            "fallback_supplier_bps": 4000
+          },
+          {
+            "line_id": 2,
+            "principal": "200000000",
+            "delivery_deadline_ns": "1800518400000000000",
+            "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+            "fallback_buyer_bps": 3000,
+            "fallback_supplier_bps": 7000
+          }
+        ]
+      },
+      "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657418000000657363726f772e6c662d64656d6f2e746573746e65742e78010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+      "digest_hex": "efabbf2533bb34bd732fe0ac6270d82c320695bd3b35609c71e5d9365758761e",
+      "validation": "ok",
+      "accelerated_test_timing": false
+    }
+  ],
+  "identical_preimage": {
+    "id": "T078",
+    "label": "independently rebuilt golden terms",
+    "network": "testnet",
+    "escrow_id": "escrow.lf-demo.testnet",
+    "terms": {
+      "schema_version": 1,
+      "deadline_rules_version": 1,
+      "buyer_id": "buyer.lf-demo.testnet",
+      "supplier_id": "supplier.lf-demo.testnet",
+      "primary_arbitrator_id": "primary.lf-demo.testnet",
+      "backup_arbitrator_id": "backup.lf-demo.testnet",
+      "ft_contract_id": "ft-test.lf-demo.testnet",
+      "agreement_nonce": "1",
+      "acceptance_deadline_ns": "1800086400000000000",
+      "funding_deadline_ns": "1800172800000000000",
+      "delivery_grace_period_ns": "0",
+      "review_window_ns": "259200000000000",
+      "negotiation_window_ns": "172800000000000",
+      "primary_window_ns": "259200000000000",
+      "backup_window_ns": "259200000000000",
+      "lines": [
+        {
+          "line_id": 0,
+          "principal": "500000000",
+          "delivery_deadline_ns": "1800345600000000000",
+          "acceptance_criteria_commitment": "d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e",
+          "fallback_buyer_bps": 5000,
+          "fallback_supplier_bps": 5000
+        },
+        {
+          "line_id": 1,
+          "principal": "300000000",
+          "delivery_deadline_ns": "1800432000000000000",
+          "acceptance_criteria_commitment": "7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67",
+          "fallback_buyer_bps": 6000,
+          "fallback_supplier_bps": 4000
+        },
+        {
+          "line_id": 2,
+          "principal": "200000000",
+          "delivery_deadline_ns": "1800518400000000000",
+          "acceptance_criteria_commitment": "aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550",
+          "fallback_buyer_bps": 3000,
+          "fallback_supplier_bps": 7000
+        }
+      ]
+    },
+    "preimage_hex": "6c696e65666169722f61677265656d656e742f76310007000000746573746e657416000000657363726f772e6c662d64656d6f2e746573746e6574010001001500000062757965722e6c662d64656d6f2e746573746e657418000000737570706c6965722e6c662d64656d6f2e746573746e6574170000007072696d6172792e6c662d64656d6f2e746573746e6574160000006261636b75702e6c662d64656d6f2e746573746e65741700000066742d746573742e6c662d64656d6f2e746573746e65740100000000000000000003250b31fb18000052b69f7ffb1800000000000000000000edb3bdeb000000009e22299d00000000edb3bdeb00000000edb3bdeb000003000000000000000065cd1d0000000000000000000000000000f0d8c81cfc18d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e881388130100000000a3e11100000000000000000000000000003f6a5d6bfc187947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd677017a00f0200000000c2eb0b00000000000000000000000000008efbf1b9fc18aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550b80b581b",
+    "digest_hex": "9257a5bfea49918f0a1b1a3308ad553a384079e73da987df495f55002869a33c",
+    "validation": "ok",
+    "accelerated_test_timing": false
+  },
+  "json_equivalence": [
+    {
+      "label": "struct field order",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "digest_hex": "9257a5bfea49918f0a1b1a3308ad553a384079e73da987df495f55002869a33c"
+    },
+    {
+      "label": "pretty-printed",
+      "json_text": "{\n  \"schema_version\": 1,\n  \"deadline_rules_version\": 1,\n  \"buyer_id\": \"buyer.lf-demo.testnet\",\n  \"supplier_id\": \"supplier.lf-demo.testnet\",\n  \"primary_arbitrator_id\": \"primary.lf-demo.testnet\",\n  \"backup_arbitrator_id\": \"backup.lf-demo.testnet\",\n  \"ft_contract_id\": \"ft-test.lf-demo.testnet\",\n  \"agreement_nonce\": \"1\",\n  \"acceptance_deadline_ns\": \"1800086400000000000\",\n  \"funding_deadline_ns\": \"1800172800000000000\",\n  \"delivery_grace_period_ns\": \"0\",\n  \"review_window_ns\": \"259200000000000\",\n  \"negotiation_window_ns\": \"172800000000000\",\n  \"primary_window_ns\": \"259200000000000\",\n  \"backup_window_ns\": \"259200000000000\",\n  \"lines\": [\n    {\n      \"line_id\": 0,\n      \"principal\": \"500000000\",\n      \"delivery_deadline_ns\": \"1800345600000000000\",\n      \"acceptance_criteria_commitment\": \"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\n      \"fallback_buyer_bps\": 5000,\n      \"fallback_supplier_bps\": 5000\n    },\n    {\n      \"line_id\": 1,\n      \"principal\": \"300000000\",\n      \"delivery_deadline_ns\": \"1800432000000000000\",\n      \"acceptance_criteria_commitment\": \"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\n      \"fallback_buyer_bps\": 6000,\n      \"fallback_supplier_bps\": 4000\n    },\n    {\n      \"line_id\": 2,\n      \"principal\": \"200000000\",\n      \"delivery_deadline_ns\": \"1800518400000000000\",\n      \"acceptance_criteria_commitment\": \"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\n      \"fallback_buyer_bps\": 3000,\n      \"fallback_supplier_bps\": 7000\n    }\n  ]\n}",
+      "digest_hex": "9257a5bfea49918f0a1b1a3308ad553a384079e73da987df495f55002869a33c"
+    }
+  ],
+  "malformed": [
+    {
+      "id": "T062",
+      "label": "account id uppercase",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"Buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidAccountId"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "account id 65 chars",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidAccountId"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "account id empty part",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"a..testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidAccountId"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "account id 1 char",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"a\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidAccountId"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "commitment uppercase hex",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"D194B132A54E35A0D6FFB12E6DFA160828B6739B2D38D6799F669D182291838E\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidCommitmentHex"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "commitment 62 hex chars",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d18229183\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidCommitmentHex"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "commitment 0x prefix",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"0xd194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d18229183\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "InvalidCommitmentHex"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "nonce leading zero",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"007\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "NonCanonicalDecimal"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "nonce plus sign",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"+1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "NonCanonicalDecimal"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "nonce exponent",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1e3\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "NonCanonicalDecimal"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "window empty string",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "NonCanonicalDecimal"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "u64 as JSON number",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":1,\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "u64 overflow",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"18446744073709551616\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "DecimalOverflow"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "u128 overflow",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"340282366920938463463374607431768211456\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "DecimalOverflow"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "principal sum overflow",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"340282366920938463463374607431768211455\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "PrincipalSumOverflow"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "principal zero",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"0\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "ZeroPrincipal"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "zero lines",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "LineCountOutOfRange"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "four lines",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000},{\"line_id\":3,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "LineCountOutOfRange"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "line id gap",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":2,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":3,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "LineIdMismatch"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "negative line id",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":-1,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "bps sum 9999",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":6999}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "BpsSumInvalid"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "bps 10001",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":10001,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "BpsOutOfRange"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "bps above u16",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":70000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "bps float",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000.0,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "unknown top-level field",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}],\"memo\":\"x\"}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "unknown line field",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000,\"memo\":\"x\"},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "missing field",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}],\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\"}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "null field",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":null,\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "schema_version as string",
+      "json_text": "{\"schema_version\":\"1\",\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "schema_version 2",
+      "json_text": "{\"schema_version\":2,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "UnsupportedSchemaVersion"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "buyer equals supplier",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"buyer.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "RolesNotDistinct"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "role equals escrow",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"escrow.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "RoleIsReservedAccount"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "non-allowlisted FT",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-other.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "FtNotAllowlisted"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "window below 60 s",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"59999999999\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "WindowOutOfRange"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "grace above 30 d",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"2592000000000001\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "validate",
+        "code": "DeliveryGraceOutOfRange"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "duplicate key",
+      "json_text": "{\"agreement_nonce\":\"8\",\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "trailing garbage",
+      "json_text": "{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}x",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "empty input",
+      "json_text": "",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    },
+    {
+      "id": "T062",
+      "label": "top-level array",
+      "json_text": "[{\"schema_version\":1,\"deadline_rules_version\":1,\"buyer_id\":\"buyer.lf-demo.testnet\",\"supplier_id\":\"supplier.lf-demo.testnet\",\"primary_arbitrator_id\":\"primary.lf-demo.testnet\",\"backup_arbitrator_id\":\"backup.lf-demo.testnet\",\"ft_contract_id\":\"ft-test.lf-demo.testnet\",\"agreement_nonce\":\"1\",\"acceptance_deadline_ns\":\"1800086400000000000\",\"funding_deadline_ns\":\"1800172800000000000\",\"delivery_grace_period_ns\":\"0\",\"review_window_ns\":\"259200000000000\",\"negotiation_window_ns\":\"172800000000000\",\"primary_window_ns\":\"259200000000000\",\"backup_window_ns\":\"259200000000000\",\"lines\":[{\"line_id\":0,\"principal\":\"500000000\",\"delivery_deadline_ns\":\"1800345600000000000\",\"acceptance_criteria_commitment\":\"d194b132a54e35a0d6ffb12e6dfa160828b6739b2d38d6799f669d182291838e\",\"fallback_buyer_bps\":5000,\"fallback_supplier_bps\":5000},{\"line_id\":1,\"principal\":\"300000000\",\"delivery_deadline_ns\":\"1800432000000000000\",\"acceptance_criteria_commitment\":\"7947120d66ac3426e3d7d90b6221072a7ae8f35704db8886f45ba8dfb811bd67\",\"fallback_buyer_bps\":6000,\"fallback_supplier_bps\":4000},{\"line_id\":2,\"principal\":\"200000000\",\"delivery_deadline_ns\":\"1800518400000000000\",\"acceptance_criteria_commitment\":\"aad0264441779512e811da08acfe8988dec9ee0d2624d5158d2bbe61028ab550\",\"fallback_buyer_bps\":3000,\"fallback_supplier_bps\":7000}]}]",
+      "expect": {
+        "accept": false,
+        "stage": "parse",
+        "code": "Json"
+      }
+    }
+  ]
+}

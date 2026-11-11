@@ -1,0 +1,21 @@
+# FINAL frontend checks after settlement-wording fix. ts=20261111T133203Z
+v24.15.0
+typecheck_exit=0
+ℹ tests 143
+ℹ pass 143
+ℹ fail 0
+test_exit=0
+✓ built in 106ms
+build_exit=0
+## shared encoder vectors
+ℹ tests 25
+ℹ pass 25
+ℹ fail 0
+## bundle secret scan
+scanned 7 files, 966333 bytes, 8 patterns: 0 hit(s)
+## offline DOM check
+PASS "The transfer failed. Your funds are available to withdraw again." only in the two FAILED scenarios
+PASS failed: tx report FAILED agrees
+RESULT: ALL DOM CHECKS PASSED (offline fixture page in headless Chrome; not chain data, not wallet integration)
+dom_exit=0
+## responsive: CDP device emulation 390 px: scrollWidth 390 == clientWidth 390 (no horizontal overflow); screenshots in screens/

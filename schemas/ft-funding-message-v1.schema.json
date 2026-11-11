@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FT funding message v1 (ft_transfer_call msg) — FROZEN 2026-10-27",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "agreement_id",
+    "line_id",
+    "terms_hash"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "agreement_id": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Contract-assigned u64 (OQ-04)."
+    },
+    "line_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "terms_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Must equal the stored contract-computed digest; otherwise ft_on_transfer returns the full amount and credits nothing."
+    }
+  },
+  "description": "Minified JSON string. Contract parses strictly (unknown fields rejected). Verify decoding against the pinned FT in sandbox (LF-005)."
+}
