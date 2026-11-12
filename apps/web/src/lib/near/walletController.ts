@@ -342,7 +342,10 @@ export class WalletController {
       this.set({ status: "disconnected", accountId: null, notice: { kind: "error", text: MESSAGES.mismatch } });
       return;
     }
-    this.set({ status: "connected", accountId: s.accountId, notice: { kind: "info", text: MESSAGES.connected(s.accountId) } });
+    const betaConnection = this.port.isIntearWallet?.() === false;
+    this.set({ status: "connected", accountId: s.accountId, notice: { kind: betaConnection ? "warning" : "info", text: betaConnection
+      ? `Connected as ${s.accountId}. This wallet is connection-only during testnet QA; transaction signing is disabled. Use Intear for signing actions.`
+      : MESSAGES.connected(s.accountId) } });
   };
 
   /** Wallet sign-out with a time limit; local records are always cleared afterwards. Returns whether the wallet call completed. */
