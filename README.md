@@ -8,6 +8,21 @@ Pay for accepted work. Secure contested money. Resolve the difference under rule
 > - The deployed escrow **retains deployer upgrade authority**: the holder of its full-access key could change the contract or move funds it holds, so users must trust that key holder. See [Security](#security).
 > - **No independent human security audit** has been completed. Automated testing, however extensive, is not an independent audit.
 
+## Judge quickstart — do X, see Y
+
+**Live read-only demo:** https://linefair-ebuskys-projects.vercel.app/#/agreements/0  
+**Repository:** https://github.com/iamebuskycrypto/linefair  
+**Network:** NEAR testnet only · experimental test tokens · no real-value use.
+
+1. **Open the live agreement:** visit the demo link above. **See:** Agreement #0, three deliverables, and their line-by-line final outcomes. No wallet is required to read.
+2. **Inspect the accepted line:** locate Line A. **See:** 400 tLFT settled to the supplier.
+3. **Inspect the negotiated dispute:** locate Line B. **See:** the 1,000 tLFT line split 300/700 by mutual settlement.
+4. **Inspect arbitration:** locate Line C. **See:** a 1,000 tLFT line split 200/800 by a primary-arbitrator ruling after the deadline transition.
+5. **Verify accounting:** the three lines sum to 2,400 tLFT funded and 2,400 paid out; outstanding liabilities are zero. Compare the testnet transaction links below.
+6. **Optional wallet check:** click **Connect testnet wallet**, choose Intear **Web**, and authenticate only with an account you control. **See:** the connected account in the header, then **Disconnect**. Connecting alone does not request transaction signatures. **Do not approve any payment or transaction for judging.**
+
+The chain demonstration above completed through signed testnet transactions. The current public UI's separate wallet connect/disconnect acceptance passed; **its own transaction-submission flow has not been end-to-end acceptance-tested via the frontend**, so the judge quickstart intentionally requires no signing or funding. The escrow still has deployer upgrade authority and has not been independently audited. See [Security](#security) and [Known limitations](#known-limitations).
+
 ## The problem
 
 A service order often contains several separately priced deliverables. In a single-escrow model, a dispute over one deliverable freezes payment for all of them. LineFair gives each line its own ledger and settlement path, so accepted work is paid while only the contested amount waits on a bounded, pre-agreed procedure.
@@ -70,7 +85,7 @@ Design and specification: `docs/04` (user journeys and UX copy), `docs/05` (arch
 
 ## Tests
 
-- **Frontend** (fresh clean install of this tree, 2026-11-11): typecheck pass, 144/144 tests, production build pass, bundle key-material scan 0 hits.
+- **Frontend** (fresh clean install of this tree, 2026-11-11): typecheck pass, 144/144 tests, production build pass, bundle key-material scan 0 hits. **Additional wallet/frontend QA (2026-11-12):** 182/182 web unit tests, 5/5 bundle-leak tests, 45/45 browser checks at 390px and 1440px; founder-confirmed 7/7 real-wallet preview acceptance and production connect/disconnect. See `docs/qa/WALLET_UAT_FINAL_REPORT.md`. Browser checks include simulated wallet sessions and are not proof of frontend transaction-signing flows.
 - **Shared encoder** (fresh clean install, 2026-11-11): typecheck pass, 25/25 tests, including the shared Rust vectors.
 - **Contract** (fresh offline run on this tree, 2026-11-11T19:11Z): `cargo test --locked --offline --no-fail-fast` — **317 passed, 0 failed, 1 ignored** (opt-in gas-measurement probe), exit 0. That covers unit, model-based property, vector and near-sandbox tests against the genuine pinned token.
   - Before the run, the tree rebuilt the qualified release WASM (sha256 `470db97b…f2e1`, code hash `5nN5ua65…`, equal to the deployed contract).
