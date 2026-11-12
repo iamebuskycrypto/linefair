@@ -8,6 +8,24 @@ Pay for accepted work. Secure contested money. Resolve the difference under rule
 > - The deployed escrow **retains deployer upgrade authority**: the holder of its full-access key could change the contract or move funds it holds, so users must trust that key holder. See [Security](#security).
 > - **No independent human security audit** has been completed. Automated testing, however extensive, is not an independent audit.
 
+## Judge quickstart — see the real settlement
+
+**Live demo:** https://linefair-ebuskys-projects.vercel.app/#/agreements/0  
+**Source:** https://github.com/iamebuskycrypto/linefair  
+**Network:** NEAR Testnet only. The token (`tLFT`) is valueless. **No wallet or transaction signature is required to inspect the demo.**
+
+The core problem is simple: **get paid for the work that is done; only argue about the work that isn't.** This release demonstrates three independently accounted deliverables within one on-chain agreement.
+
+1. **Open the live demo link** → See *Agreement #0*, with three deliverables and contract-confirmed payment information. Click the individual deliverable cards to explore them. If prompted, use **Show agreement actions** only to inspect the available controls; do not sign anything.
+2. **Inspect deliverable 1** → Buyer accepted; the supplier received **400 tLFT**.
+3. **Inspect deliverable 2** → After a buyer dispute, the parties reached a mutual split: **700 tLFT to supplier, 300 tLFT to buyer**.
+4. **Inspect deliverable 3** → A no-response case moved to primary arbitration, which ruled **800 tLFT to supplier, 200 tLFT to buyer**.
+5. **Verify the accounting** → **2,400 tLFT funded, 2,400 tLFT paid, zero remaining liabilities.** The signed testnet transaction links below let a judge cross-check these outcomes with the chain.
+
+**Scope of proof:** the NEAR contract lifecycle above was executed using 22 genuine testnet wallet signatures and independently re-read from chain state. The currently deployed React frontend has verified read-only views and Intear connect/disconnect UAT, **but the UI's own transaction-signing journey has not been end-to-end accepted**. Sender and Nightly are connection-only beta choices with transaction signing disabled. No mainnet, no real-value use, and no independent security audit. The deployed contract still holds a full-access upgrade key.
+
+![Agreement #0: independently settled deliverables](evidence/screens/agreement0-completed-desktop-1280.png)
+
 ## The problem
 
 A service order often contains several separately priced deliverables. In a single-escrow model, a dispute over one deliverable freezes payment for all of them. LineFair gives each line its own ledger and settlement path, so accepted work is paid while only the contested amount waits on a bounded, pre-agreed procedure.
@@ -59,7 +77,7 @@ Open `http://127.0.0.1:5173/#/agreements/0`. Each line reads "Settled — paid o
   - Withdrawals move claimable → pending before an async `ft_transfer`. Only an authenticated private callback marks a payout PAID; an inconclusive result stays pending.
   - No admin withdrawal and no operator discretion; arbitrators can allocate only between the original buyer and supplier.
 - **Frontend**: `apps/web`, React 19 + Vite, no backend.
-  - Reads contract views directly and signs through `@near-wallet-selector` + Intear.
+  - Reads contract views directly; Intear retains its existing wallet-signing path. Sender and Nightly are **connection-only beta** until independent real-wallet QA and approval.
   - Integer-exact amounts and a fail-closed startup gate.
   - A payment is shown as PAID only after the contract records it.
 - **Shared encoder**: `packages/shared-schemas`, a TypeScript canonical-terms encoder checked against the Rust test vectors.
@@ -70,7 +88,7 @@ Design and specification: `docs/04` (user journeys and UX copy), `docs/05` (arch
 
 ## Tests
 
-- **Frontend** (fresh clean install of this tree, 2026-11-11): typecheck pass, 144/144 tests, production build pass, bundle key-material scan 0 hits.
+- **Frontend** (2026-11-12 wallet-option release): TypeScript typecheck PASS, **184/184 unit tests**, **5/5 bundle environment-leak tests**, Vite production build PASS. Earlier founder-reported 7/7 real-wallet Intear preview checks and production connect/disconnect passed; Sender and Nightly have not completed real-wallet UAT. A separate earlier headless-browser pass recorded 45/45 simulated checks before subsequent UI changes, so it is not a fresh full-browser acceptance test for this latest build.
 - **Shared encoder** (fresh clean install, 2026-11-11): typecheck pass, 25/25 tests, including the shared Rust vectors.
 - **Contract** (fresh offline run on this tree, 2026-11-11T19:11Z): `cargo test --locked --offline --no-fail-fast` — **317 passed, 0 failed, 1 ignored** (opt-in gas-measurement probe), exit 0. That covers unit, model-based property, vector and near-sandbox tests against the genuine pinned token.
   - Before the run, the tree rebuilt the qualified release WASM (sha256 `470db97b…f2e1`, code hash `5nN5ua65…`, equal to the deployed contract).
@@ -116,10 +134,10 @@ Full details are in [`SECURITY.md`](SECURITY.md).
 - **Built at the NEAR Hackathon.** All work falls inside the official hackathon window, which opened on 2026-10-19:
   - 2026-10-27: specification and planning; no product code.
   - 2026-11-01: first product code (escrow contract skeleton).
-  - 2026-11-11: tested MVP frozen. This repository's content corresponds to that frozen source.
+  - 2026-11-11: contract/testnet demonstration release frozen. 2026-11-12: frontend wallet QA, marketing homepage, progressive-disclosure UX and beta wallet choices added; the deployed escrow bytecode remained unchanged.
 - **Repository history:** this public repository is a single sanitized export of the tested MVP. The private development history (162 commits) is not published because it contains local machine paths. The whole repository is therefore the hackathon work, NEAR integration included; see the [commit history](https://github.com/iamebuskycrypto/linefair/commits/main).
 - **AI assistance:** the implementation was written with Claude Code (Anthropic) under the founder's direction and review.
-- **Libraries:** near-sdk, near-contract-standards, near-workspaces (Rust); React 19, Vite, @near-wallet-selector 10.1.4 (core, intear-wallet, my-near-wallet), buffer (TypeScript). Exact pins in `docs/21_TOOLCHAIN_LOCK.md` and the lockfiles. The test token is the official near-sdk-rs FT example.
+- **Libraries:** near-sdk, near-contract-standards, near-workspaces (Rust); React 19, Vite, @near-wallet-selector 10.1.4 (core, intear-wallet, sender, nightly, and retained my-near-wallet dependency), buffer (TypeScript). Exact pins are in the lockfiles; `docs/21_TOOLCHAIN_LOCK.md` records the baseline toolchain. The test token is the official near-sdk-rs FT example.
 - **Pre-existing material:** none beyond the project's own specification written in the hackathon window.
 
 ## License
