@@ -5,7 +5,7 @@
 // testnet account creation confirmed on chain; connect / reload / disconnect /
 // reconnect left the account's on-chain keys, permissions and balance unchanged
 // (evidence/wallet-spike/INTEAR-REVIEW-AND-CONNECTION-TEST.md). TRANSACTION
-// SIGNING IS NOT YET TESTED. MyNearWallet (sunset 2026-10-31) was replaced; Meteor
+// SIGNING IS NOT YET TESTED. MyNearWallet (sunset 2026-10-31) was replaced; Sender
 // is the documented fallback (docs/33). Known: intear-wallet 10.1.4 generates a session key
 // in the browser and stores it in localStorage; it signs locally only when the
 // receiver equals a contractId the wallet confirmed with functionCallKeyAdded.
@@ -38,7 +38,7 @@ import type { WalletPort } from "./walletController.ts";
 export const WALLET_MODULE_ID = "intear-wallet";
 export const SUPPORTED_WALLETS = [
   { id: "intear-wallet", label: "Intear", note: "Web wallet · tested" },
-  { id: "meteor-wallet", label: "Meteor", note: "Extension/web · testnet" },
+  { id: "sender", label: "Sender", note: "Desktop extension · testnet" },
   { id: "nightly", label: "Nightly", note: "Browser extension · testnet" },
 ] as const;
 export type SupportedWalletId = (typeof SUPPORTED_WALLETS)[number]["id"];
@@ -92,13 +92,13 @@ export function getSelector(): Promise<WalletSelector> {
       const { Buffer } = await import("buffer");
       const g = globalThis as { Buffer?: unknown };
       if (g.Buffer === undefined) g.Buffer = Buffer; // kept: harmless polyfill for the wallet libraries
-      const [{ setupWalletSelector }, { setupIntearWallet }, { setupMeteorWallet }, { setupNightly }] = await Promise.all([
+      const [{ setupWalletSelector }, { setupIntearWallet }, { setupSenderWallet }, { setupNightly }] = await Promise.all([
         import("@near-wallet-selector/core"),
         import("@near-wallet-selector/intear-wallet"),
-        import("@near-wallet-selector/meteor-wallet"),
+        import("@near-wallet-selector/sender-wallet"),
         import("@near-wallet-selector/nightly"),
       ]);
-      return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet(), setupMeteorWallet(), setupNightly()] });
+      return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet(), setupSenderWallet(), setupNightly()] });
     })();
     selectorPromise.catch(() => {
       selectorPromise = null;
