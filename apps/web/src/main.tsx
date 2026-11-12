@@ -6,6 +6,14 @@ import { AppProvider } from "./app/context.tsx";
 import { App } from "./app/App.tsx";
 import { StartupGate } from "./app/StartupGate.tsx";
 
+// Remove referral tracking from the address bar without touching wallet return parameters,
+// the hash route, navigation history, or the NEAR startup checks.
+const pageUrl = new URL(window.location.href);
+if (pageUrl.searchParams.has("utm_source")) {
+  pageUrl.searchParams.delete("utm_source");
+  window.history.replaceState(window.history.state, "", pageUrl.pathname + pageUrl.search + pageUrl.hash);
+}
+
 const root = createRoot(document.getElementById("root") as HTMLElement);
 // Only the five public settings are read, each by name: Vite then inlines exactly these values.
 // Passing the whole env object would bundle EVERY VITE_* variable present at build time
