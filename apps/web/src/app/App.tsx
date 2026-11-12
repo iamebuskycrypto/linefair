@@ -72,8 +72,14 @@ export function App() {
       </div>
       <header className="topbar">
         <div className="topbar-inner">
-          <a className="wordmark" href="#/">
-            Line<span>Fair</span>
+          <a className="wordmark" href="#/" aria-label="LineFair home">
+            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false">
+              <rect width="26" height="26" rx="7" fill="#0f2f25" />
+              <rect x="6" y="7.5" width="14" height="2.6" rx="1.3" fill="#34c08d" />
+              <rect x="6" y="11.7" width="10" height="2.6" rx="1.3" fill="#dfeee7" />
+              <rect x="6" y="15.9" width="12" height="2.6" rx="1.3" fill="#dfeee7" />
+            </svg>
+            <span aria-hidden="true"><span style={{ color: "var(--ink)" }}>Line</span>Fair</span>
           </a>
           <nav className="nav" aria-label="Main">
             <a href="#/" aria-current={route.name === "list" || route.name === "agreement" ? "page" : undefined}>
@@ -100,6 +106,13 @@ export function App() {
           </div>
         )}
       </main>
+      <footer className="site-footer">
+        <span>LineFair · experimental NEAR testnet MVP · not for real funds</span>
+        <span>
+          Not independently audited · the escrow keeps deployer upgrade authority ·{" "}
+          <a href="https://github.com/iamebuskycrypto/linefair#security" target="_blank" rel="noreferrer">Security details</a>
+        </span>
+      </footer>
     </>
   );
 }

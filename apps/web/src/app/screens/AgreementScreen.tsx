@@ -11,7 +11,7 @@ import { useApp } from "../context.tsx";
 import { Amount, Notice, Status } from "../ui.tsx";
 import { SettlementPanel } from "./SettlementPanel.tsx";
 import { ArbitrationPanel } from "./ArbitrationPanel.tsx";
-import { moneyRows } from "../../lib/contract/settlement.ts";
+import { allocationState, moneyRows } from "../../lib/contract/settlement.ts";
 import { agreementSummaryLabel, lineStateLabel, u128 } from "../../lib/contract/states.ts";
 import { WithdrawalPanel } from "./WithdrawalPanel.tsx";
 import type { AgreementView } from "../../lib/contract/types.ts";
@@ -123,82 +123,233 @@ export function AgreementScreen({ id }: { id: string }) {
 
   const { a, decimals, symbol } = load;
   const st = agreementSummaryLabel(a);
+  // Overview figures come only from contract fields (terms principals and line ledgers via moneyRows).
+  // A paid amount counts as confirmed only when its withdrawal slot is PAID (moneyRows key "paid");
+  // a paid amount without a PAID slot is an incident and is never counted as paid out.
+  const items = a.lines.map((l) => {
+    const t = a.terms.lines[l.line_id];
+    const principal = u128(t.principal);
+    return { l, t, principal, s: lineStateLabel(l, { principal }), rows: moneyRows(l) };
+  });
+  let total = 0n, paid = 0n, held = 0n, incident = 0n, paidBuyer = 0n, paidSupplier = 0n;
+  for (const it of items) {
+    total += it.principal;
+    for (const r of it.rows) {
+      if (r.key === "paid") {
+        paid += r.amount;
+        if (r.party === "buyer") paidBuyer += r.amount;
+        else paidSupplier += r.amount;
+      } else if (r.key === "incident") incident += r.amount;
+      else held += r.amount; // locked, claimable or withdrawal processing: still held by the contract
+    }
+  }
+  const settledCount = items.filter((it) => it.l.status === "ALLOCATED" && it.rows.length > 0 && it.rows.every((r) => r.key === "paid")).length;
+  const acceptanceFirst = a.status === "PROPOSED";
+  const acceptance = <AcceptancePanel a={a} check={load.check} validationIssue={load.validationIssue} nowNs={load.nowNs} onRefresh={refresh} />;
   return (
     <>
-      <div className="page-head">
-        <div className="actions">
-          <h1>Agreement #{a.agreement_id}</h1>
-          <Status state={st} />
-          {a.accelerated_test_timing && <Status state={{ label: "Accelerated timing — test only", tone: "warning" }} />}
+      <a className="back-link" href="#/">← All agreements</a>
+      <section className="overview" aria-labelledby="agreement-title">
+        <div className="overview-top">
+          <span className="eyebrow">Service agreement · {items.length} {items.length === 1 ? "deliverable" : "deliverables"}</span>
+          <div className="overview-title">
+            <h1 id="agreement-title">Agreement #{a.agreement_id}</h1>
+            <Status state={st} />
+            {a.accelerated_test_timing && <Status state={{ label: "Accelerated timing — test only", tone: "warning" }} />}
+          </div>
+          {st.detail !== undefined && <p className="lede">{st.detail}</p>}
+          <div className="overview-meta">
+            <span className="num">Read at block {load.blockHeight.toString()}</span>
+            <button className="button quiet" type="button" onClick={refresh}>Re-read</button>
+          </div>
         </div>
-        {st.detail !== undefined && <p className="lede">{st.detail}</p>}
-        <div className="actions">
-          <p className="small muted num">Read at block {load.blockHeight.toString()}</p>
-          <button className="button quiet" type="button" onClick={refresh}>Re-read</button>
+        <dl className="metrics">
+          <div className="metric">
+            <dt>Agreement value</dt>
+            <dd><Amount base={total} decimals={decimals} symbol={symbol} /></dd>
+            <span className="sub">across {items.length} independent {items.length === 1 ? "line" : "lines"}</span>
+          </div>
+          <div className="metric">
+            <dt>Paid out</dt>
+            <dd><Amount base={paid} decimals={decimals} symbol={symbol} /></dd>
+            <span className="sub">confirmed by the contract</span>
+          </div>
+          <div className="metric">
+            <dt>Held in escrow</dt>
+            <dd><Amount base={held} decimals={decimals} symbol={symbol} /></dd>
+            <span className="sub">locked, claimable or processing</span>
+          </div>
+          <div className="metric">
+            <dt>Lines paid out</dt>
+            <dd className="num">{settledCount}<span className="unit">of {items.length}</span></dd>
+            <span className="sub">fully settled and paid</span>
+          </div>
+        </dl>
+        <div className="progress-block">
+          <div className="progress-head">
+            <h2>Settlement by line</h2>
+            {paid > 0n && (
+              <p className="parties-paid">
+                <span>Supplier received <strong><Amount base={paidSupplier} decimals={decimals} symbol={symbol} /></strong></span>
+                <span>Buyer received <strong><Amount base={paidBuyer} decimals={decimals} symbol={symbol} /></strong></span>
+              </p>
+            )}
+          </div>
+          <div className="segments" role="img" aria-label={items.map((it) => `Line ${it.l.line_id + 1}: ${it.s.label}`).join("; ")}>
+            {items.map((it) => (
+              <span key={it.l.line_id} className={`segment tone-${it.s.tone}`} style={{ flexGrow: Number(it.principal > 0n ? it.principal : 1n) }} />
+            ))}
+          </div>
+          <ul className="legend">
+            {items.map((it) => (
+              <li key={it.l.line_id}>
+                <span className={`swatch segment tone-${it.s.tone}`} aria-hidden="true" />
+                <strong>Line {it.l.line_id + 1}</strong> {it.s.label}
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
+      </section>
 
       {!load.verified && (
         <Notice tone="negative">
           <p><strong>Terms could not be verified. Do not sign.</strong> The terms re-encoded in this browser do not match the stored hash.</p>
         </Notice>
       )}
+      {incident > 0n && (
+        <Notice tone="negative">
+          <p><strong>Incident:</strong> a paid amount of <Amount base={incident} decimals={decimals} symbol={symbol} /> has no confirmed PAID withdrawal record. It is not counted as paid out.</p>
+        </Notice>
+      )}
 
-      <AcceptancePanel a={a} check={load.check} validationIssue={load.validationIssue} nowNs={load.nowNs} onRefresh={refresh} />
+      {acceptanceFirst && acceptance}
 
-      {a.lines.map((l) => {
-        const t = a.terms.lines[l.line_id];
-        const principal = u128(t.principal);
-        const s = lineStateLabel(l, { principal });
+      <div className="section-head">
+        <h2>Deliverables</h2>
+        <span className="small muted">Each line is funded, reviewed and settled on its own.</span>
+      </div>
+
+      {items.map(({ l, t, principal, s, rows }) => {
         const showSlots = l.status === "ALLOCATED";
-        const rows = moneyRows(l);
         const settle = l.status === "DISPUTED" || l.status === "ALLOCATED";
         return (
-          <section className="panel" key={l.line_id} aria-labelledby={`line-${l.line_id}`}>
-            <div className="panel-head">
-              <h2 id={`line-${l.line_id}`}>Line {l.line_id + 1}</h2>
-              <Status state={s} />
+          <section className="panel deliverable" key={l.line_id} aria-labelledby={`line-${l.line_id}`}>
+            <div className="deliverable-head">
+              <div className="titles">
+                <div className="actions">
+                  <h2 id={`line-${l.line_id}`}>Line {l.line_id + 1}</h2>
+                  <Status state={s} />
+                </div>
+                {s.detail !== undefined && <p className="small muted">{s.detail}</p>}
+              </div>
+              <div className="deliverable-amount">
+                <span className="label">Line amount</span>
+                <span className="value"><Amount base={principal} decimals={decimals} symbol={symbol} /></span>
+              </div>
             </div>
-            {s.detail !== undefined && <p className="small" style={{ marginBottom: "var(--s2)" }}>{s.detail}</p>}
-            <dl className="kv">
-              <dt>Amount</dt><dd><Amount base={principal} decimals={decimals} symbol={symbol} /></dd>
-              {rows.length === 0 && (<><dt>Held</dt><dd className="muted">Nothing held for this line</dd></>)}
-              {rows.map((r) => (
-                <MoneyRowItem key={`${r.key}-${r.party ?? ""}`} label={r.label} incident={r.key === "incident"}>
-                  <Amount base={r.amount} decimals={decimals} symbol={symbol} />
-                </MoneyRowItem>
-              ))}
-              <dt>Delivery deadline</dt><dd className="num">{formatNsUtc(u128(t.delivery_deadline_ns))}</dd>
-              <dt>Fallback split</dt><dd>Supplier {formatBps(t.fallback_supplier_bps)}, buyer {formatBps(t.fallback_buyer_bps)}</dd>
-              {l.status === "DISPUTED" && (<><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.dispute_t0_ns))}</dd></>)}
-              {l.no_response_t0_ns !== null && (<><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.no_response_t0_ns))} (review deadline)</dd></>)}
-              {l.non_delivery_t0_ns !== null && (<><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.non_delivery_t0_ns))} (delivery cutoff)</dd></>)}
-            </dl>
-            <LineLifecycle a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} check={load.check} nowNs={load.nowNs} onRefresh={refresh} />
-            {showSlots && load.verified && (
-              <WithdrawalPanel a={a} line={l} decimals={decimals} symbol={symbol} onRefresh={refresh} />
-            )}
-            {showSlots && !load.verified && (
-              <p className="small muted">Withdrawals are hidden because the terms could not be verified.</p>
-            )}
-            {l.status === "DISPUTED" && load.verified && (
-              <ArbitrationPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} onRefresh={refresh} />
-            )}
-            {settle && load.verified && (
-              <SettlementPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} nowNs={load.nowNs} onRefresh={refresh} />
-            )}
+            <div className="deliverable-body">
+              {l.status === "ALLOCATED" && <OutcomeBand line={l} principal={principal} decimals={decimals} symbol={symbol} />}
+              <dl className="kv facts">
+                {rows.length === 0 && (<div><dt>Held</dt><dd className="muted">Nothing held for this line</dd></div>)}
+                {rows
+                  .filter((r) => !(r.key === "paid" && showSlots && load.verified))
+                  .map((r) => (
+                    <MoneyRowItem key={`${r.key}-${r.party ?? ""}`} label={r.label} incident={r.key === "incident"}>
+                      <Amount base={r.amount} decimals={decimals} symbol={symbol} />
+                    </MoneyRowItem>
+                  ))}
+                <div><dt>Delivery deadline</dt><dd className="num">{formatNsUtc(u128(t.delivery_deadline_ns))}</dd></div>
+                <div><dt>Fallback split</dt><dd>Supplier {formatBps(t.fallback_supplier_bps)}, buyer {formatBps(t.fallback_buyer_bps)}</dd></div>
+                {l.status === "DISPUTED" && (<div><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.dispute_t0_ns))}</dd></div>)}
+                {l.no_response_t0_ns !== null && (<div><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.no_response_t0_ns))} (review deadline)</dd></div>)}
+                {l.non_delivery_t0_ns !== null && (<div><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.non_delivery_t0_ns))} (delivery cutoff)</dd></div>)}
+              </dl>
+              <LineLifecycle a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} check={load.check} nowNs={load.nowNs} onRefresh={refresh} />
+              {showSlots && load.verified && (
+                <WithdrawalPanel a={a} line={l} decimals={decimals} symbol={symbol} onRefresh={refresh} />
+              )}
+              {showSlots && !load.verified && (
+                <p className="small muted">Withdrawals are hidden because the terms could not be verified.</p>
+              )}
+              {l.status === "DISPUTED" && load.verified && (
+                <ArbitrationPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} onRefresh={refresh} />
+              )}
+              {settle && load.verified && l.status === "ALLOCATED" && (
+                <details className="tech">
+                  <summary>Settlement record</summary>
+                  <div className="tech-body">
+                    <SettlementPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} nowNs={load.nowNs} onRefresh={refresh} />
+                  </div>
+                </details>
+              )}
+              {settle && load.verified && l.status !== "ALLOCATED" && (
+                <SettlementPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} nowNs={load.nowNs} onRefresh={refresh} />
+              )}
+            </div>
           </section>
         );
       })}
+
+      {!acceptanceFirst && (
+        <>
+          <div className="section-head">
+            <h2>Parties</h2>
+            <span className="small muted">Four distinct accounts accepted the identical terms.</span>
+          </div>
+          {acceptance}
+        </>
+      )}
+
+      <details className="tech page-tech">
+        <summary>Technical details</summary>
+        <div className="tech-body">
+          <dl className="kv">
+            <dt>Escrow contract</dt><dd className="mono">{config.escrowId}</dd>
+            <dt>Token contract</dt><dd className="mono">{a.terms.ft_contract_id}</dd>
+            <dt>Token</dt><dd>{symbol} · {decimals} decimals</dd>
+            <dt>Terms hash</dt><dd className="mono">{a.terms_hash}</dd>
+            <dt>Read at block</dt><dd className="num">{load.blockHeight.toString()}</dd>
+          </dl>
+        </div>
+      </details>
     </>
+  );
+}
+
+/** Who received what on an ALLOCATED line, from the contract's own allocation (allocationState checks conservation). */
+function OutcomeBand({ line, principal, decimals, symbol }: { line: AgreementView["lines"][number]; principal: bigint; decimals: number; symbol: string }) {
+  const alloc = allocationState(line, principal);
+  const buyer = u128(line.allocation_buyer_amount);
+  const supplier = u128(line.allocation_supplier_amount);
+  const consistent = alloc.tone !== "negative" && principal > 0n && buyer + supplier === principal;
+  const pct = (x: bigint) => (principal > 0n ? Number((x * 10000n) / principal) / 100 : 0);
+  return (
+    <div className="outcome" data-outcome={line.allocation_mode}>
+      <div className="outcome-head">
+        <p className="route">Outcome <span>· how this line was decided</span></p>
+        <Status state={alloc} />
+      </div>
+      {consistent && (
+        <>
+          <div className="splitbar" role="img" aria-label={`Supplier ${pct(supplier)}%, buyer ${pct(buyer)}%`}>
+            {supplier > 0n && <span className="s" style={{ flexGrow: pct(supplier) }} />}
+            {buyer > 0n && <span className="b" style={{ flexGrow: pct(buyer) }} />}
+          </div>
+          <div className="split-legend">
+            <span><i style={{ background: "var(--forest-2)" }} aria-hidden="true" />Supplier <strong><Amount base={supplier} decimals={decimals} symbol={symbol} /></strong></span>
+            <span><i style={{ background: "var(--accent)" }} aria-hidden="true" />Buyer <strong><Amount base={buyer} decimals={decimals} symbol={symbol} /></strong></span>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
 function MoneyRowItem({ label, incident, children }: { label: string; incident: boolean; children: ReactNode }) {
   return (
-    <>
+    <div>
       <dt className={incident ? "err" : undefined}>{label}</dt>
       <dd>{children}</dd>
-    </>
+    </div>
   );
 }

@@ -1,6 +1,13 @@
 # Evidence provenance (public release candidate, prepared 2026-11-11)
 
-This tree is a curated export of the project's private working repository. Unless listed below, every file is byte-identical to the private repository at commit `7990950`. That commit is the tested MVP source `2b5adf8` plus licence metadata only: `license = "MIT"` in `contracts/escrow/Cargo.toml`, and `"MIT"` replacing `"UNLICENSED"` in both `package.json` and `package-lock.json` pairs. With that metadata, the escrow release WASM rebuilds byte-identical to the qualified and deployed release (sha256 `470db97b…f2e1`). Root files `README.md`, `SECURITY.md`, `LICENSE` and `.gitignore` were written for this release (`.gitignore` is a verbatim copy).
+This tree is a curated export of the project's private working repository. Unless listed below, every file is byte-identical to the private repository at commit `ec19c48`.
+
+That commit is:
+- the tested MVP source `2b5adf8`;
+- plus licence metadata only (`7990950`);
+- plus a frontend presentation refresh in four files: `apps/web/src/styles.css`, `apps/web/src/app/App.tsx`, `apps/web/src/app/screens/AgreementScreen.tsx`, `apps/web/src/app/screens/WithdrawalPanel.tsx`.
+
+The refresh changes no contract, encoding, financial-library, wallet or validation code. The escrow release WASM is unchanged and byte-identical to the qualified and deployed release (sha256 `470db97b…f2e1`). Root files `README.md`, `SECURITY.md`, `LICENSE` and `.gitignore` were written for this release (`.gitignore` is a verbatim copy).
 
 ## Files that differ from the private repository
 
@@ -19,7 +26,7 @@ This tree is a curated export of the project's private working repository. Unles
 
 ## Screenshots
 
-`evidence/screens/` holds screenshots of the local read-only app at `2b5adf8`, reading testnet agreement #0. They were captured on 2026-11-11 by an isolated headless-Chrome check, using a fresh profile on loopback only.
+`evidence/screens/` holds screenshots of the local read-only app at the frontend of `ec19c48`, reading testnet agreement #0. They were captured on 2026-11-12 by an isolated headless-Chrome check, using a fresh profile on loopback only.
 
 The automated check passed at 375, 390, 768 and 1280 px:
 - no horizontal overflow;
@@ -28,8 +35,8 @@ The automated check passed at 375, 390, 768 and 1280 px:
 
 | File | sha256 |
 |---|---|
-| `agreement0-completed-desktop-1280.png` | `f697d37414cb9921023cc3b3299fafc7b2d266164ed0f6059b4cf4db10d639a7` |
-| `agreement0-completed-mobile-390.png` | `68b2a0d8c54b94f1abf8939e825b6749afdd7de786b983d33cb1b1c19a7541cc` |
+| `agreement0-completed-desktop-1280.png` | `afc6e0303a3b6270c6798abfcc5938d2c44bd161e457b4c402418f87d595d940` |
+| `agreement0-completed-mobile-390.png` | `54a223625dd36aecb06ebc272900e3575c4ccfc037308e83890611908c7daaac` |
 
 ## References intentionally left unresolved
 

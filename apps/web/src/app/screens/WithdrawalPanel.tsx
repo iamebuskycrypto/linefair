@@ -34,7 +34,7 @@ import { u128 } from "../../lib/contract/states.ts";
 import { claimSnapshot, readLineSnapshot, type LineSnapshot } from "../../lib/near/snapshot.ts";
 import { withdrawCall } from "../../lib/near/tx.ts";
 import { signForOutcome } from "../sign.ts";
-import { formatNsLocal, formatNsUtc } from "../../lib/format.ts";
+import { formatNsUtc } from "../../lib/format.ts";
 
 /** Bounded post-transaction re-reads (reads only). */
 const REREAD_ATTEMPTS = 5;
@@ -243,15 +243,15 @@ export function ClaimCard(props: {
         <Status state={p} />
       </div>
       {p.detail !== undefined && p.detail !== "" && <p className="small muted">{p.detail}</p>}
-      <dl className="kv">
-        {p.share > 0n && (<><dt>Allocated share</dt><dd>{amt(p.share)}</dd></>)}
-        <dt>Recipient</dt><dd className="mono">{p.recipient}</dd>
-        {p.withdrawalId !== null && (<><dt>Withdrawal</dt><dd className="num">#{p.withdrawalId}</dd></>)}
-        {p.startedAtNs !== null && (<><dt>Started</dt><dd className="num">{formatNsUtc(p.startedAtNs)} ({formatNsLocal(p.startedAtNs)} local)</dd></>)}
-        {p.key === "paid" && p.amount !== null && (<><dt>Paid to {p.recipient}</dt><dd>{amt(p.amount)}</dd></>)}
+      <dl className="kv facts claim-facts">
+        {p.share > 0n && (<div><dt>Allocated share</dt><dd>{amt(p.share)}</dd></div>)}
+        {p.withdrawalId !== null && (<div><dt>Withdrawal</dt><dd className="num">#{p.withdrawalId}</dd></div>)}
+        {!(p.key === "paid" && p.amount !== null) && (<div className="wide"><dt>Recipient</dt><dd className="mono">{p.recipient}</dd></div>)}
+        {p.startedAtNs !== null && (<div><dt>Started</dt><dd className="num">{formatNsUtc(p.startedAtNs)}</dd></div>)}
         {p.resolvedAtNs !== null && (p.key === "paid" || p.key === "failed_restored") && (
-          <><dt>{p.key === "paid" ? "Confirmed" : "Failed"}</dt><dd className="num">{formatNsUtc(p.resolvedAtNs)}</dd></>
+          <div><dt>{p.key === "paid" ? "Confirmed" : "Failed"}</dt><dd className="num">{formatNsUtc(p.resolvedAtNs)}</dd></div>
         )}
+        {p.key === "paid" && p.amount !== null && (<div className="wide"><dt>Paid to {p.recipient}</dt><dd>{amt(p.amount)}</dd></div>)}
       </dl>
       {p.notices.map((n, i) => (
         <Notice key={i} tone={n.tone}><p>{n.text}</p></Notice>
