@@ -29,6 +29,15 @@ const CANARIES = {
   VITE_VERCEL_OBSERVABILITY_CLIENT_CONFIG: '{"analytics":"canary7f3a9c/script.js"}',
   VITE_UNRELATED_SETTING: "unrelated-canary-7f3a9c",
 };
+// Realistic Vercel preview values that coincide with text in the app (footer GitHub link).
+const VERCEL_REAL = {
+  VITE_VERCEL_ENV: "preview",
+  VITE_VERCEL_GIT_PROVIDER: "github",
+  VITE_VERCEL_GIT_REPO_OWNER: "iamebuskycrypto",
+  VITE_VERCEL_GIT_REPO_SLUG: "linefair",
+  VITE_VERCEL_GIT_COMMIT_REF: "qa/wallet-uat-final",
+  VITE_VERCEL_PROJECT_PRODUCTION_URL: "linefair-ebuskys-projects.vercel.app",
+};
 
 async function withEnv<T>(vars: Record<string, string>, fn: () => Promise<T>): Promise<T> {
   const saved = new Map(Object.keys(process.env).filter((k) => k.startsWith("VITE_")).map((k) => [k, process.env[k]]));
@@ -59,6 +68,12 @@ test("production build: Vercel metadata and unrelated VITE_* values never reach 
   assert.ok(js.includes("linefair-escrow 0.1.0 (lf-012 f3)"), "expected contract version missing: startup check absent");
 });
 
+test("regression (Vercel preview failure): realistic Vercel preview variables build successfully and add no VITE_* names", async () => {
+  const js = jsOf(await withEnv({ ...PUBLIC, ...VERCEL_REAL, ...CANARIES }, buildApp));
+  assert.equal(/(?<![A-Za-z0-9_$])VITE_VERCEL_/.test(js), false);
+  assert.ok(!js.includes("7f3a9c"));
+});
+
 test("production build is refused when a secret-like VITE_* variable is present, without printing its value", async () => {
   await assert.rejects(
     withEnv({ ...PUBLIC, VITE_ESCROW_PRIVATE_KEY: "do-not-print-7f3a9c" }, buildApp),
@@ -73,6 +88,6 @@ test("production build is refused when a VITE_* value looks like a NEAR secret k
 test("regression: a build that inlines the whole env object (old main.tsx pattern) is refused by the guard", async () => {
   await assert.rejects(
     withEnv({ ...PUBLIC, ...CANARIES }, () => build({ root: FIXTURE, configFile: false, logLevel: "silent", plugins: [envLeakGuard()], build: { write: false } })),
-    (e: Error) => /Environment leak into the public bundle/.test(e.message) && /VITE_VERCEL_GIT_COMMIT_AUTHOR_NAME/.test(e.message) && !e.message.includes("Canary Author"),
+    (e: Error) => /import\.meta\.env is used as a whole object/.test(e.message) && !e.message.includes("Canary Author"),
   );
 });

@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv, type Plugin } from "vite";
 import { fileURLToPath } from "node:url";
-import { checkBuildEnv, findBundleLeaks } from "./src/lib/envGuard.ts";
+import { checkBuildEnv, findBundleLeaks, findEnvAccess } from "./src/lib/envGuard.ts";
 
 /**
  * Fails the build if a secret-like VITE_* variable is present, or if any VITE_* variable other
@@ -11,6 +11,13 @@ export function envLeakGuard(): Plugin {
   let env: Record<string, string> = {};
   return {
     name: "linefair-env-leak-guard",
+    enforce: "pre",
+    transform(code, id) {
+      if (id.includes("/node_modules/") || !/\.(?:[cm]?[jt]sx?)$/.test(id.split("?")[0] ?? "")) return null;
+      const errors = findEnvAccess(code);
+      if (errors.length > 0) this.error(`${id}: ${errors.join("; ")}`);
+      return null;
+    },
     configResolved(config) {
       env = loadEnv(config.mode, config.envDir || process.cwd(), "VITE_");
       const errors = checkBuildEnv(env);

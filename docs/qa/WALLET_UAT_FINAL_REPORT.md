@@ -15,6 +15,7 @@ Base: `main` = `25bdb1f44bdd3aa6acf6e41a17784793649f98f2`. Live escrow verified 
 | 5 | A restored session was displayed without the checks that sign-in applies. | Restore used the selector's store directly. | On restore and on any account change, the session must pass `checkIntearSession` and match the store account. Otherwise it is signed out and the user is told why. |
 | 6 | Disconnect could hang, or leave Intear records behind. | Intear `signOut()` calls its logout service before clearing storage, and the old code returned early if the selector thought it was not signed in. | Disconnect always calls the Intear module, has a 10 s limit, and always clears the local records. |
 | 7 | Raw wallet error text was shown to users. | Messages were passed through unchanged. | Errors are now classified as cancelled, popup blocked or failed, each with a plain message. Arbitrary wallet text is shown only as a short single-line excerpt. |
+| 9 | The first Vercel preview build of `5a65a90` failed. | The env guard's output value check matched `VITE_VERCEL_GIT_REPO_OWNER=iamebuskycrypto` against the footer's GitHub link, which is legitimate text, not a leak. Reproduced locally. | The value check is replaced by an exact source check: whole-object `import.meta.env` use and non-public `import.meta.env.VITE_*` reads are refused. The output still must not contain any non-public `VITE_*` name. A regression test with realistic Vercel preview variables was added. |
 | 8 | Signing checks ran after the wallet library loaded. | Order of operations in `signAndSend`. | The session and signer check now runs first. The check itself is unchanged. |
 
 ## Files changed
@@ -25,8 +26,8 @@ New: `src/lib/envGuard.ts`, `src/lib/near/walletController.ts`, and the tests an
 | Gate | Result |
 |---|---|
 | TypeScript typecheck | exit 0 |
-| Web unit tests (`npm test`) | **181/181** pass. 144 existing + 37 new: controller 24 (simulated), signing gate 5 (simulated), env guard 8. |
-| Bundle tests (`npm run test:bundle`, real Vite builds) | **4/4**. Vercel canaries absent, public config and contract version present, secret name refused, NEAR-secret value refused, and the old whole-env pattern is refused by the guard. |
+| Web unit tests (`npm test`) | **182/182** pass. 144 existing + 38 new: controller 24 (simulated), signing gate 5 (simulated), env guard 9. |
+| Bundle tests (`npm run test:bundle`, real Vite builds) | **5/5**, including the Vercel-preview regression test. Vercel canaries absent, public config and contract version present, secret name refused, NEAR-secret value refused, and the old whole-env pattern is refused by the guard. |
 | Shared-schema tests | **25/25** |
 | Production build with demo env | ok. 0 `VITE_VERCEL` strings in the output. |
 | Key-material scan of `dist` | 0 hits (7 files) |

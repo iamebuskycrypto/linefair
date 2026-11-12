@@ -4,7 +4,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { checkBuildEnv, findBundleLeaks, PUBLIC_ENV_KEYS } from "./envGuard.ts";
+import { checkBuildEnv, findBundleLeaks, findEnvAccess, PUBLIC_ENV_KEYS } from "./envGuard.ts";
 import { parseConfig } from "./config.ts";
 
 const PUBLIC = {
@@ -67,9 +67,15 @@ test("bundle leak check: an inlined env object (the old main.tsx pattern) is det
   for (const k of PUBLIC_ENV_KEYS) assert.ok(!leaks.some((l) => l.startsWith(`${k}:`)), `${k} wrongly flagged`);
 });
 
-test("bundle leak check: values of non-public variables are detected even without their names", () => {
-  const leaks = findBundleLeaks(`x="prj_canaryProjectId0001"`, { ...PUBLIC, ...VERCEL });
-  assert.deepEqual(leaks, ["VITE_VERCEL_PROJECT_ID: variable value present in the bundle"]);
+test("source check: whole-object env use and non-public VITE_* reads are refused; the five public reads pass", () => {
+  assert.deepEqual(findEnvAccess("parseConfig(import.meta.env)"), ["import.meta.env is used as a whole object (would inline every VITE_* variable)"]);
+  assert.deepEqual(findEnvAccess("x = import.meta.env.VITE_VERCEL_PROJECT_ID"), ["import.meta.env.VITE_VERCEL_PROJECT_ID is not an allowed public setting"]);
+  assert.deepEqual(findEnvAccess(PUBLIC_ENV_KEYS.map((k) => `import.meta.env.${k}`).join(";") + ";import.meta.env.DEV"), []);
+});
+
+test("regression (Vercel preview failure 2026-11-12): a Vercel value equal to text already in the app is not a leak", () => {
+  const code = `a="https://github.com/iamebuskycrypto/linefair#security"`;
+  assert.deepEqual(findBundleLeaks(code, { ...PUBLIC, VITE_VERCEL_GIT_REPO_OWNER: "iamebuskycrypto", VITE_VERCEL_GIT_REPO_SLUG: "linefair" }), []);
 });
 
 test("bundle leak check: public values, short values and Vite's own placeholder are not leaks", () => {

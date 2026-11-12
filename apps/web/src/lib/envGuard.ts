@@ -4,7 +4,8 @@
 // Vite inlines `import.meta.env.X` into the public JavaScript. main.tsx reads
 // only PUBLIC_ENV_KEYS by name; this guard makes the build FAIL if
 // - any VITE_* variable has a secret-like name or a credential-like value, or
-// - any other VITE_* variable name, or the value of one, appears in the output
+// - app code reads import.meta.env as a whole or a non-public VITE_* key, or
+// - any other VITE_* variable name appears in the output
 //   (e.g. Vercel's "Automatically expose System Environment Variables", which
 //   adds VITE_VERCEL_GIT_COMMIT_AUTHOR_NAME, …_MESSAGE, project/deployment ids).
 // Messages name the variable only, never its value.
@@ -47,17 +48,27 @@ export function checkBuildEnv(env: Env): string[] {
 }
 
 /**
- * Leaks of non-public VITE_* variables in emitted code: their names, or values of 12+ characters
- * (shorter values such as "main" or "production" occur naturally in code and are covered by the name check).
+ * Source-level check (app modules, before Vite inlines values): reading the whole env object, or any
+ * VITE_* variable other than PUBLIC_ENV_KEYS, is refused. This is exact: a value check on the output
+ * gives false positives (Vercel's VITE_VERCEL_GIT_REPO_OWNER equals text in the footer's GitHub link).
  */
+export function findEnvAccess(code: string): string[] {
+  const allowed = new Set<string>(PUBLIC_ENV_KEYS);
+  const errors: string[] = [];
+  for (const m of code.matchAll(/import\.meta\.env(?:\s*\.\s*([A-Za-z_$][\w$]*))?/g)) {
+    const key = m[1];
+    if (key === undefined) errors.push("import.meta.env is used as a whole object (would inline every VITE_* variable)");
+    else if (key.startsWith("VITE_") && !allowed.has(key)) errors.push(`import.meta.env.${key} is not an allowed public setting`);
+  }
+  return errors;
+}
+
+/** Names of non-public VITE_* variables in emitted code (an inlined env object always carries its keys). */
 export function findBundleLeaks(code: string, env: Env): string[] {
   const allowed = new Set<string>(PUBLIC_ENV_KEYS);
-  const publicValues = new Set(PUBLIC_ENV_KEYS.map((k) => env[k]).filter((v): v is string => typeof v === "string" && v !== ""));
   const leaks: string[] = [];
-  for (const [k, v] of viteEntries(env)) {
-    if (allowed.has(k)) continue;
-    if (code.includes(k)) leaks.push(`${k}: variable name present in the bundle`);
-    else if (v.length >= 12 && !publicValues.has(v) && code.includes(v)) leaks.push(`${k}: variable value present in the bundle`);
+  for (const [k] of viteEntries(env)) {
+    if (!allowed.has(k) && code.includes(k)) leaks.push(`${k}: variable name present in the bundle`);
   }
   // Any VITE_* identifier outside the allowlist, even if not in this build's env (e.g. inlined env object).
   // (Vite's internal `__VITE_PRELOAD__` placeholder is excluded by requiring a non-identifier character before.)

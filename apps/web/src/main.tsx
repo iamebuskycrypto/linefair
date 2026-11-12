@@ -8,9 +8,9 @@ import { StartupGate } from "./app/StartupGate.tsx";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 // Only the five public settings are read, each by name: Vite then inlines exactly these values.
-// Passing `import.meta.env` itself would bundle EVERY VITE_* variable present at build time
+// Passing the whole env object would bundle EVERY VITE_* variable present at build time
 // (on Vercel: commit author, commit message, project and deployment ids). vite.config.ts fails
-// the build if any other VITE_* name or value reaches the bundle (envLeakGuard).
+// the build on any other env access or VITE_* name in the bundle (envLeakGuard).
 const cfg = parseConfig({
   VITE_NEAR_NETWORK: import.meta.env.VITE_NEAR_NETWORK,
   VITE_NEAR_RPC_URL: import.meta.env.VITE_NEAR_RPC_URL,
