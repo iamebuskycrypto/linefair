@@ -92,13 +92,13 @@ export function getSelector(): Promise<WalletSelector> {
       const { Buffer } = await import("buffer");
       const g = globalThis as { Buffer?: unknown };
       if (g.Buffer === undefined) g.Buffer = Buffer; // kept: harmless polyfill for the wallet libraries
-      const [{ setupWalletSelector }, { setupIntearWallet }, { setupSenderWallet }, { setupNightly }] = await Promise.all([
+      const [{ setupWalletSelector }, { setupIntearWallet }, { setupSender }, { setupNightly }] = await Promise.all([
         import("@near-wallet-selector/core"),
         import("@near-wallet-selector/intear-wallet"),
         import("@near-wallet-selector/sender-wallet"),
         import("@near-wallet-selector/nightly"),
       ]);
-      return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet(), setupSenderWallet(), setupNightly()] });
+      return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet(), setupSender(), setupNightly()] });
     })();
     selectorPromise.catch(() => {
       selectorPromise = null;
