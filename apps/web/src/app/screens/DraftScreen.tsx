@@ -171,11 +171,16 @@ export function DraftScreen() {
   return (
     <>
       <div className="page-head">
-        <h1>New agreement</h1>
+        <span className="eyebrow">Advanced testnet creation</span>
+        <h1>Plan the work, line by line.</h1>
         <p className="lede">
-          Name the four parties, set the timeline, and price up to three deliverables. Every party later accepts exactly these terms,
-          identified by the hash on the right.
+          Set who is involved, when work is due, and what each deliverable is worth. Agreement creation is currently limited to approved testnet accounts.
         </p>
+      </div>
+
+      <div className="draft-orientation" role="note">
+        <strong>Just exploring?</strong> View the real settled agreement without filling out this advanced form or connecting a wallet.
+        <a href="#/agreements/0">See the live demo ↗</a>
       </div>
 
       {load.state === "loading" && (
@@ -208,18 +213,18 @@ export function DraftScreen() {
 
             <section className="panel" aria-labelledby="parties-h" style={{ marginTop: "var(--s2)" }}>
               <div className="panel-head">
-                <h2 id="parties-h">Parties</h2>
+                <h2 id="parties-h">1. Who is involved?</h2>
                 <button className="button quiet" type="button" onClick={() => { setDraft(goldenSampleDraft()); setTouched(true); setSubmit({ state: "idle" }); }}>
-                  Load sample terms
+                  Load developer sample
                 </button>
               </div>
               <div className="grid-2">
                 {(
                   [
-                    ["buyer", "Buyer", "Funds each line and reviews delivery."],
-                    ["supplier", "Supplier", "Delivers and is paid per accepted line."],
-                    ["primary", "Primary arbitrator", "Decides a disputed line inside the primary window."],
-                    ["backup", "Backup arbitrator", "Decides only if the primary does not."],
+                    ["buyer", "Client (buyer)", "Commissions the work, funds each deliverable and reviews delivery."],
+                    ["supplier", "Service provider", "Delivers the work and receives accepted payments."],
+                    ["primary", "Primary dispute resolver", "An appointed NEAR account that can rule on disputes within its window."],
+                    ["backup", "Backup dispute resolver", "A different appointed account if the primary cannot act."],
                   ] as const
                 ).map(([k, label, hint]) => (
                   <Field key={k} id={`f-${k}`} label={label} hint={hint} error={err(k)}>
@@ -242,16 +247,20 @@ export function DraftScreen() {
 
             <section className="panel" aria-labelledby="timeline-h">
               <div className="panel-head">
-                <h2 id="timeline-h">Timeline</h2>
-                <span className="small muted">All times UTC</span>
+                <h2 id="timeline-h">2. When should it happen?</h2>
+                <span className="small muted">All dates and times UTC</span>
               </div>
               <div className="grid-2">
-                <Field id="f-acc" label="Acceptance deadline" hint="All four parties must accept before this." error={err("acceptanceDeadline")}>
+                <Field id="f-acc" label="Agree to the terms by" hint="All four people must accept the same terms by this date." error={err("acceptanceDeadline")}>
                   {(a) => <input {...a} type="datetime-local" value={draft.acceptanceDeadline} onChange={(e) => set("acceptanceDeadline", e.target.value)} />}
                 </Field>
-                <Field id="f-fund" label="Funding deadline" hint="The buyer funds each line before this." error={err("fundingDeadline")}>
+                <Field id="f-fund" label="Fund the deliverables by" hint="The client sends each test payment before this date." error={err("fundingDeadline")}>
                   {(a) => <input {...a} type="datetime-local" value={draft.fundingDeadline} onChange={(e) => set("fundingDeadline", e.target.value)} />}
                 </Field>
+                <details className="draft-advanced">
+                  <summary>Advanced dispute windows and timing <span className="small muted">Defaults are prefilled</span></summary>
+                  <p className="small muted draft-advanced-help">These settings control how long each review, negotiation and dispute-resolution stage lasts. They become part of the agreed terms.</p>
+                  <div className="grid-2">
                 {(
                   [
                     ["graceMinutes", "Delivery grace period", "Extra time after each delivery deadline (0 to 30 days)."],
@@ -268,12 +277,14 @@ export function DraftScreen() {
                 <Field id="f-nonce" label="Agreement nonce" hint="Change it to register otherwise identical terms." error={err("nonce")}>
                   {(a) => <input {...a} inputMode="numeric" value={draft.nonce} onChange={(e) => set("nonce", e.target.value)} />}
                 </Field>
+                  </div>
+                </details>
               </div>
             </section>
 
             <section className="panel" aria-labelledby="lines-h">
               <div className="panel-head">
-                <h2 id="lines-h">Lines</h2>
+                <h2 id="lines-h">3. What will be delivered?</h2>
                 <span className="small muted">{draft.lines.length} of {MAX_DRAFT_LINES}</span>
               </div>
               {draft.lines.map((l, i) => (
@@ -296,7 +307,7 @@ export function DraftScreen() {
                   disabled={draft.lines.length >= MAX_DRAFT_LINES}
                   onClick={() => set("lines", [...draft.lines, emptyLine()])}
                 >
-                  Add line
+                  Add deliverable
                 </button>
               </div>
             </section>
@@ -305,7 +316,7 @@ export function DraftScreen() {
           <aside className="sticky" aria-labelledby="terms-h">
             <div className="panel">
               <div className="panel-head">
-                <h2 id="terms-h">Canonical terms</h2>
+                <h2 id="terms-h">Review agreement</h2>
               </div>
               <TermsSummary evaluation={evaluation} pc={pc} />
               <div style={{ marginTop: "var(--s3)" }}>
@@ -353,7 +364,7 @@ function LineEditor(props: {
   return (
     <div className="line-card">
       <header>
-        <h3>Line {i + 1}</h3>
+        <h3>Deliverable {i + 1}</h3>
         {props.onRemove !== undefined && (
           <button className="button quiet" type="button" onClick={props.onRemove}>
             Remove
@@ -370,8 +381,8 @@ function LineEditor(props: {
       </div>
       <Field
         id={`l${i}-com`}
-        label="Acceptance-criteria commitment"
-        hint="Salted SHA-256 commitment of the written criteria (64 lowercase hex). Only this digest goes on chain; the criteria text never does."
+        label="Proof of the agreed acceptance criteria"
+        hint="Advanced: 64 lowercase hexadecimal characters. Prepare a salted SHA-256 digest of written acceptance criteria externally, and save the criteria and salt privately. This form cannot generate that proof yet."
         error={err(`lines.${i}.commitment`)}
       >
         {(a) => (
@@ -381,7 +392,7 @@ function LineEditor(props: {
       <div className="grid-2">
         <Field
           id={`l${i}-bps`}
-          label="Supplier share if neither arbitrator decides (%)"
+          label="Service provider's fallback share (%)"
           hint={sbps === null ? "0 to 100" : `Buyer receives ${formatBps(10_000 - sbps)}.`}
           error={err(`lines.${i}.supplierPercent`)}
         >
