@@ -44,6 +44,12 @@ export interface WalletView {
 export interface WalletPort {
   /** Raw Intear session value from localStorage (null if absent). */
   readSession(): string | null;
+  /** Optional wallet-specific session validation. Intear's original check remains the default. */
+  validateSession?(): { ok: true; accountId: string } | { ok: false; reason: string };
+  /** Alternate wallet connections may use another session structure. */
+  isIntearWallet?(): boolean;
+  /** Select a wallet before a new connection, without changing existing sessions. */
+  selectWallet?(walletId: string): void;
   /**
    * Remove LineFair's local wallet session records only (Intear session + selector selection) and,
    * once the library is running, reset its in-memory state without contacting the wallet.
@@ -184,7 +190,7 @@ export class WalletController {
 
   /** Validated account for the current stored session, or null (with the reason). */
   private sessionAccount(): { ok: true; accountId: string } | { ok: false; reason: string } {
-    const r = checkIntearSession(this.port.readSession());
+    const r = this.port.validateSession?.() ?? checkIntearSession(this.port.readSession());
     return r.ok ? { ok: true, accountId: r.accountId } : { ok: false, reason: r.reason };
   }
 
@@ -210,7 +216,7 @@ export class WalletController {
     const epoch = ++this.epoch;
     this.set({ status: "initializing" });
     let notice: WalletNotice | null = null;
-    if (isMalformedSession(this.port.readSession())) {
+    if (this.port.isIntearWallet?.() !== false && isMalformedSession(this.port.readSession())) {
       await this.port.clearLocalSession();
       notice = { kind: "warning", text: MESSAGES.malformedSession };
     }
@@ -260,9 +266,13 @@ export class WalletController {
     this.set({ status: "connected", accountId: storeId, notice: changed ? { kind: "warning", text: MESSAGES.accountChanged(storeId) } : null });
   }
 
-  connect = async (): Promise<void> => {
+  connect = async (walletId?: string): Promise<void> => {
     const st = this.view.status;
     if (st === "connecting" || st === "disconnecting" || st === "connected" || this.disposed) return;
+    if (walletId !== undefined) {
+      try { this.port.selectWallet?.(walletId); }
+      catch { this.set({ status: "disconnected", accountId: null, notice: { kind: "error", text: "That wallet is unavailable. Choose one of the supported wallets." } }); return; }
+    }
     if (st === "unavailable" || st === "initializing") {
       await this.start();
       if (this.view.status !== "disconnected") return; // restored, or still unavailable (notice shown)
