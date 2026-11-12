@@ -41,7 +41,9 @@ type Load =
     };
 
 export function AgreementScreen({ id }: { id: string }) {
-  const { config, rpc, deployment } = useApp();
+  const { config, rpc, deployment, wallet } = useApp();
+  const [showActions, setShowActions] = useState(false);
+  const actionsVisible = showActions || wallet.accountId !== null;
   const [load, setLoad] = useState<Load>({ state: "loading" });
   const [reads, setReads] = useState(0);
   const refresh = useCallback(() => setReads((n) => n + 1), []);
@@ -226,7 +228,7 @@ export function AgreementScreen({ id }: { id: string }) {
         </Notice>
       )}
 
-      {acceptanceFirst && acceptance}
+      {acceptanceFirst && actionsVisible && acceptance}
 
       <div className="agreement-guide" role="note">
         <div>
@@ -235,6 +237,17 @@ export function AgreementScreen({ id }: { id: string }) {
         </div>
         <button className="button secondary" type="button" onClick={() => document.getElementById("agreement-deliverables")?.scrollIntoView({ behavior: "smooth", block: "start" })}>View deliverables ↓</button>
       </div>
+      {wallet.accountId === null && (
+        <div className="agreement-action-toggle">
+          <div>
+            <strong>{showActions ? "Agreement actions and technical controls are visible" : "You're exploring this agreement in read-only mode"}</strong>
+            <p>{showActions ? "Transactions still require a valid connected role, the contract's prechecks, and explicit wallet approval." : "You can read every outcome without a wallet. Show actions only if you're working on this agreement."}</p>
+          </div>
+          <button className="button secondary" type="button" aria-expanded={showActions} onClick={() => setShowActions((v) => !v)}>
+            {showActions ? "Hide actions" : "Show agreement actions"}
+          </button>
+        </div>
+      )}
 
       <div className="section-head" id="agreement-deliverables">
         <h2>Deliverables, one by one</h2>
@@ -294,7 +307,7 @@ export function AgreementScreen({ id }: { id: string }) {
                 {l.no_response_t0_ns !== null && (<div><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.no_response_t0_ns))} (review deadline)</dd></div>)}
                 {l.non_delivery_t0_ns !== null && (<div><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.non_delivery_t0_ns))} (delivery cutoff)</dd></div>)}
               </dl>
-              <LineLifecycle a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} check={load.check} nowNs={load.nowNs} onRefresh={refresh} />
+              {actionsVisible && <LineLifecycle a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} check={load.check} nowNs={load.nowNs} onRefresh={refresh} />}
               {showSlots && load.verified && s.key === "paid_out" ? (
                 <details className="tech line-payment-history">
                   <summary>View confirmed payment records</summary>
@@ -302,13 +315,13 @@ export function AgreementScreen({ id }: { id: string }) {
                     <WithdrawalPanel a={a} line={l} decimals={decimals} symbol={symbol} onRefresh={refresh} />
                   </div>
                 </details>
-              ) : showSlots && load.verified ? (
+              ) : showSlots && load.verified && actionsVisible ? (
                 <WithdrawalPanel a={a} line={l} decimals={decimals} symbol={symbol} onRefresh={refresh} />
               ) : null}
               {showSlots && !load.verified && (
                 <p className="small muted">Withdrawals are hidden because the terms could not be verified.</p>
               )}
-              {l.status === "DISPUTED" && load.verified && (
+              {l.status === "DISPUTED" && load.verified && actionsVisible && (
                 <ArbitrationPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} onRefresh={refresh} />
               )}
               {settle && load.verified && l.status === "ALLOCATED" && (
@@ -319,7 +332,7 @@ export function AgreementScreen({ id }: { id: string }) {
                   </div>
                 </details>
               )}
-              {settle && load.verified && l.status !== "ALLOCATED" && (
+              {settle && load.verified && actionsVisible && l.status !== "ALLOCATED" && (
                 <SettlementPanel a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} nowNs={load.nowNs} onRefresh={refresh} />
               )}
             </div>
@@ -327,7 +340,7 @@ export function AgreementScreen({ id }: { id: string }) {
         );
       })}
 
-      {!acceptanceFirst && (
+      {!acceptanceFirst && actionsVisible && (
         <>
           <div className="section-head">
             <h2>Parties</h2>
