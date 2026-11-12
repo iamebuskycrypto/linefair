@@ -8,6 +8,7 @@ test("defaults: testnet, public RPC, no contract configured", () => {
   assert.ok(r.ok);
   assert.equal(r.config.network, "testnet");
   assert.equal(r.config.rpcUrl, DEFAULTS.rpcUrl);
+  assert.equal(DEFAULTS.rpcUrl, "https://rpc.testnet.fastnear.com");
   assert.equal(r.config.escrowId, "");
   assert.equal(r.config.ftId, "");
   assert.equal(explorerTxUrl(r.config, "abc"), "https://testnet.nearblocks.io/txns/abc");
@@ -17,6 +18,7 @@ test("mainnet and non-testnet endpoints are refused", () => {
   assert.equal(parseConfig({ VITE_NEAR_NETWORK: "mainnet" }).ok, false);
   assert.equal(parseConfig({ VITE_NEAR_NETWORK: "sandbox" }).ok, false);
   assert.equal(parseConfig({ VITE_NEAR_RPC_URL: "https://rpc.mainnet.near.org" }).ok, false);
+  assert.equal(parseConfig({ VITE_NEAR_RPC_URL: "https://rpc.mainnet.fastnear.com" }).ok, false);
   assert.equal(parseConfig({ VITE_NEAR_RPC_URL: "http://rpc.testnet.near.org" }).ok, false);
   assert.equal(parseConfig({ VITE_NEAR_RPC_URL: "https://rpc.testnet.near.org?apikey=x" }).ok, false);
   assert.equal(parseConfig({ VITE_NEAR_RPC_URL: "not a url" }).ok, false);

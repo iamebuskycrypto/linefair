@@ -9,7 +9,7 @@ export interface AppConfig {
   readonly network: "testnet";
   readonly rpcUrl: string;
   readonly explorerUrl: string;
-  /** Escrow contract account. Empty: no contract configured (nothing is deployed yet). */
+  /** Escrow contract account. Empty: no escrow contract configured (read-only local preview). */
   readonly escrowId: string;
   /** Allowlisted NEP-141 test token account. Empty until configured. */
   readonly ftId: string;
@@ -19,7 +19,7 @@ export type ConfigResult = { ok: true; config: AppConfig } | { ok: false; errors
 
 export const DEFAULTS = {
   network: "testnet",
-  rpcUrl: "https://rpc.testnet.near.org",
+  rpcUrl: "https://rpc.testnet.fastnear.com",
   explorerUrl: "https://testnet.nearblocks.io",
   escrowId: "",
   ftId: "",

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "LineFair web app (NEAR testnet only). Not deployed.",
+  "description": "LineFair experimental NEAR testnet web frontend (no real-value use).",
   "license": "MIT",
   "engines": {
     "node": ">=24.15.0"

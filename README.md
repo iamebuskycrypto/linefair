@@ -40,7 +40,7 @@ cd apps/web
 npm ci --ignore-scripts
 cp .env.example .env
 # set in .env:
-#   VITE_NEAR_RPC_URL=https://test.rpc.fastnear.com
+#   VITE_NEAR_RPC_URL=https://rpc.testnet.fastnear.com
 #   VITE_ESCROW_ID=escrow2.ebusky-linefair.testnet
 #   VITE_FT_ID=demo-ft.ebusky-linefair.testnet
 npm run dev:local
