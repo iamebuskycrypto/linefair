@@ -64,7 +64,7 @@ export function AgreementsScreen() {
           </p>
           <div className="home-hero-actions">
             <a className="button home-primary-cta" href="#/agreements/0">See a real settled agreement <span aria-hidden="true">↗</span></a>
-            <a className="home-text-link" href="#how-linefair-works">How it works <span aria-hidden="true">↓</span></a>
+            <button className="home-text-link" type="button" onClick={() => document.getElementById("how-linefair-works")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })}>How it works <span aria-hidden="true">↓</span></button>
           </div>
           <p className="home-hero-disclaimer">Live NEAR Testnet demo · valueless test tokens · experimental, not independently audited. Creating new agreements is currently restricted.</p>
         </div>
