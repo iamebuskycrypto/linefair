@@ -122,8 +122,8 @@ export function AgreementsScreen() {
         <span className="eyebrow">Live contract records</span>
         <div className="home-records-title">
           <div>
-            <h2>Agreements</h2>
-            <p>Actual state from the NEAR Testnet escrow. Browse records and verify each outcome.</p>
+            <h2>Explore the records</h2>
+            <p>Choose an agreement to see what was funded, decided and actually paid.</p>
           </div>
           <a className="home-records-link" href="#/agreements/0">Explore agreement #0 <span aria-hidden="true">↗</span></a>
         </div>
@@ -157,40 +157,32 @@ export function AgreementsScreen() {
           <p>Check the network connection and the configured contract account, then reload.</p>
         </Notice>
       ) : (
-        <div className="panel">
-          <div className="panel-head">
-            <h2>{load.items.length === 0 ? "No agreements yet" : `${load.items.length} agreement${load.items.length === 1 ? "" : "s"}`}</h2>
-            <span className="small muted num">Read at block {load.blockHeight.toString()}</span>
+        <section className="home-records" aria-label="Live on-chain agreements">
+          <div className="home-records-toolbar">
+            <p>{load.items.length === 0 ? "No agreements are recorded yet." : `${load.items.length} on-chain agreement${load.items.length === 1 ? "" : "s"}`}</p>
+            <details className="home-records-source">
+              <summary>Data source</summary>
+              <p>Read directly from the verified NEAR Testnet contract at block <span className="num">{load.blockHeight.toString()}</span>. Refresh the page to fetch its latest state.</p>
+            </details>
           </div>
-          {load.items.length > 0 && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Agreement</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Lines</th>
-                  <th scope="col">Your role</th>
-                  <th scope="col">Created</th>
-                </tr>
-              </thead>
-              <tbody>
-                {load.items.map((a) => (
-                  <tr key={a.agreement_id}>
-                    <td>
-                      <a href={`#/agreements/${a.agreement_id}`}>Agreement #{a.agreement_id}</a>
-                    </td>
-                    <td>
-                      <Status state={agreementSummaryLabel(a)} />
-                    </td>
-                    <td className="num">{a.lines.length}</td>
-                    <td>{roleOf(a) ?? <span className="muted">—</span>}</td>
-                    <td className="small num">{formatNsUtc(u128(a.created_at_ns))}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+          <div className="home-records-grid">
+            {load.items.map((a) => (
+              <a className="home-record-card" href={`#/agreements/${a.agreement_id}`} key={a.agreement_id}>
+                <div className="home-record-card-top">
+                  <span className="eyebrow">On-chain agreement</span>
+                  <span aria-hidden="true" className="home-record-arrow">↗</span>
+                </div>
+                <h3>Agreement #{a.agreement_id}</h3>
+                <Status state={agreementSummaryLabel(a)} />
+                <div className="home-record-card-bottom">
+                  <span>{a.lines.length} deliverable{a.lines.length === 1 ? "" : "s"}</span>
+                  {roleOf(a) !== null && <span>Your role: {roleOf(a)}</span>}
+                </div>
+                <span className="home-record-date">Created {formatNsUtc(u128(a.created_at_ns))}</span>
+              </a>
+            ))}
+          </div>
+        </section>
       )}
     </>
   );
