@@ -665,3 +665,58 @@ details.tech.page-tech { margin-top: var(--s3); background: transparent; }
   .home-how-steps li { padding: 18px; }
   .home-records-head { padding-top: 26px; }
 }
+
+
+/* ---------- UX clarity pass: progressive disclosure + human-first records ---------- */
+.home-records { display: grid; gap: 17px; }
+.home-records-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; color: var(--ink-2); font-size: .86rem; }
+.home-records-source { max-width: 420px; position: relative; }
+.home-records-source summary { color: var(--accent-ink); font-weight: 600; cursor: pointer; text-underline-offset: 3px; }
+.home-records-source p { font-size: .8rem; margin-top: 7px; color: var(--ink-3); overflow-wrap: anywhere; }
+.home-records-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px; }
+.home-record-card { display: grid; align-content: start; justify-items: start; gap: 11px; min-width: 0; padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); color: var(--ink); text-decoration: none; transition: border-color .15s, transform .15s, box-shadow .15s; }
+.home-record-card:hover { color: var(--ink); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(19,34,29,.08); }
+.home-record-card:focus-visible { outline-offset: 3px; }
+.home-record-card-top { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.home-record-arrow { color: var(--accent-ink); font-size: 1.15rem; }
+.home-record-card h3 { font-family: var(--display); font-size: 1.45rem; letter-spacing: -.025em; }
+.home-record-card-bottom { display: flex; flex-wrap: wrap; gap: 8px 13px; color: var(--ink-2); font-size: .87rem; margin-top: 8px; }
+.home-record-date { font-size: .73rem; color: var(--ink-3); }
+
+.draft-orientation { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px 8px; margin-bottom: 20px; padding: 15px 18px; background: var(--tint-info); border: 1px solid #cedde7; border-radius: 12px; color: var(--ink-2); font-size: .88rem; line-height: 1.6; }
+.draft-orientation strong { color: var(--ink); }
+.draft-orientation a { font-weight: 700; }
+.draft-advanced { grid-column: 1 / -1; border: 1px solid var(--border); background: var(--surface-2); border-radius: 12px; min-width: 0; }
+.draft-advanced > summary { cursor: pointer; padding: 15px 17px; font-size: .92rem; font-weight: 650; min-height: 48px; }
+.draft-advanced > summary .small { font-weight: 400; margin-left: 8px; }
+.draft-advanced[open] > summary { border-bottom: 1px solid var(--border); }
+.draft-advanced-help { padding: 14px 17px 0; }
+.draft-advanced > .grid-2 { padding: 16px 17px 20px; }
+.draft-advanced .field { min-width: 0; }
+
+.agreement-guide { display: flex; justify-content: space-between; align-items: center; gap: 16px 28px; flex-wrap: wrap; background: var(--tint-positive); border: 1px solid #cee8da; border-radius: 14px; padding: 20px 23px; margin: -8px 0 30px; }
+.agreement-guide > div { flex: 1 1 300px; }
+.agreement-guide strong { font-weight: 750; }
+.agreement-guide p { max-width: 69ch; color: var(--ink-2); font-size: .89rem; margin-top: 4px; }
+#agreement-deliverables { scroll-margin-top: 115px; }
+.overview-block-info { font-size: .8rem; }
+.overview-block-info summary { cursor: pointer; color: var(--accent-ink); }
+.overview-block-info span { display: block; padding: 5px 0 3px; }
+.line-status-explanation { display: grid; gap: 5px; background: var(--surface-2); padding: 13px 22px; border-top: 1px solid var(--border); }
+.line-status-explanation .eyebrow { font-size: .65rem; }
+.line-status-explanation p { color: var(--ink-2); font-size: .88rem; line-height: 1.5; }
+.line-payment-history { margin-top: 14px; }
+.line-payment-history .withdrawals { border-top: 0; }
+.line-payment-history .tech-body { padding: 0 16px 16px; }
+@media (max-width: 600px) {
+  .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nav a { font-size: .82rem; padding: 6px 3px; }
+  .home-record-card { padding: 19px; }
+  .draft-advanced > summary .small { display: block; margin-left: 0; margin-top: 2px; }
+  .agreement-guide { margin-top: 0; padding: 16px; }
+  .agreement-guide .button { width: 100%; }
+  .line-status-explanation { padding: 12px 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-record-card:hover { transform: none; }
+}
