@@ -148,10 +148,10 @@ export function AgreementScreen({ id }: { id: string }) {
   const acceptance = <AcceptancePanel a={a} check={load.check} validationIssue={load.validationIssue} nowNs={load.nowNs} onRefresh={refresh} />;
   return (
     <>
-      <a className="back-link" href="#/">← All agreements</a>
+      <a className="back-link" href="#/">← Back to home</a>
       <section className="overview" aria-labelledby="agreement-title">
         <div className="overview-top">
-          <span className="eyebrow">Service agreement · {items.length} {items.length === 1 ? "deliverable" : "deliverables"}</span>
+          <span className="eyebrow">On-chain record · {items.length} {items.length === 1 ? "deliverable" : "deliverables"}</span>
           <div className="overview-title">
             <h1 id="agreement-title">Agreement #{a.agreement_id}</h1>
             <Status state={st} />
@@ -159,35 +159,39 @@ export function AgreementScreen({ id }: { id: string }) {
           </div>
           {st.detail !== undefined && <p className="lede">{st.detail}</p>}
           <div className="overview-meta">
-            <span className="num">Read at block {load.blockHeight.toString()}</span>
-            <button className="button quiet" type="button" onClick={refresh}>Re-read</button>
+            <span className="small muted">Live NEAR Testnet data</span>
+            <button className="button quiet" type="button" onClick={refresh}>Refresh status</button>
+            <details className="overview-block-info">
+              <summary>Block details</summary>
+              <span className="num">Read at block {load.blockHeight.toString()}</span>
+            </details>
           </div>
         </div>
         <dl className="metrics">
           <div className="metric">
-            <dt>Agreement value</dt>
+            <dt>Total agreed</dt>
             <dd><Amount base={total} decimals={decimals} symbol={symbol} /></dd>
             <span className="sub">across {items.length} independent {items.length === 1 ? "line" : "lines"}</span>
           </div>
           <div className="metric">
-            <dt>Paid out</dt>
+            <dt>Payments completed</dt>
             <dd><Amount base={paid} decimals={decimals} symbol={symbol} /></dd>
             <span className="sub">confirmed by the contract</span>
           </div>
           <div className="metric">
-            <dt>Held in escrow</dt>
+            <dt>Not yet paid</dt>
             <dd><Amount base={held} decimals={decimals} symbol={symbol} /></dd>
             <span className="sub">locked, claimable or processing</span>
           </div>
           <div className="metric">
-            <dt>Lines paid out</dt>
+            <dt>Deliverables completed</dt>
             <dd className="num">{settledCount}<span className="unit">of {items.length}</span></dd>
             <span className="sub">fully settled and paid</span>
           </div>
         </dl>
         <div className="progress-block">
           <div className="progress-head">
-            <h2>Settlement by line</h2>
+            <h2>Progress by deliverable</h2>
             {paid > 0n && (
               <p className="parties-paid">
                 <span>Supplier received <strong><Amount base={paidSupplier} decimals={decimals} symbol={symbol} /></strong></span>
@@ -224,9 +228,17 @@ export function AgreementScreen({ id }: { id: string }) {
 
       {acceptanceFirst && acceptance}
 
-      <div className="section-head">
-        <h2>Deliverables</h2>
-        <span className="small muted">Each line is funded, reviewed and settled on its own.</span>
+      <div className="agreement-guide" role="note">
+        <div>
+          <strong>How to read this agreement</strong>
+          <p>Each deliverable can have a different outcome. Payment is only marked complete after the contract confirms the transfer.</p>
+        </div>
+        <button className="button secondary" type="button" onClick={() => document.getElementById("agreement-deliverables")?.scrollIntoView({ behavior: "smooth", block: "start" })}>View deliverables ↓</button>
+      </div>
+
+      <div className="section-head" id="agreement-deliverables">
+        <h2>Deliverables, one by one</h2>
+        <span className="small muted">Choose a line to understand its status and the available next steps.</span>
       </div>
 
       {items.map(({ l, t, principal, s, rows }) => {
@@ -237,15 +249,33 @@ export function AgreementScreen({ id }: { id: string }) {
             <div className="deliverable-head">
               <div className="titles">
                 <div className="actions">
-                  <h2 id={`line-${l.line_id}`}>Line {l.line_id + 1}</h2>
+                  <h2 id={`line-${l.line_id}`}>Deliverable {l.line_id + 1}</h2>
                   <Status state={s} />
                 </div>
                 {s.detail !== undefined && <p className="small muted">{s.detail}</p>}
               </div>
               <div className="deliverable-amount">
-                <span className="label">Line amount</span>
+                <span className="label">Agreed amount</span>
                 <span className="value"><Amount base={principal} decimals={decimals} symbol={symbol} /></span>
               </div>
+            </div>
+            <div className="line-status-explanation">
+              <span className="eyebrow">What this means</span>
+              <p>{s.tone === "negative"
+                ? s.detail ?? "This record needs attention. Do not initiate payments."
+                : l.status === "UNFUNDED"
+                  ? "No test tokens are secured for this deliverable yet. The client must fund it before payment is protected."
+                  : l.status === "FUNDED"
+                    ? "Test tokens are held in escrow. The service provider can submit the work before the agreed deadline."
+                    : l.status === "SUBMITTED"
+                      ? "The work was submitted. The client can accept it or begin a dispute during the review period."
+                      : l.status === "DISPUTED"
+                        ? "This deliverable is disputed. Only its funds are subject to the agreed resolution process."
+                        : l.status === "ALLOCATED" && s.key === "paid_out"
+                          ? "Completed: the contract has confirmed payment of every allocated share."
+                          : l.status === "ALLOCATED"
+                            ? "A decision was recorded. Allocated funds are not considered paid until each withdrawal is confirmed."
+                            : "See the contract-reported status before taking any action."}</p>
             </div>
             <div className="deliverable-body">
               {l.status === "ALLOCATED" && <OutcomeBand line={l} principal={principal} decimals={decimals} symbol={symbol} />}
@@ -265,9 +295,16 @@ export function AgreementScreen({ id }: { id: string }) {
                 {l.non_delivery_t0_ns !== null && (<div><dt>Dispute T0</dt><dd className="num">{formatNsUtc(u128(l.non_delivery_t0_ns))} (delivery cutoff)</dd></div>)}
               </dl>
               <LineLifecycle a={a} line={l} principal={principal} decimals={decimals} symbol={symbol} check={load.check} nowNs={load.nowNs} onRefresh={refresh} />
-              {showSlots && load.verified && (
+              {showSlots && load.verified && s.key === "paid_out" ? (
+                <details className="tech line-payment-history">
+                  <summary>View confirmed payment records</summary>
+                  <div className="tech-body">
+                    <WithdrawalPanel a={a} line={l} decimals={decimals} symbol={symbol} onRefresh={refresh} />
+                  </div>
+                </details>
+              ) : showSlots && load.verified ? (
                 <WithdrawalPanel a={a} line={l} decimals={decimals} symbol={symbol} onRefresh={refresh} />
-              )}
+              ) : null}
               {showSlots && !load.verified && (
                 <p className="small muted">Withdrawals are hidden because the terms could not be verified.</p>
               )}
@@ -301,7 +338,7 @@ export function AgreementScreen({ id }: { id: string }) {
       )}
 
       <details className="tech page-tech">
-        <summary>Technical details</summary>
+        <summary>Technical details and verification</summary>
         <div className="tech-body">
           <dl className="kv">
             <dt>Escrow contract</dt><dd className="mono">{config.escrowId}</dd>
