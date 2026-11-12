@@ -77,7 +77,7 @@ function ctx(accountId: string | null): AppContextValue {
   return {
     config: { network: "testnet", rpcUrl: "https://rpc.testnet.near.org", explorerUrl: "https://testnet.nearblocks.io", escrowId: "escrow.testnet", ftId: "ft.testnet" },
     rpc: offlineRpc,
-    wallet: { accountId, status: "ready", connect() {}, disconnect() {} },
+    wallet: { accountId, status: accountId === null ? "disconnected" : "connected", notice: null, connect() {}, disconnect() {}, dismissNotice() {} },
     deployment: null,
   };
 }

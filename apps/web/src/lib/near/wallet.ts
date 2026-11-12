@@ -32,7 +32,8 @@
 
 import type { WalletSelector, FinalExecutionOutcome, InjectedWallet } from "@near-wallet-selector/core";
 import type { FunctionCallSpec } from "./tx.ts";
-import { checkIntearSession, installIntearMessageGuard, INTEAR_STORAGE_KEY } from "./intearGuard.ts";
+import { checkIntearSession, installIntearMessageGuard, INTEAR_ORIGIN, INTEAR_STORAGE_KEY } from "./intearGuard.ts";
+import type { WalletPort } from "./walletController.ts";
 
 export const WALLET_MODULE_ID = "intear-wallet";
 
@@ -76,32 +77,74 @@ export function activeAccountId(selector: WalletSelector): string | null {
   return accounts.find((a) => a.active)?.accountId ?? accounts[0]?.accountId ?? null;
 }
 
-export function subscribeAccount(selector: WalletSelector, onChange: (accountId: string | null) => void): () => void {
-  const sub = selector.store.observable.subscribe(() => onChange(activeAccountId(selector)));
-  return () => sub.unsubscribe();
+/** Wallet-selector 10.1.4 storage keys (JsonStorage namespace "near-wallet-selector", ":" delimiter). */
+export const SELECTOR_SESSION_KEYS = [
+  "near-wallet-selector:selectedWalletId",
+  "near-wallet-selector:selectedWalletId:pending",
+  "near-wallet-selector:contract",
+  "near-wallet-selector:contract:pending",
+] as const;
+
+/** The Intear connector overlay added by intear-wallet 10.1.4 signIn(). */
+function connectorFrames(): HTMLIFrameElement[] {
+  return [...document.querySelectorAll("iframe")].filter((f) => f.src.startsWith(`${INTEAR_ORIGIN}/wallet-connector-iframe.html`));
 }
 
-export async function connect(): Promise<string | null> {
-  const selector = await getSelector();
-  const wallet = await selector.wallet<InjectedWallet>(WALLET_MODULE_ID); // intear-wallet 10.1.4 is typed as InjectedWallet
-  const accounts = await wallet.signIn({});
-  const session = checkIntearSession(globalThis.localStorage?.getItem(INTEAR_STORAGE_KEY) ?? null);
-  if (!session.ok) {
-    await wallet.signOut().catch(() => undefined);
-    throw new Error(`Wallet connection refused: ${session.reason}`);
-  }
-  if (accounts[0] !== undefined && accounts[0].accountId !== session.accountId) {
-    await wallet.signOut().catch(() => undefined);
-    throw new Error("Wallet connection refused: the reported account does not match the stored session.");
-  }
-  return session.accountId;
-}
-
-export async function disconnect(): Promise<void> {
-  const selector = await getSelector();
-  if (!selector.isSignedIn()) return;
-  const wallet = await selector.wallet();
-  await wallet.signOut();
+/** Real WalletPort over the wallet selector (walletController.ts). */
+export function createWalletPort(): WalletPort {
+  let selector: WalletSelector | null = null;
+  let opened = false;
+  const storage = (): Storage | null => {
+    try {
+      return globalThis.localStorage ?? null;
+    } catch {
+      return null;
+    }
+  };
+  return {
+    readSession: () => storage()?.getItem(INTEAR_STORAGE_KEY) ?? null,
+    async clearLocalSession() {
+      const st = storage();
+      st?.removeItem(INTEAR_STORAGE_KEY);
+      for (const k of SELECTOR_SESSION_KEYS) st?.removeItem(k);
+      // With the Intear record gone, the module's signOut returns without any network call and the
+      // selector marks the wallet signed out in memory.
+      if (selector !== null && selector.isSignedIn()) {
+        const wallet = await selector.wallet(WALLET_MODULE_ID);
+        await wallet.signOut();
+      }
+    },
+    async init() {
+      selector = await getSelector();
+    },
+    storeAccount: () => (selector === null ? null : activeAccountId(selector)),
+    subscribe(onChange) {
+      if (selector === null) return () => undefined;
+      const sub = selector.store.observable.subscribe(() => onChange());
+      return () => sub.unsubscribe();
+    },
+    async signIn() {
+      const s = selector ?? (selector = await getSelector());
+      const wallet = await s.wallet<InjectedWallet>(WALLET_MODULE_ID); // intear-wallet 10.1.4 is typed as InjectedWallet
+      opened = false;
+      const pending = wallet.signIn({});
+      // intear-wallet 10.1.4 appends its connector iframe synchronously inside signIn().
+      opened = connectorFrames().length > 0;
+      const accounts = await pending;
+      return accounts[0]?.accountId ?? null;
+    },
+    async signOut() {
+      const s = selector ?? (selector = await getSelector());
+      // Always the Intear module (not "the selected wallet"), so a stale Intear record is cleared too.
+      const wallet = await s.wallet(WALLET_MODULE_ID);
+      await wallet.signOut();
+    },
+    connectorOpen: () => connectorFrames().length > 0,
+    connectorWasOpened: () => opened,
+    closeConnector() {
+      for (const f of connectorFrames()) f.remove();
+    },
+  };
 }
 
 /**
@@ -110,9 +153,10 @@ export async function disconnect(): Promise<void> {
  * re-reading contract state (ARCHITECTURE.md §6.4), never by this return value.
  */
 export async function signAndSend(signerId: string, call: FunctionCallSpec): Promise<FinalExecutionOutcome | void> {
-  const selector = await getSelector();
+  // Checked before the wallet library is touched: no valid session, no signing request.
   const sessionAccount = requireValidSession();
   if (sessionAccount !== signerId) throw new Error("The connected wallet account changed; reconnect before signing.");
+  const selector = await getSelector();
   const { actionCreators } = await import("@near-wallet-selector/core");
   const wallet = await selector.wallet();
   return wallet.signAndSendTransaction({

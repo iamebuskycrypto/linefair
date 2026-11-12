@@ -1,14 +1,17 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import type { AppConfig } from "../lib/config.ts";
 import type { VerifiedDeployment } from "../lib/deployment.ts";
 import { NearRpc } from "../lib/near/rpc.ts";
+import { WalletController, type WalletNotice, type WalletPort, type WalletStatus, type WalletView } from "../lib/near/walletController.ts";
 
 export interface WalletState {
   readonly accountId: string | null;
-  readonly status: "idle" | "loading" | "ready" | "error";
-  readonly error?: string;
+  readonly status: WalletStatus;
+  /** Latest user-facing wallet message (cancellation, failure, account change…); null when none. */
+  readonly notice: WalletNotice | null;
   connect(): void;
   disconnect(): void;
+  dismissNotice(): void;
 }
 
 interface AppContextValue {
@@ -40,58 +43,59 @@ export type { AppContextValue };
 
 export function AppProvider({ config, deployment, children }: { config: AppConfig; deployment: VerifiedDeployment | null; children: ReactNode }) {
   const rpc = useMemo(() => new NearRpc(config.rpcUrl), [config.rpcUrl]);
-  const [accountId, setAccountId] = useState<string | null>(null);
-  const [status, setStatus] = useState<WalletState["status"]>("idle");
-  const [error, setError] = useState<string | undefined>(undefined);
+  const wallet = useWalletController();
+  return <Ctx.Provider value={{ config, rpc, wallet, deployment }}>{children}</Ctx.Provider>;
+}
 
-  // Restore an existing wallet session without prompting.
+const INITIAL_VIEW: WalletView = { status: "initializing", accountId: null, notice: null };
+
+/** The wallet module (and its libraries) loads lazily; the controller is created once per page. */
+function useWalletController(): WalletState {
+  const [controller, setController] = useState<WalletController | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
-    let unsub: (() => void) | undefined;
     let cancelled = false;
+    let created: WalletController | null = null;
     import("../lib/near/wallet.ts")
-      .then(async (w) => {
-        const selector = await w.getSelector();
+      .then((w) => {
         if (cancelled) return;
-        setAccountId(w.activeAccountId(selector));
-        unsub = w.subscribeAccount(selector, setAccountId);
-        setStatus("ready");
+        const port: WalletPort = w.createWalletPort();
+        created = new WalletController(port);
+        setController(created);
+        setLoadFailed(false);
+        void created.start();
       })
-      .catch((e: unknown) => {
-        if (cancelled) return;
-        setStatus("error");
-        setError(`Wallet library failed to load: ${(e as Error).message}`);
+      .catch(() => {
+        if (!cancelled) setLoadFailed(true);
       });
     return () => {
       cancelled = true;
-      unsub?.();
+      created?.dispose();
     };
-  }, []);
-
-  const wallet: WalletState = {
-    accountId,
-    status,
-    ...(error !== undefined ? { error } : {}),
-    connect() {
-      setStatus("loading");
-      setError(undefined);
-      import("../lib/near/wallet.ts")
-        .then((w) => w.connect())
-        .then((id) => {
-          setAccountId(id);
-          setStatus("ready");
-        })
-        .catch((e: unknown) => {
-          setStatus("ready");
-          setError((e as Error).message);
-        });
-    },
-    disconnect() {
-      import("../lib/near/wallet.ts")
-        .then((w) => w.disconnect())
-        .then(() => setAccountId(null))
-        .catch((e: unknown) => setError((e as Error).message));
-    },
+  }, [attempt]);
+  const view = useSyncExternalStore(
+    controller?.subscribe ?? noopSubscribe,
+    controller?.getView ?? (() => INITIAL_VIEW),
+  );
+  if (controller === null) {
+    return {
+      accountId: null,
+      status: loadFailed ? "unavailable" : "initializing",
+      notice: loadFailed ? { kind: "error", text: "The wallet could not be loaded. Check your connection and try again." } : null,
+      connect: () => setAttempt((a) => a + 1),
+      disconnect: () => undefined,
+      dismissNotice: () => undefined,
+    };
+  }
+  return {
+    accountId: view.accountId,
+    status: view.status,
+    notice: view.notice,
+    connect: () => void controller.connect(),
+    disconnect: () => void controller.disconnect(),
+    dismissNotice: controller.dismissNotice,
   };
-
-  return <Ctx.Provider value={{ config, rpc, wallet, deployment }}>{children}</Ctx.Provider>;
 }
+
+const noopSubscribe = () => () => undefined;

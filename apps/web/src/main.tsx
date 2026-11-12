@@ -7,7 +7,17 @@ import { App } from "./app/App.tsx";
 import { StartupGate } from "./app/StartupGate.tsx";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
-const cfg = parseConfig(import.meta.env);
+// Only the five public settings are read, each by name: Vite then inlines exactly these values.
+// Passing `import.meta.env` itself would bundle EVERY VITE_* variable present at build time
+// (on Vercel: commit author, commit message, project and deployment ids). vite.config.ts fails
+// the build if any other VITE_* name or value reaches the bundle (envLeakGuard).
+const cfg = parseConfig({
+  VITE_NEAR_NETWORK: import.meta.env.VITE_NEAR_NETWORK,
+  VITE_NEAR_RPC_URL: import.meta.env.VITE_NEAR_RPC_URL,
+  VITE_NEAR_EXPLORER_URL: import.meta.env.VITE_NEAR_EXPLORER_URL,
+  VITE_ESCROW_ID: import.meta.env.VITE_ESCROW_ID,
+  VITE_FT_ID: import.meta.env.VITE_FT_ID,
+});
 
 if (!cfg.ok) {
   // Refuse to start on a bad or non-testnet configuration (ARCHITECTURE.md §1).

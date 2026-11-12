@@ -31,34 +31,56 @@ function useRoute(): Route {
 
 function WalletControl() {
   const { wallet } = useApp();
-  if (wallet.accountId !== null) {
+  if (wallet.accountId !== null && (wallet.status === "connected" || wallet.status === "disconnecting")) {
     return (
       <div className="wallet">
         <span className="small muted">Signed in</span>
-        <span className="account" title={wallet.accountId}>
+        <span className="account" title={wallet.accountId} data-wallet-account={wallet.accountId}>
           {wallet.accountId}
         </span>
-        <button className="button quiet" type="button" onClick={wallet.disconnect}>
-          Disconnect
+        <button className="button quiet" type="button" onClick={wallet.disconnect} disabled={wallet.status === "disconnecting"} aria-busy={wallet.status === "disconnecting"}>
+          {wallet.status === "disconnecting" ? "Disconnecting…" : "Disconnect"}
         </button>
       </div>
     );
   }
+  const busy = wallet.status === "connecting" || wallet.status === "initializing" || wallet.status === "disconnecting";
+  const label =
+    wallet.status === "connecting"
+      ? "Waiting for wallet…"
+      : wallet.status === "initializing"
+        ? "Checking wallet…"
+        : wallet.status === "unavailable"
+          ? "Retry wallet"
+          : "Connect testnet wallet";
   return (
-    <div className="wallet">
-      <button
-        className="button secondary"
-        type="button"
-        onClick={wallet.connect}
-        disabled={wallet.status === "loading" || wallet.status === "error"}
-      >
-        {wallet.status === "loading" ? "Opening wallet…" : "Connect testnet wallet"}
+    <div className="wallet" data-wallet-status={wallet.status}>
+      <button className="button secondary" type="button" onClick={wallet.connect} disabled={busy} aria-busy={busy}>
+        {label}
       </button>
-      {wallet.error !== undefined && (
-        <span className="small" role="alert" style={{ color: "var(--negative)" }}>
-          {wallet.error}
-        </span>
-      )}
+    </div>
+  );
+}
+
+/** Wallet messages (cancellation, failures, account changes) shown under the header, readable on phones. */
+function WalletNoticeBar() {
+  const { wallet } = useApp();
+  const n = wallet.notice;
+  if (wallet.status === "connecting") {
+    return (
+      <div className="notice wallet-notice" role="status" aria-live="polite" data-wallet-notice="connecting">
+        <p>Complete the connection in the Intear wallet window. Closing that window cancels; nothing is signed or sent when you connect.</p>
+      </div>
+    );
+  }
+  if (n === null) return null;
+  const tone = n.kind === "error" ? " negative" : n.kind === "warning" ? " warning" : "";
+  return (
+    <div className={`notice wallet-notice${tone}`} role={n.kind === "info" ? "status" : "alert"} aria-live={n.kind === "info" ? "polite" : "assertive"} data-wallet-notice={n.kind}>
+      <p>{n.text}</p>
+      <button className="button quiet" type="button" onClick={wallet.dismissNotice} aria-label="Dismiss wallet message">
+        Dismiss
+      </button>
     </div>
   );
 }
@@ -93,6 +115,7 @@ export function App() {
         </div>
       </header>
       <main id="main">
+        <WalletNoticeBar />
         <WalletReturnBanner />
         {route.name === "list" && <AgreementsScreen />}
         {route.name === "new" && <DraftScreen />}

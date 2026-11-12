@@ -10,7 +10,8 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "node --test src/lib/contract/states.test.ts src/lib/contract/errors.test.ts src/lib/contract/settlement.test.ts src/lib/contract/arbitration.test.ts src/lib/contract/withdrawals.test.ts src/lib/format.test.ts src/lib/config.test.ts src/lib/near/rpc.test.ts src/lib/near/tx.test.ts src/lib/near/abi.test.ts src/lib/draft.test.ts src/lib/deployment.test.ts src/lib/creation.test.ts src/lib/contract/lifecycle.test.ts src/lib/commitment.test.ts src/lib/near/walletReturn.test.ts src/lib/near/intearGuard.test.ts src/lib/near/walletOutcome.test.ts",
+    "test": "node --test src/lib/contract/states.test.ts src/lib/contract/errors.test.ts src/lib/contract/settlement.test.ts src/lib/contract/arbitration.test.ts src/lib/contract/withdrawals.test.ts src/lib/format.test.ts src/lib/config.test.ts src/lib/near/rpc.test.ts src/lib/near/tx.test.ts src/lib/near/abi.test.ts src/lib/draft.test.ts src/lib/deployment.test.ts src/lib/creation.test.ts src/lib/contract/lifecycle.test.ts src/lib/commitment.test.ts src/lib/near/walletReturn.test.ts src/lib/near/intearGuard.test.ts src/lib/near/walletOutcome.test.ts src/lib/near/walletController.test.ts src/lib/near/walletSigning.test.ts src/lib/envGuard.test.ts",
+    "test:bundle": "node --test scripts/bundle-env.test.ts",
     "build": "vite build",
     "preview:local": "vite preview --host 127.0.0.1 --strictPort",
     "dev:local": "vite --host 127.0.0.1 --strictPort"
