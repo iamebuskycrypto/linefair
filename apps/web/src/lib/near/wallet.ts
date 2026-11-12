@@ -36,6 +36,39 @@ import { checkIntearSession, installIntearMessageGuard, INTEAR_ORIGIN, INTEAR_ST
 import type { WalletPort } from "./walletController.ts";
 
 export const WALLET_MODULE_ID = "intear-wallet";
+export const SUPPORTED_WALLETS = [
+  { id: "intear-wallet", label: "Intear", note: "Web wallet · tested" },
+  { id: "meteor-wallet", label: "Meteor", note: "Extension/web · testnet" },
+  { id: "nightly", label: "Nightly", note: "Browser extension · testnet" },
+] as const;
+export type SupportedWalletId = (typeof SUPPORTED_WALLETS)[number]["id"];
+const CHOICE_KEY = "linefair.wallet-choice.v1";
+const ALTERNATIVE_SESSION_KEY = "linefair.alternative-wallet-session.v1";
+const TESTNET_ACCOUNT = /^(([a-z\d]+[-_])*[a-z\d]+\.)+testnet$/;
+function isSupportedWalletId(id: string): id is SupportedWalletId {
+  return SUPPORTED_WALLETS.some((w) => w.id === id);
+}
+function chosenWallet(): SupportedWalletId {
+  let saved: string | null = null;
+  try { saved = localStorage.getItem(CHOICE_KEY); } catch { /* no persistent choice */ }
+  return saved !== null && isSupportedWalletId(saved) ? saved : WALLET_MODULE_ID;
+}
+function validateAlternativeSession(raw: string | null, walletId: SupportedWalletId): { ok: true; accountId: string } | { ok: false; reason: string } {
+  if (walletId === WALLET_MODULE_ID) return checkIntearSession(raw);
+  if (raw === null) return { ok: false, reason: "The selected wallet is not connected." };
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (value === null || typeof value !== "object") return { ok: false, reason: "Wallet session unreadable." };
+    const record = value as Record<string, unknown>;
+    const accountId = record.accountId;
+    if (record.walletId !== walletId || typeof accountId !== "string" || accountId.length > 64 || !TESTNET_ACCOUNT.test(accountId)) {
+      return { ok: false, reason: "Wallet account or network does not match the selected testnet wallet." };
+    }
+    return { ok: true, accountId };
+  } catch {
+    return { ok: false, reason: "Wallet session unreadable." };
+  }
+}
 
 let selectorPromise: Promise<WalletSelector> | null = null;
 let guardInstalled = false;
@@ -59,11 +92,13 @@ export function getSelector(): Promise<WalletSelector> {
       const { Buffer } = await import("buffer");
       const g = globalThis as { Buffer?: unknown };
       if (g.Buffer === undefined) g.Buffer = Buffer; // kept: harmless polyfill for the wallet libraries
-      const [{ setupWalletSelector }, { setupIntearWallet }] = await Promise.all([
+      const [{ setupWalletSelector }, { setupIntearWallet }, { setupMeteorWallet }, { setupNightly }] = await Promise.all([
         import("@near-wallet-selector/core"),
         import("@near-wallet-selector/intear-wallet"),
+        import("@near-wallet-selector/meteor-wallet"),
+        import("@near-wallet-selector/nightly"),
       ]);
-      return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet()] });
+      return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet(), setupMeteorWallet(), setupNightly()] });
     })();
     selectorPromise.catch(() => {
       selectorPromise = null;
@@ -94,6 +129,7 @@ function connectorFrames(): HTMLIFrameElement[] {
 export function createWalletPort(): WalletPort {
   let selector: WalletSelector | null = null;
   let opened = false;
+  let walletId: SupportedWalletId = chosenWallet();
   const storage = (): Storage | null => {
     try {
       return globalThis.localStorage ?? null;
@@ -102,15 +138,23 @@ export function createWalletPort(): WalletPort {
     }
   };
   return {
-    readSession: () => storage()?.getItem(INTEAR_STORAGE_KEY) ?? null,
+    readSession: () => storage()?.getItem(walletId === WALLET_MODULE_ID ? INTEAR_STORAGE_KEY : ALTERNATIVE_SESSION_KEY) ?? null,
+    isIntearWallet: () => walletId === WALLET_MODULE_ID,
+    validateSession: () => validateAlternativeSession(storage()?.getItem(walletId === WALLET_MODULE_ID ? INTEAR_STORAGE_KEY : ALTERNATIVE_SESSION_KEY) ?? null, walletId),
+    selectWallet(id) {
+      if (!isSupportedWalletId(id)) throw new Error("Unsupported wallet option.");
+      walletId = id;
+      storage()?.setItem(CHOICE_KEY, id);
+      if (id !== WALLET_MODULE_ID) storage()?.removeItem(ALTERNATIVE_SESSION_KEY);
+    },
     async clearLocalSession() {
       const st = storage();
       st?.removeItem(INTEAR_STORAGE_KEY);
+      st?.removeItem(ALTERNATIVE_SESSION_KEY);
       for (const k of SELECTOR_SESSION_KEYS) st?.removeItem(k);
-      // With the Intear record gone, the module's signOut returns without any network call and the
-      // selector marks the wallet signed out in memory.
+      // Clear the current selector wallet without assuming that every provider is Intear.
       if (selector !== null && selector.isSignedIn()) {
-        const wallet = await selector.wallet(WALLET_MODULE_ID);
+        const wallet = await selector.wallet(walletId);
         await wallet.signOut();
       }
     },
@@ -125,24 +169,28 @@ export function createWalletPort(): WalletPort {
     },
     async signIn() {
       const s = selector ?? (selector = await getSelector());
-      const wallet = await s.wallet<InjectedWallet>(WALLET_MODULE_ID); // intear-wallet 10.1.4 is typed as InjectedWallet
+      const wallet = await s.wallet<InjectedWallet>(walletId);
       opened = false;
       const pending = wallet.signIn({});
-      // intear-wallet 10.1.4 appends its connector iframe synchronously inside signIn().
-      opened = connectorFrames().length > 0;
+      // Intear appends an iframe synchronously; extension wallets have their own UI.
+      opened = walletId === WALLET_MODULE_ID && connectorFrames().length > 0;
       const accounts = await pending;
-      return accounts[0]?.accountId ?? null;
+      const accountId = accounts[0]?.accountId ?? null;
+      if (walletId !== WALLET_MODULE_ID && accountId !== null) {
+        if (!TESTNET_ACCOUNT.test(accountId)) throw new Error("Only NEAR Testnet accounts are supported.");
+        storage()?.setItem(ALTERNATIVE_SESSION_KEY, JSON.stringify({ walletId, accountId }));
+      }
+      return accountId;
     },
     async signOut() {
       const s = selector ?? (selector = await getSelector());
-      // Always the Intear module (not "the selected wallet"), so a stale Intear record is cleared too.
-      const wallet = await s.wallet(WALLET_MODULE_ID);
+      const wallet = await s.wallet(walletId);
       await wallet.signOut();
     },
-    connectorOpen: () => connectorFrames().length > 0,
+    connectorOpen: () => walletId === WALLET_MODULE_ID ? connectorFrames().length > 0 : true,
     connectorWasOpened: () => opened,
     closeConnector() {
-      for (const f of connectorFrames()) f.remove();
+      if (walletId === WALLET_MODULE_ID) for (const f of connectorFrames()) f.remove();
     },
   };
 }
@@ -153,7 +201,14 @@ export function createWalletPort(): WalletPort {
  * re-reading contract state (ARCHITECTURE.md §6.4), never by this return value.
  */
 export async function signAndSend(signerId: string, call: FunctionCallSpec): Promise<FinalExecutionOutcome | void> {
-  // Checked before the wallet library is touched: no valid session, no signing request.
+  // Fail closed for the new connectors until their real-wallet signing and account-key behaviour has been audited.
+  // Intear's original sign guard and signing pathway are unchanged.
+  const walletId = chosenWallet();
+  if (walletId !== WALLET_MODULE_ID) {
+    const checked = validateAlternativeSession(localStorage.getItem(ALTERNATIVE_SESSION_KEY), walletId);
+    if (!checked.ok || checked.accountId !== signerId) throw new Error("The selected testnet wallet account is not verified; reconnect before signing.");
+    throw new Error("Transaction signing for this wallet is not yet approved. Use the Intear wallet for testnet transaction actions.");
+  }
   const sessionAccount = requireValidSession();
   if (sessionAccount !== signerId) throw new Error("The connected wallet account changed; reconnect before signing.");
   const selector = await getSelector();
