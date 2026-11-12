@@ -48,3 +48,29 @@ test("malformed session -> refused", async () => {
   store.set(INTEAR_STORAGE_KEY, "{broken");
   await refused(/unreadable/);
 });
+
+
+test("Sender and Nightly beta wallets refuse transaction signing before loading any wallet library", async () => {
+  for (const walletId of ["sender", "nightly"]) {
+    store.clear();
+    store.set("linefair.wallet-choice.v1", walletId);
+    store.set("linefair.alternative-wallet-session.v1", JSON.stringify({ walletId, accountId: "uat-buyer.testnet" }));
+    await assert.rejects(
+      signAndSend("uat-buyer.testnet", CALL),
+      (e: unknown) => e instanceof Error && !(e instanceof ReferenceError) &&
+        /Transaction signing for this wallet is not yet approved/.test(e.message),
+      walletId,
+    );
+  }
+  store.clear();
+});
+
+test("Alternate wallet session rejects incorrect provider and wrong signing account", async () => {
+  store.clear();
+  store.set("linefair.wallet-choice.v1", "sender");
+  store.set("linefair.alternative-wallet-session.v1", JSON.stringify({ walletId: "nightly", accountId: "uat-buyer.testnet" }));
+  await assert.rejects(signAndSend("uat-buyer.testnet", CALL), /not verified/);
+  store.set("linefair.alternative-wallet-session.v1", JSON.stringify({ walletId: "sender", accountId: "other-account.testnet" }));
+  await assert.rejects(signAndSend("uat-buyer.testnet", CALL), /not verified/);
+  store.clear();
+});
