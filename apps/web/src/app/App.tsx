@@ -104,11 +104,14 @@ export function App() {
             <span aria-hidden="true"><span style={{ color: "var(--ink)" }}>Line</span>Fair</span>
           </a>
           <nav className="nav" aria-label="Main">
-            <a href="#/" aria-current={route.name === "list" || route.name === "agreement" ? "page" : undefined}>
-              Agreements
+            <a href="#/" aria-current={route.name === "list" ? "page" : undefined}>
+              Home
             </a>
-            <a href="#/agreements/new" aria-current={route.name === "new" ? "page" : undefined}>
-              New agreement
+            <a href="#/agreements/0" aria-current={route.name === "agreement" && route.id === "0" ? "page" : undefined}>
+              Live demo
+            </a>
+            <a href="#/agreements/new" aria-current={route.name === "new" ? "page" : undefined} title="Creating agreements is restricted to approved testnet accounts">
+              Draft
             </a>
           </nav>
           <WalletControl />
