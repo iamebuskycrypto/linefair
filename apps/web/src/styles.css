@@ -727,3 +727,15 @@ details.tech.page-tech { margin-top: var(--s3); background: transparent; }
 .agreement-action-toggle strong { font-size: .94rem; }
 .agreement-action-toggle p { color: var(--ink-2); font-size: .85rem; margin-top: 4px; }
 @media (max-width:600px) { .agreement-action-toggle { padding: 16px; } .agreement-action-toggle .button { width: 100%; } }
+
+
+/* Wallet choice: explicit providers, no hidden transaction signing enablement. */
+.wallet-picker { position: relative; }
+.wallet-options { position: absolute; right: 0; top: calc(100% + 10px); z-index: 32; width: min(335px, calc(100vw - 32px)); padding: 15px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: 0 16px 45px rgba(19,34,29,.18); display: grid; gap: 7px; }
+.wallet-options .eyebrow { padding: 0 7px 5px; }
+.wallet-options button { display: grid; justify-items: start; gap: 2px; border: 1px solid var(--border); background: var(--surface-2); border-radius: 10px; padding: 12px 14px; min-height: 60px; width: 100%; color: var(--ink); cursor: pointer; text-align: left; font: inherit; }
+.wallet-options button:hover { border-color: var(--accent-ink); background: var(--tint-positive); }
+.wallet-options button strong { font-size: .91rem; }
+.wallet-options button small { font-size: .77rem; line-height: 1.45; color: var(--ink-2); }
+.wallet-options p { font-size: .75rem; line-height: 1.5; color: var(--ink-3); padding: 4px 7px 0; }
+@media (max-width: 600px) { .wallet-options { right: 0; top: calc(100% + 6px); } }
