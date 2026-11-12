@@ -65,13 +65,13 @@ function WalletControl() {
           <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("intear-wallet"); }}>
             <strong>Intear</strong><small>Web wallet · tested connection</small>
           </button>
-          <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("meteor-wallet"); }}>
-            <strong>Meteor</strong><small>Testnet · connection beta</small>
+          <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("sender"); }}>
+            <strong>Sender</strong><small>Desktop extension · connection beta</small>
           </button>
           <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("nightly"); }}>
             <strong>Nightly</strong><small>Browser extension · connection beta</small>
           </button>
-          <p>NEAR Testnet only. Meteor and Nightly are connection-only until signing QA passes; use Intear for transaction actions.</p>
+          <p>NEAR Testnet only. Sender and Nightly are connection-only until signing QA passes; use Intear for transaction actions.</p>
         </div>
       )}
     </div>
