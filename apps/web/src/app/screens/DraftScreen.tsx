@@ -257,7 +257,7 @@ export function DraftScreen() {
                 <Field id="f-fund" label="Fund the deliverables by" hint="The client sends each test payment before this date." error={err("fundingDeadline")}>
                   {(a) => <input {...a} type="datetime-local" value={draft.fundingDeadline} onChange={(e) => set("fundingDeadline", e.target.value)} />}
                 </Field>
-                <details className="draft-advanced">
+                <details className="draft-advanced" open={touched && ["graceMinutes", "reviewMinutes", "negotiationMinutes", "primaryMinutes", "backupMinutes", "nonce"].some((key) => issues.has(key)) ? true : undefined}>
                   <summary>Advanced dispute windows and timing <span className="small muted">Defaults are prefilled</span></summary>
                   <p className="small muted draft-advanced-help">These settings control how long each review, negotiation and dispute-resolution stage lasts. They become part of the agreed terms.</p>
                   <div className="grid-2">
