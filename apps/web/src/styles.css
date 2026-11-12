@@ -720,3 +720,10 @@ details.tech.page-tech { margin-top: var(--s3); background: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .home-record-card:hover { transform: none; }
 }
+
+
+.agreement-action-toggle { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px 24px; background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; border-radius: 14px; margin-bottom: 24px; }
+.agreement-action-toggle > div { flex: 1 1 260px; }
+.agreement-action-toggle strong { font-size: .94rem; }
+.agreement-action-toggle p { color: var(--ink-2); font-size: .85rem; margin-top: 4px; }
+@media (max-width:600px) { .agreement-action-toggle { padding: 16px; } .agreement-action-toggle .button { width: 100%; } }
