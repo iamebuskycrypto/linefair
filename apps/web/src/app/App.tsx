@@ -85,7 +85,7 @@ function WalletNoticeBar() {
   if (wallet.status === "connecting") {
     return (
       <div className="notice wallet-notice" role="status" aria-live="polite" data-wallet-notice="connecting">
-        <p>Complete the connection in the Intear wallet window. Closing that window cancels; nothing is signed or sent when you connect.</p>
+        <p>Finish connecting in your selected wallet. Closing that window cancels; nothing is signed or sent when you connect.</p>
       </div>
     );
   }
