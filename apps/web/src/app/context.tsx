@@ -9,7 +9,7 @@ export interface WalletState {
   readonly status: WalletStatus;
   /** Latest user-facing wallet message (cancellation, failure, account change…); null when none. */
   readonly notice: WalletNotice | null;
-  connect(): void;
+  connect(walletId?: string): void;
   disconnect(): void;
   dismissNotice(): void;
 }
@@ -92,7 +92,7 @@ function useWalletController(): WalletState {
     accountId: view.accountId,
     status: view.status,
     notice: view.notice,
-    connect: () => void controller.connect(),
+    connect: (walletId?: string) => void controller.connect(walletId),
     disconnect: () => void controller.disconnect(),
     dismissNotice: controller.dismissNotice,
   };
