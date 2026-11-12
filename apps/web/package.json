@@ -19,7 +19,9 @@
   "dependencies": {
     "@near-wallet-selector/core": "10.1.4",
     "@near-wallet-selector/intear-wallet": "10.1.4",
+    "@near-wallet-selector/meteor-wallet": "10.1.4",
     "@near-wallet-selector/my-near-wallet": "10.1.4",
+    "@near-wallet-selector/nightly": "10.1.4",
     "buffer": "6.0.3",
     "react": "19.3.1",
     "react-dom": "19.3.1"
