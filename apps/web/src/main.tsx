@@ -9,7 +9,7 @@ import { StartupGate } from "./app/StartupGate.tsx";
 // Remove referral tracking from the address bar without touching wallet return parameters,
 // the hash route, navigation history, or the NEAR startup checks.
 const pageUrl = new URL(window.location.href);
-if (pageUrl.searchParams.has("utm_source")) {
+if (pageUrl.searchParams.get("utm_source") === "chatgpt.com") {
   pageUrl.searchParams.delete("utm_source");
   window.history.replaceState(window.history.state, "", pageUrl.pathname + pageUrl.search + pageUrl.hash);
 }
