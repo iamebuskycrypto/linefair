@@ -95,7 +95,7 @@ export function getSelector(): Promise<WalletSelector> {
       const [{ setupWalletSelector }, { setupIntearWallet }, { setupSender }, { setupNightly }] = await Promise.all([
         import("@near-wallet-selector/core"),
         import("@near-wallet-selector/intear-wallet"),
-        import("@near-wallet-selector/sender-wallet"),
+        import("@near-wallet-selector/sender"),
         import("@near-wallet-selector/nightly"),
       ]);
       return setupWalletSelector({ network: "testnet", modules: [setupIntearWallet(), setupSender(), setupNightly()] });
