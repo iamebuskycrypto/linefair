@@ -31,6 +31,7 @@ function useRoute(): Route {
 
 function WalletControl() {
   const { wallet } = useApp();
+  const [chooseWallet, setChooseWallet] = useState(false);
   if (wallet.accountId !== null && (wallet.status === "connected" || wallet.status === "disconnecting")) {
     return (
       <div className="wallet">
@@ -54,10 +55,25 @@ function WalletControl() {
           ? "Retry wallet"
           : "Connect testnet wallet";
   return (
-    <div className="wallet" data-wallet-status={wallet.status}>
-      <button className="button secondary" type="button" onClick={wallet.connect} disabled={busy} aria-busy={busy}>
-        {label}
+    <div className="wallet wallet-picker" data-wallet-status={wallet.status}>
+      <button className="button secondary" type="button" onClick={() => setChooseWallet((v) => !v)} disabled={busy} aria-busy={busy} aria-expanded={chooseWallet} aria-controls="wallet-options">
+        {chooseWallet ? "Close wallet choices" : label}
       </button>
+      {chooseWallet && !busy && (
+        <div className="wallet-options" id="wallet-options" role="group" aria-label="Connect a NEAR Testnet wallet">
+          <span className="eyebrow">Choose a testnet wallet</span>
+          <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("intear-wallet"); }}>
+            <strong>Intear</strong><small>Web wallet · tested connection</small>
+          </button>
+          <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("meteor-wallet"); }}>
+            <strong>Meteor</strong><small>Testnet · connection beta</small>
+          </button>
+          <button type="button" onClick={() => { setChooseWallet(false); wallet.connect("nightly"); }}>
+            <strong>Nightly</strong><small>Browser extension · connection beta</small>
+          </button>
+          <p>NEAR Testnet only. Meteor and Nightly are connection-only until signing QA passes; use Intear for transaction actions.</p>
+        </div>
+      )}
     </div>
   );
 }
