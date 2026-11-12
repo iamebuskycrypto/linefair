@@ -54,11 +54,79 @@ export function AgreementsScreen() {
 
   return (
     <>
-      <div className="page-head">
-        <h1>Agreements</h1>
-        <p className="lede">
-          Each agreement has up to three independently priced lines. Every line is funded, delivered, reviewed and settled on its own.
-        </p>
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="home-hero-copy">
+          <span className="home-kicker"><span className="home-kicker-dot" aria-hidden="true" /> A fairer way to work together</span>
+          <h1 id="home-title">One disagreement shouldn't <em>freeze every payment.</em></h1>
+          <p className="home-hero-lede">
+            One project can have different outcomes. LineFair lets clients and service providers agree on
+            individually priced deliverables—so accepted work can be paid while disputed work follows its own resolution path.
+          </p>
+          <div className="home-hero-actions">
+            <a className="button home-primary-cta" href="#/agreements/0">See a real settled agreement <span aria-hidden="true">↗</span></a>
+            <a className="home-text-link" href="#how-linefair-works">How it works <span aria-hidden="true">↓</span></a>
+          </div>
+          <p className="home-hero-disclaimer">Live NEAR Testnet demo · valueless test tokens · experimental, not independently audited. Creating new agreements is currently restricted.</p>
+        </div>
+        <div className="home-proof" aria-label="Three real outcomes from testnet agreement zero">
+          <div className="home-proof-head">
+            <span className="home-proof-mark">LF<span aria-hidden="true">/</span>00</span>
+            <span className="home-proof-badge"><span aria-hidden="true">●</span> NEAR TESTNET</span>
+          </div>
+          <div className="home-proof-intro">
+            <span className="home-proof-caption">AGREEMENT #0 · VERIFIED ON-CHAIN</span>
+            <p>One agreement.<br /><strong>Three outcomes.</strong></p>
+          </div>
+          <ol className="home-proof-lines">
+            <li>
+              <span className="home-proof-number">01</span>
+              <span className="home-proof-line-main"><strong>Accepted &amp; paid</strong><small>Supplier paid in full</small></span>
+              <span className="home-proof-line-amount">400 <small>tLFT</small></span>
+              <span className="home-proof-icon success" aria-label="Completed">✓</span>
+            </li>
+            <li>
+              <span className="home-proof-number">02</span>
+              <span className="home-proof-line-main"><strong>Mutual settlement</strong><small>700 supplier · 300 buyer</small></span>
+              <span className="home-proof-line-amount">1,000 <small>tLFT</small></span>
+              <span className="home-proof-icon agreed" aria-label="Settled">↔</span>
+            </li>
+            <li>
+              <span className="home-proof-number">03</span>
+              <span className="home-proof-line-main"><strong>Arbitrator ruling</strong><small>800 supplier · 200 buyer</small></span>
+              <span className="home-proof-line-amount">1,000 <small>tLFT</small></span>
+              <span className="home-proof-icon ruled" aria-label="Resolved">✓</span>
+            </li>
+          </ol>
+          <div className="home-proof-summary">
+            <div><span>Total settled</span><strong>2,400 <small>tLFT</small></strong></div>
+            <div><span>Outstanding</span><strong>0 <small>tLFT</small></strong></div>
+          </div>
+          <a className="home-proof-source" href="#/agreements/0">View the on-chain agreement <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+
+      <section className="home-how" id="how-linefair-works" aria-labelledby="home-how-title">
+        <div className="home-how-intro">
+          <span className="eyebrow">Built for the moments work gets complicated</span>
+          <h2 id="home-how-title">Keep the finished work moving.</h2>
+          <p>Each deliverable has its own amount and settlement path. A disagreement over one doesn't have to decide the fate of the others.</p>
+        </div>
+        <ol className="home-how-steps">
+          <li><span className="home-how-index">01 / AGREE</span><strong>Define each deliverable.</strong><p>Set the work, price, deadlines and dispute rules together before funding.</p></li>
+          <li><span className="home-how-index">02 / DELIVER</span><strong>Review line by line.</strong><p>Accept and pay completed work while keeping contested amounts separate.</p></li>
+          <li><span className="home-how-index">03 / RESOLVE</span><strong>Follow agreed rules.</strong><p>Disputes can move through negotiation, arbitrators and an available fallback after defined windows.</p></li>
+        </ol>
+      </section>
+
+      <div className="home-records-head" id="agreement-records">
+        <span className="eyebrow">Live contract records</span>
+        <div className="home-records-title">
+          <div>
+            <h2>Agreements</h2>
+            <p>Actual state from the NEAR Testnet escrow. Browse records and verify each outcome.</p>
+          </div>
+          <a className="home-records-link" href="#/agreements/0">Explore agreement #0 <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
 
       {config.escrowId === "" ? (
