@@ -8,7 +8,11 @@ Base: `main` = `25bdb1f44bdd3aa6acf6e41a17784793649f98f2`. Live escrow verified 
 
 | # | Problem | Root cause | Fix |
 |---|---|---|---|
-| 1 | Every `VITE_*` build variable was in the public JS. On Vercel this included the commit author login and name, the commit message, and the project and deployment IDs. | `main.tsx` passed the whole `import.meta.env` object to `parseConfig`. | `main.tsx` now reads the 5 public keys by name. A build guard (`vite.config.ts` → `src/lib/envGuard.ts`) fails the build on secret-like `VITE_*` names or credential-like values, and on any other `VITE_*` name or value in the output. The runtime `parseConfig` secret-name check is unchanged. |
+| 1 | Every `VITE_*` build variable was in the public JS. On Vercel this included the commit author login and name, the commit message, and the project and deployment IDs. | `main.tsx` passed the whole `import.meta.env` object to `parseConfig`. | `main.tsx` now reads the 5 public keys by name. A build guard (`vite.config.ts` → `src/lib/envGuard.ts`, final form in `8556051`) fails the build when:
+(a) any `VITE_*` variable has a secret-like name or a credential-like value;
+(b) app source uses `import.meta.env` as a whole object, or reads a `VITE_*` key other than the five public ones;
+(c) any non-public `VITE_*` name appears in the output.
+Error messages name the variable, never its value. The runtime `parseConfig` secret-name check is unchanged. |
 | 2 | "Opening wallet…" could stay forever. | intear-wallet 10.1.4 `signIn()` settles only on `connected` or `close`-with-message. A `close` without a message, or a connector that fails to load, never settles. | `walletController.ts` watches the connector. If it closes without a session the attempt ends as "interrupted". If it never opens within 15 s it ends as "did not open". Every attempt has a 5-minute limit, after which the overlay is removed. |
 | 3 | If the wallet window was closed within about 0.5 s, the user waited 15 s and saw the wrong message. This was found by the browser retry check. | The poll could miss a connector that opened and closed between two polls. | The port records that the connector opened at the moment `signIn()` is called, since Intear appends its iframe synchronously. |
 | 4 | A malformed saved session permanently disabled the Connect button. | Intear `getAccounts()` reads `accounts[0]` unchecked, so `setupWalletSelector` rejects. The old UI then set status "error", which disabled the button. | Malformed records are removed before the library starts and the user sees a notice. A library failure shows "Retry wallet" instead of a disabled button. |
@@ -27,7 +31,7 @@ New: `src/lib/envGuard.ts`, `src/lib/near/walletController.ts`, and the tests an
 |---|---|
 | TypeScript typecheck | exit 0 |
 | Web unit tests (`npm test`) | **182/182** pass. 144 existing + 38 new: controller 24 (simulated), signing gate 5 (simulated), env guard 9. |
-| Bundle tests (`npm run test:bundle`, real Vite builds) | **5/5**, including the Vercel-preview regression test. Vercel canaries absent, public config and contract version present, secret name refused, NEAR-secret value refused, and the old whole-env pattern is refused by the guard. |
+| Bundle tests (`npm run test:bundle`, real Vite builds) | **5/5**, including the Vercel-preview regression test. Vercel canaries absent, public config and contract version present, secret name refused, NEAR-secret value refused, and the old whole-env pattern is refused at source. The realistic Vercel preview variables build successfully. |
 | Shared-schema tests | **25/25** |
 | Production build with demo env | ok. 0 `VITE_VERCEL` strings in the output. |
 | Key-material scan of `dist` | 0 hits (7 files) |
@@ -38,15 +42,27 @@ New: `src/lib/envGuard.ts`, `src/lib/near/walletController.ts`, and the tests an
 The browser check uses the real build, the real Intear module and the real `wallet.intear.tech` connector. Steps labelled SIMULATED inject storage records or remove the connector. They test how LineFair handles those outcomes and are **not** a real-wallet connection.
 
 ## Acceptance criteria
+
+Two kinds of evidence are recorded separately:
+- **Automated:** unit tests (simulated wallet port), real Vite builds, and the headless-Chrome check against the real build and real Intear connector, using SIMULATED sessions.
+- **Founder-confirmed (real wallet):** performed by the founder with a dedicated NEAR testnet wallet on the QA preview of commit `8556051cde82325a3fb7ea980a68ac581fab7791` (https://linefair-git-qa-wallet-uat-final-ebuskys-projects.vercel.app/), reported to the engineer on 12 November 2026. The engineer did not observe these sessions and holds no wallet credentials or session data.
+
+### Real-wallet acceptance (founder-confirmed)
+| # | Check | Result |
+|---|---|---|
+| 0 | Preview loads on NEAR testnet; startup contract checks pass (expected escrow) | **PASS — founder-confirmed on 12 November 2026** |
+| 1 | Connect: the correct testnet account is shown | **PASS — founder-confirmed on 12 November 2026** |
+| 2 | Persists after refresh | **PASS — founder-confirmed on 12 November 2026** |
+| 3 | Persists after closing and reopening the tab | **PASS — founder-confirmed on 12 November 2026** |
+| 4 | No function-call key and no transaction request in Intear | **PASS — founder-confirmed on 12 November 2026** |
+| 5 | Disconnect, with no restoration after a reload | **PASS — founder-confirmed on 12 November 2026** |
+| 6 | Reconnect shows the same account | **PASS — founder-confirmed on 12 November 2026** |
+
+### Automated evidence
 | Criterion | Status | Evidence |
 |---|---|---|
 | Wallet initialisation | PASS | unit + browser |
-| Valid account connection state | PASS (simulated) / **BLOCKED (real)** | unit + browser; needs founder |
-| Session restoration after refresh | PASS (simulated) / **BLOCKED (real)** | unit + browser |
-| Restoration after reopening | PASS (simulated) / **BLOCKED (real)** | unit + browser (new tab) |
-| Disconnect | PASS (simulated) / **BLOCKED (real)** | unit + browser |
-| No restoration after explicit disconnect | PASS (simulated) / **BLOCKED (real)** | unit + browser |
-| Reconnect | PASS (simulated) / **BLOCKED (real)** | unit |
+| Connection, refresh, reopen, disconnect, no restore after disconnect, reconnect | PASS (simulated) | unit + browser |
 | Account mismatch / account change | PASS | unit |
 | User cancellation | PASS | unit |
 | Popup closure (including very quick close) | PASS | unit + browser |
@@ -55,28 +71,41 @@ The browser check uses the real build, the real Intear module and the real `wall
 | Connection failure, time-out, recovery and retry | PASS | unit + browser |
 | Prevention of unauthorized transaction calls | PASS | `walletSigning.test.ts` |
 | Env exposure fixed; secret detection not weakened | PASS | env guard + bundle tests |
-| Startup contract verification intact | PASS | browser + bundle test (version string present) |
-| No signing permission or transaction on connect (real wallet) | **BLOCKED** | founder protocol |
-| Vercel preview of this branch | **BLOCKED** | the branch is not pushed yet; see below |
+| Startup contract verification intact | PASS | browser + bundle test |
+| Vercel preview build of `8556051` | PASS | GitHub commit status "Vercel success" |
+
+Not covered by this UAT: transaction signing through Intear. No transaction was requested or signed.
 
 ## Security findings
 - **npm audit, 12 low:** all trace to one advisory, GHSA-848j-6mx2-7j84 (`elliptic`, used by `secp256k1` ← `@near-js/crypto` ← `@near-wallet-selector/core` 10.1.4). No patched `elliptic` exists. npm's only "fix" is a major downgrade to wallet-selector 9.5.4, which was **not applied**. LineFair never signs with secp256k1 locally (Intear session keys are ed25519, and transactions are confirmed in the wallet), so practical exposure is low. Optional: remove the unused direct dependency `@near-wallet-selector/my-near-wallet` (nothing imports it), which removes one of the 12 entries. Upgrade when wallet-selector ships a patched `@near-js/crypto`.
 - **Vercel setting:** turn off *Project → Settings → Environment Variables → "Automatically expose System Environment Variables"*. The code fix already keeps these values out of the bundle, so this is defence in depth only. Change nothing else.
 
 ## Outstanding risks
-- Real Intear sign-in, restore, disconnect and reconnect have not been run on this branch with a real wallet.
+- Real-wallet checks are founder-reported (one wallet, one browser, QA preview). Other browsers and mobile wallets were not tested with a real wallet.
 - Transaction signing through Intear has still never been exercised (unchanged from `main`).
 - The Intear module is third-party: if a future version changes its connector, the connector watch may need updating (the version is pinned).
 - Public RPC rate limits can delay the startup check.
 
-## Real-wallet protocol (founder, about 5 minutes, dedicated testnet wallet)
-Run it on the branch preview URL once it exists, or on a local `npm run preview:local` of this branch. Never share a password, seed phrase, key or session data. Record PASS or FAIL for each step:
-1. Click **Connect testnet wallet** → Intear → Web, and approve in Intear. The header shows your testnet account.
-2. Reload the page. The same account is still shown.
-3. Close the tab, open the URL again. The same account is still shown.
-4. In Intear's connected-apps list: LineFair has no function-call key, and no transaction was requested.
-5. Click **Disconnect** → "Wallet disconnected on this device." Reload: still disconnected.
-6. Connect again: the same account is shown.
+## Production release
+
+**Release diff:** `main` `25bdb1f` → `8556051` (2 commits, fast-forward, 18 files, all under `apps/web/` plus this report). There are no changes to `contracts/`, `packages/`, `deploy/`, `schemas/`, `apps/web/src/lib/deployment.ts`, `config.ts`, `intearGuard.ts`, `tx.ts`, `StartupGate.tsx`, `README.md`, `SECURITY.md` or `LICENSE`. The deployed escrow is not touched.
+
+**Production action (founder approval required):** fast-forward `main` to the release commit, with no force:
+`git push --no-tags origin <release-sha>:refs/heads/main`. Vercel then builds production from `main`.
+
+**Post-deploy checks:**
+1. The Vercel production status is success for the release SHA.
+2. https://linefair-ebuskys-projects.vercel.app/ loads past the startup gate.
+3. The bundle contains 0 `VITE_VERCEL` strings and still contains `escrow2.ebusky-linefair.testnet` and `rpc.testnet.fastnear.com`.
+4. One founder connect/disconnect.
+
+**Rollback:**
+1. **Immediate:** in Vercel, open Project → Deployments, select the previous production deployment (built from `25bdb1f`), and use **Instant Rollback**. No git change is needed.
+2. **Durable:** `git revert --no-edit 25bdb1f..<release-sha>` on `main` and push normally, without force.
+
+Neither step touches the contract or on-chain state. Wallet sessions created with the new build stay in users' browsers and remain readable by the old build.
 
 ## Commits
-See the git log of `qa/wallet-uat-final`. The commit hash is recorded in the founder handoff.
+- `5a65a90` wallet UAT fixes (its first preview build failed: env-guard false positive)
+- `8556051` env-guard fix. **Tested commit:** automated gates, Vercel preview success, founder real-wallet checks.
+- The next commit is this report update (documentation only).
